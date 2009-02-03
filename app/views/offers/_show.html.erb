@@ -1,0 +1,17 @@
+<%= render_heading(h(offer.name), :actions => [
+  { :if => is_editor_of?(@offer), :allow => icon_link_to(:edit, t(:edit), edit_object_path, :with_label => true) }
+  ]) %>
+  
+<%= render_field(t(:offer_provider, :scope => [ :marketplace ]), link_to_resource(offer.offer_provider)) %>
+
+<%= render_field(tp(:date, :scope => [ :datetimes ]), "#{h(offer.start_date.to_s(:long))} - #{h(offer.end_date.to_s(:long))}") %>
+
+<%= render_field(t(:offer, :scope => [ :marketplace ]), offer_amount(offer)) %>
+
+<%= render_field(t(:type), e(offer.offer_type, t(:unknown))) %>
+  
+<%= render_formatted(offer.description) %>
+  
+<%= render_field(tp(:product, :scope => [ :marketplace ]),
+  offer.products.map(&:full_name),
+  :actions => [ { :if => is_editor_of?(offer), :allow => icon_link_to(:edit, t(:edit), edit_products_offer_path(offer)) } ]) %>

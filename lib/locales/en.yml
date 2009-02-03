@@ -1,0 +1,76 @@
+en:
+  marketplace: 
+    brand: Brand
+    child_feature_type: Child Feature Type
+    consumer: Consumer
+    cost: Cost
+    details_on_object: Details on {{object}}
+    feature: Feature
+    feature_type: Feature Type
+    inventory_for_object: "{{object}} Inventory"
+    make: Make
+    manufacturer: Manufacturer
+    manufacturer_representative: Manufacturer Representative
+    model: Model
+    offer: Special Offer
+    parent_feature_type: Parent Feature Type
+    price: Price
+    prices_for_object:
+      one: Price for {{object}}
+      other: Prices for {{object}}
+    product: Product
+    production_status: Production Status
+    offer_provider: Provider
+    quote_request: Quote Request
+    sku: SKU
+    use_saved_address: Use your saved address?
+    vendor: Vendor
+    vendor_representative: Vendor Representative
+    makes:
+      makes_for_object:
+        one: Make for {{object}}
+        other: Makes for {{object}}
+    models:
+      models_for_object:
+        one: Model for {{object}}
+        other: Models for {{object}}
+      technology_level: Technology Level
+    offer_types:
+      discount_amount: Discount Amount
+      discount_percent: Discount Percent
+      refund_amount: Refund Amount
+    offers:
+      offers_for_object:
+        one: Offer for {{object}}
+        other: Offers for {{object}}
+      offers_from_object:
+        one: Offer from {{object}}
+        other: Offers from {{object}}
+    prices:
+      prices:
+        one: 1 Price
+        other: "{{count}} Prices"
+        zero: No Prices
+    production_statuses:
+      unreleased: Unreleased
+      available: Available
+      discontinued: Discontinued
+    products:
+      add_to_inventory: Add product to inventory
+      add_to_offer: Add product to offer
+      added_to_inventory: Successfully added product to inventory
+      added_to_offer: Successfully added product to offer
+      compare_selected: Compare Selected
+      products_for_object:
+        one: Product for {{object}}
+        other: Products for {{object}}
+      remove_from_inventory: Remove product from inventory
+      remove_from_offer: Remove product from offer
+      remove_selected: Remove Selected
+      removed_from_inventory: Successfully removed product(s) from inventory
+      removed_from_offer: Successfully removed product(s) from offer
+      technology_level: Technology Level
+    quote_requests:
+      quote_requested: Quote Requested
+      request_quote: Request Quote
+      request_quote_from_vendor: Request quote from {{vendor}}

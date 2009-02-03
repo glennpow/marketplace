@@ -1,0 +1,15 @@
+<% title t(:request_quote, :scope => [ :marketplace, :quote_requests ] ) %>
+
+<%= render_heading(t(:request_quote_from_vendor, :scope => [ :marketplace, :quote_requests ], :vendor => @quote_request.vendor.name)) %>
+
+<% form_for :quote_request, :url => objects_path do |f| %>
+  <%= f.hidden_field(:vendor_id)  %>
+
+  <%= render_field(t(:product, :scope => [ :marketplace ]), @quote_request.product.full_name) %>
+  <%= f.hidden_field(:product_id)  %>
+
+  <%= render_field(t(:user, :scope => [ :authentication ]), @quote_request.user.name) %>
+  <%= f.hidden_field(:user_id)  %>
+
+  <%= f.submit t(:request_quote, :scope => [ :marketplace, :quote_requests ]) %>
+<% end %>

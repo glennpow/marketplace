@@ -1,0 +1,5 @@
+<% title t(:feature, :scope => [ :marketplace ]) %>
+
+<%= render :partial => 'show', :locals => { :feature => @feature } %>
+
+<% page_actions << icon_link_to(:edit, t(:edit_object, :object => t(:feature, :scope => [ :marketplace ])), edit_object_path) if has_administrator_role? %>

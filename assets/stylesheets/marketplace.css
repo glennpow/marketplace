@@ -1,0 +1,82 @@
+
+.search-box-list {
+  margin-bottom: 1em;
+}
+
+.search-box-list ul {
+  width: 45em;
+}
+
+.search-box-list li {
+  list-style: none;
+  float: left;
+  width: 15em;
+}
+
+.search-box-list br {
+  clear: left;
+}
+
+.searcher-make-models {
+  padding: 10px 0px;
+}
+
+td.results-row-td {
+  text-align: left;
+}
+
+.results-row-line {
+  height: 30px;
+}
+
+.comparer {
+  overflow: auto;
+}
+
+table.comparer-table {
+}
+
+td.comparer-td {
+  padding: 5px 20px;
+  min-width: 200px;
+  max-width: 200px;
+  overflow: hidden;
+}
+
+.comparer-img {
+  margin-bottom: 10px;
+}
+
+table.price-table, table.technology-level-table {
+  display: inline;
+}
+
+.price {
+  margin: 5px 0px;
+}
+
+.price-icon {
+  width: 15px;
+  height: 15px;
+  background: transparent url('/plugin_assets/marketplace/images/icons/money.jpg') no-repeat;
+}
+
+.technology-level {
+  margin: 5px 0px;
+}
+
+.technology-level-on {
+  width: 10px;
+  height: 10px;
+  background: transparent url('/plugin_assets/marketplace/images/icons/technology_full.jpg') no-repeat;
+}
+
+.technology-level-off {
+  width: 10px;
+  height: 10px;
+  background: transparent url('/plugin_assets/marketplace/images/icons/technology_empty.jpg') no-repeat;
+}
+
+.offer-flag {
+  margin: 5px 0px;
+}

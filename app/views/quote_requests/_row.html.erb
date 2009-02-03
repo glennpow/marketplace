@@ -1,0 +1,12 @@
+<%= render_row(
+  indexer,
+  quote_request,
+  [
+    h(quote_request.created_at.to_s(:long)),
+    link_to(h(quote_request.product.full_name), quote_request.product),
+    link_to_resource(quote_request.vendor),
+  ],
+  :actions => [
+    { :if => quote_request.user == current_user, :allow => [
+      icon_link_to(:delete, t(:delete), quote_request, :confirm => t(:are_you_sure), :method => :delete)
+    ] } ]) %>

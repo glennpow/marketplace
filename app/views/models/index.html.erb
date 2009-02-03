@@ -1,0 +1,13 @@
+<% title tp(:model, :scope => [ :marketplace ]) %>
+
+<% if @make %>
+  <%= render_heading(t(:models_for_object, :scope => [ :marketplace, :models ], :count => @indexer.collection.total_entries, :object => h(@make.name))) %>
+<% else %>
+  <%= render_heading(tp(:model, :scope => [ :marketplace ])) %>
+<% end %>
+
+<% if @make && is_editor_of?(@make) %>
+  <% @indexer.footers = link_to(t(:create_object, :object => t(:model, :scope => [ :marketplace ])), new_make_model_path(@make)) %>
+<% end %>
+
+<%= render_indexer(@indexer) %>

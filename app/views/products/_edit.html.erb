@@ -1,0 +1,15 @@
+<%= f.text_field :name, :required => true %>
+  
+<% if product.image? %>
+  <%= image_tag product.image.url %>
+<% end %>
+ 
+<%= f.file_field :image %>
+
+<%= f.text_field :sku, :required => true %>
+
+<%= enumeration_select(f, :production_status) %>
+
+<%= f.text_area :description, :required => true, :preview => true, :hint => link_to_textile_hint %>
+
+<%= feature_select(f, :feature_ids, :label => { :name => tp(:feature, :scope => [ :marketplace ]) }) %>

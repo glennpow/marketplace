@@ -1,0 +1,9 @@
+<% title t(:edit_object, :object => t(:manufacturer, :scope => [ :marketplace ])) %>
+
+<%= render_heading t(:edit_object, :object => t(:manufacturer, :scope => [ :marketplace ])) %>
+
+<% form_for :manufacturer, :url => object_path, :html => { :method => :put, :multipart => true } do |f| %>
+  <%= render :partial => 'edit', :locals => { :f => f, :manufacturer => @manufacturer } %>
+
+  <%= f.submit t(:save) %>
+<% end %>

@@ -1,0 +1,17 @@
+<div class="feature-type-summary">
+  <p class="feature-type-name"><%= h(@feature_type.name) %></p>
+
+  <% unless @feature_type.description.empty? %>
+    <p class="feature-type-description"><%= @feature_type.description %></p>
+  <% end %>
+  
+  <%= render_separator %>
+  
+  <% @feature_type.features.each do |feature| %>
+    <p id="<%= feature.name.underscore %>" class="feature-name <%= defined?(@feature) && @feature == feature ? 'highlighted' : '' %>"><%= h(feature.name) %></p>
+
+    <% unless feature.description.empty? %>
+      <p class="feature-description <%= defined?(@feature) && @feature == feature ? 'highlighted' : '' %>"><%= feature.description %></p>
+    <% end %>
+  <% end %>
+</div>

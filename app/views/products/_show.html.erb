@@ -1,0 +1,49 @@
+<table class="show-table" align="center">
+  <tr>
+    <td>
+      <%= render_field(image_tag(product.image.url)) %>
+
+      <%= render_heading(h(product.full_name),
+        :actions => [ { :if => is_editor_of?(product), :allow => icon_link_to(:edit, t(:edit), edit_model_product_path(product.model, product)) } ]) %>
+    </td>
+    <td>
+      <%= render_field(t(:sku, :scope => [ :marketplace ]), h(product.sku)) %>
+
+      <%= render_field(t(:manufacturer, :scope => [ :marketplace ]), link_to_resource(product.manufacturer)) %>
+
+      <%= render_field(t(:make, :scope => [ :marketplace ]), link_to_resource(product.make)) %>
+
+      <%= render_field(t(:model, :scope => [ :marketplace ]), link_to_resource(product.model)) %>
+
+      <%= render_field(t(:status), e(product.production_status, t(:unknown))) %>
+
+      <%= render_field(t(:technology_level, :scope => [ :marketplace, :products ]), render_technology_level(product)) %>
+
+      <%= render_field(t(:rating, :scope => [ :content ]), render_rating(product)) %>
+
+      <%= render_field(tp(:review, :scope => [ :content ]), product.reviews.length,
+        :actions => [ { :if => product.reviews.any?, :allow => link_to(t(:view), product_reviews_path(product)) } ]) %>
+
+      <%= render_field(t(:price, :scope => [ :marketplace ]), render_price(product, current_portal(Vendor))) %>
+      
+      <%= render_field(render_watching(product)) %>
+    </td>
+  </tr>
+</table>
+
+<% unless product.description.blank? %>
+  <%= render_formatted(h(product.description)) %>
+<% end %>
+
+<%= render_field(tp(:feature, :scope => [ :marketplace ]),
+  product.features.map { |feature| feature_item(feature, :type => true) },
+  :actions => [ { :if => is_editor_of?(product), :allow => icon_link_to(:edit, t(:edit), product_features_path(product)) } ]) %>
+
+<% if is_editor_of?(product) %>
+  <%= render_field(tp(:article, :scope => [ :content ]), product.articles.length,
+    :actions => [ { :allow => link_to(t(:view), product_articles_path(product)) } ]) %>
+<% end %>
+
+<% for_all_by_locale(product.articles) do |article| %>
+  <%= render_article(article) %>
+<% end %>

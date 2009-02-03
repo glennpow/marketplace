@@ -1,0 +1,16 @@
+common: &common
+  consumer_group_name: Consumer
+  supplier_group_name: Supplier
+  manufacturer_group_name: Manufacturer
+  manufacturer_representative_group_name: Manufacturer Representative
+  vendor_group_name: Vendor
+  vendor_representative_group_name: Vendor Representative
+  
+development:
+  <<: *common
+
+test:
+  <<: *common
+
+production:
+  <<: *common

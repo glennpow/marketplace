@@ -1,0 +1,5 @@
+<%= render_heading(t(:request_quote_from_vendor, :scope => [ :marketplace, :quote_requests ], :vendor => quote_request.vendor.name)) %>
+
+<%= render_field(t(:product, :scope => [ :marketplace ]), link_to_resource(quote_request.product)) %>
+
+<%= render_field(t(:date, :scope => [ :datetimes ]), quote_request.created_at.to_s(:long)) %>

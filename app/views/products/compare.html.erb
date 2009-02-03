@@ -1,0 +1,92 @@
+<% title tp(:product, :scope => [ :marketplace ]) %>
+
+<div class="comparer">
+  <table class="comparer-table">
+    <tr class="comparer-tr">
+      <% @products.each_with_index do |product, index| %>
+        <td class="comparer-td<%= index == 0 ? ' first' : '' %>">
+          <div class="comparer-img">
+            <%= image_tag(product.image.url) %>
+          </div>
+          <% if product.offers.any? %>
+            <div class="offer-flag"></div>
+          <% end %>
+          <% unless current_portal(Vendor).nil? %>
+            <p><%= render_price(product, current_portal(Vendor)) %></p>
+          <% end %>
+          <p><%= render_rating(product) %></p>
+          <p class="manufacturer-name"><%= link_to_resource(product.manufacturer) %></p>
+          <p class="product-name"><%= h(product.full_name) %></p>
+          <p class="product-description"><%= h(product.description) %></p>
+        </td>
+      <% end %>
+    </tr>
+    
+    <tr class="comparer-tr">
+      <% @products.each_with_index do |product, index| %>
+        <td class="comparer-td<%= index == 0 ? ' first' : '' %>">
+          <div class="separator top"></div>
+          <% if logged_in? %>
+            <p><%= render_watching(product, :type => :button) %></p>
+            <% unless current_portal(Vendor).nil? %>
+              <% if current_user.has_requested_quote?(current_portal(Vendor), product) %>
+                <%= link_to(t(:quote_requested, :scope => [ :marketplace, :quote_requests ]), user_quote_requests_path(current_user)) %>
+              <% else %>
+                <p><%= button_link_to(t(:request_quote, :scope => [ :marketplace, :quote_requests ]), new_vendor_quote_request_path(current_portal(Vendor), :product_id => product.id)) %></p>
+              <% end %>
+            <% end %>
+          <% else %>
+            <p><%= render_watching(product, :type => :button) %></p>
+            <% unless current_portal(Vendor).nil? %>
+              <p><%= button_link_to(t(:request_quote, :scope => [ :marketplace, :quote_requests ]), new_vendor_quote_request_path(current_portal(Vendor), :product_id => product.id)) %></p>
+            <% end %>
+          <% end %>
+          <p><%= icon_link_to(:details, t(:details_on_object, :scope => [ :marketplace ], :object => product.name), product_path(product)) %></p>
+          <div class="separator bottom"></div>
+        </td>
+      <% end %>
+    </tr>
+  
+    <% FeatureType.all.select { |feature_type| !@products.detect { |product| product.has_feature_type?(feature_type) }.nil? }.each do |feature_type| %>
+      <tr class="comparer-tr <%= cycle('odd', 'even') %>">
+        <% @products.each_with_index do |product, index| %>
+          <% feature = product.feature_for_type(feature_type) %>
+          <% if !feature.nil? %>
+            <td class="comparer-td feature<%= index == 0 ? ' first' : '' %>">
+              <p class="feature-type-name"><%= feature_type.name %></p>
+              <p class="feature-name"><%= feature.name %></p>
+              <p class="feature-description"><%= feature.description %></p>
+            </td>
+          <% else %>
+            <td class="comparer-td no-feature<%= index == 0 ? ' first' : '' %>"></td>
+          <% end %>
+        <% end %>
+      </tr>
+    <% end %>
+
+    <tr class="comparer-tr">
+      <% @products.each_with_index do |product, index| %>
+        <td class="comparer-td<%= index == 0 ? ' first' : '' %>">
+          <div class="separator top"></div>
+          <% if logged_in? %>
+            <p><%= render_watching(product, :type => :button) %></p>
+            <% unless current_portal(Vendor).nil? %>
+              <% if current_user.has_requested_quote?(current_portal(Vendor), product) %>
+                <%= link_to(t(:quote_requested, :scope => [ :marketplace, :quote_requests ]), user_quote_requests_path(current_user)) %>
+              <% else %>
+                <p><%= button_link_to(t(:request_quote, :scope => [ :marketplace, :quote_requests ]), new_vendor_quote_request_path(current_portal(Vendor), :product_id => product.id)) %></p>
+              <% end %>
+            <% end %>
+          <% else %>
+            <p><%= render_watching(product, :type => :button) %></p>
+            <% unless current_portal(Vendor).nil? %>
+              <p><%= button_link_to(t(:request_quote, :scope => [ :marketplace, :quote_requests ]), new_vendor_quote_request_path(current_portal(Vendor), :product_id => product.id)) %></p>
+            <% end %>
+          <% end %>
+          <p><%= icon_link_to(:details, t(:details_on_object, :scope => [ :marketplace ], :object => product.name), product_path(product)) %></p>
+          <div class="separator bottom"></div>
+        </td>
+      <% end %>
+    </tr>
+  </table>
+</div>

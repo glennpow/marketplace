@@ -1,0 +1,7 @@
+<% title t(:model, :scope => [ :marketplace ]) %>
+
+<%= render :partial => 'show', :locals => { :model => @model } %>
+
+<%= render_comments(@model) %>
+
+<%= render_reviews(@model) %>

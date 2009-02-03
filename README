@@ -1,0 +1,23 @@
+Marketplace
+===========
+
+This plugin adds sales inventory models:
+Model, Make, Manufacturer, Product, Offer, Price, Cost, Vendor
+
+This plugin requires these other plugins to be installed:
+  * engines
+  * make_resourceful
+  * indexer
+  * trainyard
+
+The standard initialization of an engine plugin is also required.
+In your application's routes.rb add this line:
+
+  map.from_plugin :marketplace
+
+Run this from the command line (necessary only once after all engine plugins are installed):
+
+  script/generate plugin_migration && rake db:migrate
+
+
+Copyright (c) 2009 Glenn Powell, released under the MIT license

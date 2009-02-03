@@ -1,0 +1,11 @@
+<%= f.text_field :name, :required => true %>
+
+<% if model.image? %>
+  <%= image_tag model.image.url %>
+<% end %>
+ 
+<%= f.file_field :image %>
+
+<%= enumeration_select(f, :production_status) %>
+
+<%= f.text_area :description, :required => true, :preview => true, :hint => link_to_textile_hint %>

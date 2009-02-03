@@ -1,0 +1,12 @@
+<%= render_row(
+  indexer,
+  feature,
+  [
+    link_to_resource(feature),
+    link_to_resource(feature.feature_type),
+  ],
+  :actions => [
+    { :if => has_administrator_role?, :allow => [
+      icon_link_to(:edit, t(:edit), edit_feature_path(feature)),
+      icon_link_to(:delete, t(:delete), feature, :confirm => t(:are_you_sure), :method => :delete)
+    ] } ]) %>

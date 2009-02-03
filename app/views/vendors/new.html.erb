@@ -1,0 +1,9 @@
+<% title t(:join, :scope => [ :authentication ]) %>
+
+<%= render_heading(t(:create_object, :object => t(:vendor, :scope => [ :marketplace ]))) %>
+
+<% form_for :vendor, :url => objects_path, :html => { :multipart => true } do |f| %>
+  <%= render :partial => 'edit', :locals => { :f => f, :vendor => @vendor } %>
+
+  <%= f.submit t(:create) %>
+<% end %>

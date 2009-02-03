@@ -1,0 +1,15 @@
+<% if defined?(product) && product %>
+  <%= render_field(t(:product, :scope => [ :marketplace ]), h(product.full_name)) %>
+<% end %>
+
+<%= f.text_field :name, :required => true %>
+
+<%= f.text_area :description, :required => true, :preview => true, :hint => link_to_textile_hint %>
+
+<%= f.text_field :amount, :required => true %>
+
+<%= enumeration_select(f, :offer_type, :required => true) %>
+
+<%= f.date_select :start_date, :order => [ :day, :month, :year ], :default => 0.days.from_now, :required => true %>
+
+<%= f.date_select :end_date, :order => [ :day, :month, :year ], :default => 1.month.from_now, :required => true %>

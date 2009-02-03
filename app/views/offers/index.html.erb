@@ -1,0 +1,15 @@
+<% title tp(:offer, :scope => [ :marketplace ]) %>
+
+<% if @product %>
+  <%= render_heading(t(:offers_for_object, :scope => [ :marketplace, :offers ], :count => @indexer.collection.total_entries, :object => @product.name)) %>
+<% elsif @offer_provider %>
+  <%= render_heading(t(:offers_from_object, :scope => [ :marketplace, :offers ], :count => @indexer.collection.total_entries, :object => @offer_provider.name)) %>
+<% end %>
+
+<% if is_editor_of?(@offer_provider) %>
+  <%= render_actions([ icon_link_to(:add_large, t(:create_object, :object => t(:offer, :scope => [ :marketplace ])), new_object_path) ]) %>
+
+  <% @indexer.footers = link_to(t(:create_object, :object => t(:offer, :scope => [ :marketplace ])), new_object_path) %>
+<% end %>
+
+<%= render_indexer(@indexer) %>

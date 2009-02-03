@@ -1,0 +1,24 @@
+<%= render_row(
+  indexer,
+  product,
+  [
+    {
+      :class => 'results-row-td',
+      :content => content_tag(:p, link_to_resource(product.make), :class => 'results-make') +
+        content_tag(:p, link_to_resource(product.model), :class => 'results-model') +
+        content_tag(:div, image_tag(product.image.url(:thumb)))
+    },
+    
+    {
+      :class => 'results-row-td',
+      :content => content_tag(:div, content_tag(:span, t(:name), :class => 'results-header') + content_tag(:span, h(product.full_name)), :class => 'results-row-line') +
+        content_tag(:div, content_tag(:span, t(:technology_level, :scope => [ :marketplace, :products ]), :class => 'results-header') + render_technology_level(product), :class => 'results-row-line') +
+        content_tag(:div, content_tag(:span, t(:price, :scope => [ :marketplace ]), :class => 'results-header') + render_price(product, current_portal(Vendor)), :class => 'results-row-line') +
+        content_tag(:div, content_tag(:span, t(:rating, :scope => [ :content ]), :class => 'results-header') + render_rating(product), :class => 'results-row-line') +
+        content_tag(:div, h(product.description), :class => 'blurb')
+    }
+  ],
+  :actions => [
+    is_consumer? ? content_tag(:p, render_watching(product)) : nil,
+    (is_vendor?(true) && !current_vendor.products.include?(product)) ? content_tag(:p, icon_link_to(:add, t(:add_to_inventory, :scope => [ :marketplace, :products ]), new_vendor_price_path(current_vendor, :for_product_id => product.id))) : nil
+  ]) %>

@@ -1,0 +1,11 @@
+<%= f.text_field :name, :required => true %>
+
+<%= f.collection_select :feature_type_id, feature_types, :id, :name %>
+
+<% if feature.image? %>
+  <%= image_tag feature.image.url %>
+<% end %>
+ 
+<%= f.file_field :image %>
+
+<%= f.text_area :description, :required => true, :preview => true, :hint => link_to_textile_hint %>

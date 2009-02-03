@@ -1,0 +1,15 @@
+<% title tp(:price, :scope => [ :marketplace ]) %>
+
+<% if @vendor %>
+  <%= render_heading(t(:inventory_for_object, :scope => [ :marketplace ], :object => @vendor.name)) %>
+<% elsif @product %>
+  <%= render_heading(t(:prices_for_object, :scope => [ :marketplace ], :count => @indexer.collection.total_entries, :object => @product.full_name)) %>
+<% end %>
+
+<% if @vendor && is_editor_of?(@vendor) %>
+  <%= render_actions([ icon_link_to(:add_large, t(:add_object, :object => tp(:product, :scope => [ :marketplace ])), products_path) ]) %>
+
+  <% @indexer.footers = link_to(t(:add_object, :object => tp(:product, :scope => [ :marketplace ])), products_path) %>
+<% end %>
+
+<%= render_indexer(@indexer) %>

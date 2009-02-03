@@ -1,0 +1,9 @@
+<%= render_heading(h(feature.name)) %>
+
+<%= render_field(image_tag(feature.image.url)) %>
+
+<%= render_field(t(:feature_type, :scope => [ :marketplace ]), link_to_resource(feature.feature_type)) %>
+
+<% unless feature.description.blank? %>
+  <%= render_formatted(h(feature.description)) %>
+<% end %>

@@ -1,0 +1,127 @@
+<% title tp(:product, :scope => [ :marketplace ]) %>
+
+<% tabber_init %>
+
+<script type="text/javascript">
+  function toggle_make_models(box, make_id, model_ids, check_all_id) {
+    if (box.checked) {
+      Element.show('make_models_' + make_id);
+    } else {
+      Element.hide('make_models_' + make_id);
+      $(check_all_id).checked = false
+      model_ids.each(function(model_id) {
+        $('models_' + model_id + '').checked = false;
+      })
+    }
+  }
+</script>
+
+<div class="searcher">
+  <% form_tag results_products_path, :method => :get do %>
+    <% tabber_tag do %>
+      <% tabber_tab_tag(:title => t(:brand, :scope => [ :marketplace ])) do %>
+        <table class="searcher-table full-width">
+          <tr>
+            <td class="searcher-td searcher-left-td">
+              <%= icon_label(:search, t(:make, :scope => [ :marketplace ])) %>
+            </td>
+            <td class="searcher-td">
+              <div class="search-box-list">
+                <ul>
+                  <% Make.not_empty.sort { |x, y| x.name <=> y.name }.each do |make| %>
+                    <li>
+                      <%= check_box_tag("makes[#{make.id}]", "1", check_param([ :makes, "#{make.id}" ], false), { :onclick => "toggle_make_models(this, #{make.id}, [#{make.available_models.collect { |model| model.id }.join(',')}], 'check_all_#{make.name.underscore.gsub(/[^\w]/, '_')}')" }) %>
+                      <%= link_to_resource(make) %>
+                    </li>
+                  <% end %>
+                </ul>
+                <br />
+              </div>
+            </td>
+          </tr>
+          
+          <tr>
+            <td class="searcher-td searcher-left-td">
+              <%= icon_label(:search, t(:model, :scope => [ :marketplace ])) %>
+            </td>
+            <td class="searcher-td">
+              <% Make.not_empty.sort { |x, y| x.name <=> y.name }.each do |make| %>
+                <div id="<%= "make_models_#{make.id}" %>" class="searcher-make-models" style="display: <%= check_param([ :makes, "#{make.id}" ], false) ? 'block' : 'none' %>">
+                  <p>
+                    <%= link_to_resource(make) %>
+                    <%= check_box_tag("check_all_#{make.name.underscore.gsub(/[^\w]/, '_')}", "1", check_param([ "check_all_#{make.name.underscore.gsub(/[^\w]/, '_')}" ], false), { :onclick => "[#{make.available_models.collect { |model| model.id }.join(',')}].each(function(model_id) { $('models_' + model_id + '').checked = $(check_all_#{make.name.underscore.gsub(/[^\w]/, '_')}).checked })" }) %>
+                    (<%=t :all %>)
+                  </p>
+                  <%= render_separator %>
+                  <div class="search-box-list">
+                    <ul>
+                      <% make.available_models.each do |model| %>
+                        <li>
+                          <%= check_box_tag("models[#{model.id}]", 1, check_param([ :models, "#{model.id}" ], false)) %>
+                          <%= link_to_resource(model) %>
+                        </li>
+                      <% end %>
+                    </ul>
+                    <br />
+                  </div>
+                </div>
+              <% end %>
+            </td>
+          </tr>
+        </table>
+      <% end %>
+  
+      <% FeatureType.all(:conditions => { :parent_feature_type_id => nil }).sort { |x, y| x.name <=> y.name }.each do |feature_type| %>
+        <% tabber_tab_tag(:title => feature_type.name) do %>
+          <table class="searcher-table full-width">
+            <% if feature_type.features.any? %>
+              <tr>
+                <td class="searcher-td searcher-left-td">
+                  <%= icon_label(:search, feature_type.name) %>
+                  <a class='hint-mark' href="#" title="<%= t(:more_info, :scope => [ :site_content ]) %>" onclick="hint_window('feature_type', '<%= summary_feature_type_path(feature_type) %>', 400, 500);"></a>
+                </td>
+                <td class="searcher-td">
+                  <div class="search-box-list">
+                    <ul>
+                      <% feature_type.features.each do |feature| %>
+                        <li>
+                          <%= check_box_tag("features[#{feature.id}]", 1, check_param([ :features, "#{feature.id}" ], false)) %>
+                          <%= feature_item(feature) %>
+                        </li>
+                      <% end %>
+                    </ul>
+                    <br />
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+            <% feature_type.child_feature_types.each do |child_feature_type| %>
+              <tr>
+                <td class="searcher-td searcher-left-td">
+                  <%= icon_label(:search, child_feature_type.name) %>
+                  <a class='hint-mark' href="#" title="<%= t(:more_info, :scope => [ :site_content ]) %>" onclick="hint_window('feature_type', '<%= summary_feature_type_path(child_feature_type) %>', 400, 500);"></a>
+                </td>
+                <td class="searcher-td">
+                  <div class="search-box-list">
+                    <ul>
+                      <% child_feature_type.features.each do |feature| %>
+                        <li>
+                          <%= check_box_tag("features[#{feature.id}]", 1, check_param([ :features, "#{feature.id}" ], false)) %>
+                          <%= feature_item(feature) %>
+                        </li>
+                      <% end %>
+                    </ul>
+                    <br />
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          </table>
+        <% end %>
+      <% end %>
+    <% end %>
+    
+    <%= render_submit t(:search) %>
+  <% end %>
+</div>
+  

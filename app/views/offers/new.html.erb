@@ -1,0 +1,13 @@
+<% title t(:create_object, :object => t(:offer, :scope => [ :marketplace ])) %>
+
+<%= render_heading(t(:create_object, :object => t(:offer, :scope => [ :marketplace ]))) %>
+
+<% form_for(:offer, :url => objects_path) do |f| %>
+  <%= render :partial => 'edit', :locals => { :f => f, :offer => @offer, :product => @product } %>
+  
+  <% if defined?(@product) %>
+    <%= hidden_field_tag :for_product_id, @product.id %>
+  <% end %>
+
+  <%= f.submit t(:create) %>
+<% end %>

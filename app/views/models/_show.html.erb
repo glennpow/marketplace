@@ -1,0 +1,44 @@
+<table class="show-table" align="center">
+  <tr>
+    <td>
+      <%= image_tag model.image.url %>
+
+      <%= render_heading(h(model.name),
+        :actions => [ { :if => is_editor_of?(model), :allow => icon_link_to(:edit, t(:edit), edit_make_model_path(model.make, model)) } ]) %>
+    </td>
+    <td>
+      <%= render_field(t(:manufacturer, :scope => [ :marketplace ]), link_to_resource(model.manufacturer)) %>
+
+      <%= render_field(t(:make, :scope => [ :marketplace ]), link_to_resource(model.make)) %>
+
+      <%= render_field(t(:status), e(model.production_status, t(:unknown))) %>
+
+      <%= render_field(t(:technology_level, :scope => [ :marketplace, :models ]), model.technology_level) %>
+
+      <%= render_field(t(:rating, :scope => [ :content ]), render_rating(model)) %>
+
+      <%= render_field(tp(:review, :scope => [ :content ]), model.reviews.length,
+        :actions => [ { :if => model.reviews.any?, :allow => link_to(t(:view), model_reviews_path(model)) } ]) %>
+    </td>
+  </tr>
+</table>
+
+<% unless model.description.blank? %>
+  <%= render_formatted(h(model.description)) %>
+<% end %>
+
+<%= render_field(tp(:feature, :scope => [ :marketplace ]),
+  model.features.map { |feature| feature_item(feature, :type => true) },
+  :actions => [ { :if => is_editor_of?(model), :allow => icon_link_to(:edit, t(:edit), model_features_path(model)) } ]) %>
+
+<%= render_field(tp(:product, :scope => [ :marketplace ]), model.products.length,
+  :actions => [ { :allow => link_to(t(:view), model_products_path(model)) } ]) %>
+
+<% if is_editor_of?(model) %>
+  <%= render_field(tp(:article, :scope => [ :content ]), model.articles.length,
+    :actions => [ { :allow => link_to(t(:view), model_articles_path(model)) } ]) %>
+<% end %>
+
+<% for_all_by_locale(model.articles) do |article| %>
+  <%= render_article(article) %>
+<% end %>

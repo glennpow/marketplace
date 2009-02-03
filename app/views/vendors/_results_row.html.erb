@@ -1,0 +1,23 @@
+<%= render_row(
+  indexer,
+  vendor,
+  [
+    {
+      :class => 'results-row-td',
+      :content => content_tag(:p, h(vendor.name), :class => 'results-make') +
+        content_tag(:div, image_tag(vendor.image.url(:thumb)))
+    },
+    
+    {
+      :class => 'results-row-td',
+      :content => content_tag(:div, content_tag(:span, t(:name), :class => 'results-header') + content_tag(:span, h(vendor.name)), :class => 'results-row-line') +
+        content_tag(:div, content_tag(:span, t(:address, :scope => [ :contacts ]), :class => 'results-header') + link_to_resource(vendor.organization.address, :label_method => :full_address) +
+          (vendor.organization.address.distance ? ' (' + t(:miles_away, :scope => [ :contacts, :addresses ], :count => "%.2f" % vendor.organization.address.distance) + ')' : ''), :class => 'results-row-line') +
+        content_tag(:div, content_tag(:span, t(:moderator, :scope => [ :authentication ]), :class => 'results-header') + h(vendor.moderators.map(&:name).to_sentence), :class => 'results-row-line') +
+        content_tag(:div, content_tag(:span, t(:rating, :scope => [ :content ]), :class => 'results-header') + render_rating(vendor), :class => 'results-row-line') +
+        content_tag(:div, h(vendor.description), :class => 'blurb')
+    }
+  ],
+  :actions => [
+    is_consumer? ? content_tag(:p, render_watching(vendor)) : nil,
+  ]) %>
