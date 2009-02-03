@@ -7,6 +7,10 @@ class Vendor < ActiveRecord::Base
   has_many :offers, :as => :offer_provider, :dependent => :destroy
   has_many :quote_requests, :order => 'created_at DESC', :dependent => :destroy
   
+  def name
+    self.organization.name
+  end
+  
   def available_products
     self.products.select { |product| product.available? }
   end
