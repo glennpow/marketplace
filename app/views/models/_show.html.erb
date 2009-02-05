@@ -34,10 +34,8 @@
 <%= render_field(tp(:product, :scope => [ :marketplace ]), model.products.length,
   :actions => [ { :allow => link_to(t(:view), model_products_path(model)) } ]) %>
 
-<% if is_editor_of?(model) %>
-  <%= render_field(tp(:article, :scope => [ :content ]), model.articles.length,
-    :actions => [ { :allow => link_to(t(:view), model_articles_path(model)) } ]) %>
-<% end %>
+<%= render_heading(tp(:article, :scope => [ :content ]), :actions =>
+  is_editor_of?(model) ? link_to(t(:view), model_articles_path(model)) : nil) %>
 
 <% for_all_by_locale(model.articles) do |article| %>
   <%= render_article(article) %>

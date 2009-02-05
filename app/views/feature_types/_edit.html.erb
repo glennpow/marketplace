@@ -2,7 +2,7 @@
 
 <%= f.collection_select :parent_feature_type_id, parent_feature_types, :id, :name, { :include_blank => true } %>
 
-<% if feature_type.image? %>
+<% if feature_type.try(:image?) %>
   <%= image_tag feature_type.image.url %>
 <% end %>
  

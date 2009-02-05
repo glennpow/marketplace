@@ -2,7 +2,7 @@
 
 <%= f.collection_select :feature_type_id, feature_types, :id, :name %>
 
-<% if feature.image? %>
+<% if feature.try(:image?) %>
   <%= image_tag feature.image.url %>
 <% end %>
  

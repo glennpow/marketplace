@@ -1,7 +1,7 @@
 class VendorsController < ApplicationController
   make_resource_controller do
     before :create do
-      @vendor.organization.manager = current_user
+      @vendor.organization.moderator = current_user
       @vendor.organization.parent_group = @group
     end
     

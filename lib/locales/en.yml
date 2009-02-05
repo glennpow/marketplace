@@ -23,7 +23,6 @@ en:
     offer_provider: Provider
     quote_request: Quote Request
     sku: SKU
-    use_saved_address: Use your saved address?
     vendor: Vendor
     vendor_representative: Vendor Representative
     makes:

@@ -1,6 +1,6 @@
 <%= f.text_field :name, :required => true %>
   
-<% if product.image? %>
+<% if product.try(:image?) %>
   <%= image_tag product.image.url %>
 <% end %>
  

@@ -30,10 +30,8 @@
 <%= render_field(tp(:model, :scope => [ :marketplace ]), make.available_models.length,
   :actions => [ { :allow => link_to(t(:view), make_models_path(make)) } ]) %>
 
-<% if is_editor_of?(make) %>
-  <%= render_field(tp(:article, :scope => [ :content ]), make.articles.length,
-  :actions => [ { :allow => link_to(t(:view), make_articles_path(make)) } ]) %>
-<% end %>
+<%= render_heading(tp(:article, :scope => [ :content ]), :actions =>
+  is_editor_of?(make) ? link_to(t(:view), make_articles_path(make)) : nil) %>
 
 <% for_all_by_locale(make.articles) do |article| %>
   <%= render_article(article) %>

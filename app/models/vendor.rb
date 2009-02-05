@@ -14,4 +14,16 @@ class Vendor < ActiveRecord::Base
   def available_products
     self.products.select { |product| product.available? }
   end
+  
+  # attr_accessor :distance
+  # 
+  # acts_as_mappable :lat_column_name => :latitude, :lng_column_name => :longitude
+  # 
+  # def latitude
+  #   self.organization && self.organization.address ? self.organization.address.latitude : nil
+  # end
+  # 
+  # def longitude
+  #   self.organization && self.organization.address ? self.organization.address.longitude : nil
+  # end
 end

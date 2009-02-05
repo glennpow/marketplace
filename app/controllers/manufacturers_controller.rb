@@ -1,7 +1,7 @@
 class ManufacturersController < ApplicationController
   make_resource_controller do
     before :create do
-      @manufacturer.organization.manager = current_user
+      @manufacturer.organization.moderator = current_user
       @manufacturer.organization.parent_group = @group
     end
     

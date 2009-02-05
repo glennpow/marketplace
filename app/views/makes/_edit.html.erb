@@ -1,6 +1,6 @@
 <%= f.text_field :name, :required => true %>
   
-<% if make.image? %>
+<% if make.try(:image?) %>
   <%= image_tag make.image.url %>
 <% end %>
  

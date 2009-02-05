@@ -39,10 +39,8 @@
   product.features.map { |feature| feature_item(feature, :type => true) },
   :actions => [ { :if => is_editor_of?(product), :allow => icon_link_to(:edit, t(:edit), product_features_path(product)) } ]) %>
 
-<% if is_editor_of?(product) %>
-  <%= render_field(tp(:article, :scope => [ :content ]), product.articles.length,
-    :actions => [ { :allow => link_to(t(:view), product_articles_path(product)) } ]) %>
-<% end %>
+<%= render_heading(tp(:article, :scope => [ :content ]), :actions =>
+  is_editor_of?(product) ? link_to(t(:view), product_articles_path(product)) : nil) %>
 
 <% for_all_by_locale(product.articles) do |article| %>
   <%= render_article(article) %>
