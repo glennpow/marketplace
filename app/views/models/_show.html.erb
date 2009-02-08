@@ -4,7 +4,7 @@
       <%= image_tag model.image.url %>
 
       <%= render_heading(h(model.name),
-        :actions => [ { :if => is_editor_of?(model), :allow => icon_link_to(:edit, t(:edit), edit_make_model_path(model.make, model)) } ]) %>
+        :actions => is_editor_of?(model) ? icon_link_to(:edit, t(:edit), edit_make_model_path(model.make, model)) : nil) %>
     </td>
     <td>
       <%= render_field(t(:manufacturer, :scope => [ :marketplace ]), link_to_resource(model.manufacturer)) %>
@@ -18,7 +18,7 @@
       <%= render_field(t(:rating, :scope => [ :content ]), render_rating(model)) %>
 
       <%= render_field(tp(:review, :scope => [ :content ]), model.reviews.length,
-        :actions => [ { :if => model.reviews.any?, :allow => link_to(t(:view), model_reviews_path(model)) } ]) %>
+        :actions => model.reviews.any? ? link_to(t(:view), model_reviews_path(model)) : nil) %>
     </td>
   </tr>
 </table>
@@ -29,10 +29,10 @@
 
 <%= render_field(tp(:feature, :scope => [ :marketplace ]),
   model.features.map { |feature| feature_item(feature, :type => true) },
-  :actions => [ { :if => is_editor_of?(model), :allow => icon_link_to(:edit, t(:edit), model_features_path(model)) } ]) %>
+  :actions => is_editor_of?(model) ? icon_link_to(:edit, t(:edit), model_features_path(model)) : nil) %>
 
 <%= render_field(tp(:product, :scope => [ :marketplace ]), model.products.length,
-  :actions => [ { :allow => link_to(t(:view), model_products_path(model)) } ]) %>
+  :actions => link_to(t(:view), model_products_path(model))) %>
 
 <%= render_heading(tp(:article, :scope => [ :content ]), :actions =>
   is_editor_of?(model) ? link_to(t(:view), model_articles_path(model)) : nil) %>

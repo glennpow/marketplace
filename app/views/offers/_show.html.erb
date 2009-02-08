@@ -1,6 +1,4 @@
-<%= render_heading(h(offer.name), :actions => [
-  { :if => is_editor_of?(@offer), :allow => icon_link_to(:edit, t(:edit), edit_object_path, :with_label => true) }
-  ]) %>
+<%= render_heading(h(offer.name), :actions => is_editor_of?(@offer) ? icon_link_to(:edit, t(:edit), edit_object_path, :with_label => true) : nil) %>
   
 <%= render_field(t(:offer_provider, :scope => [ :marketplace ]), link_to_resource(offer.offer_provider)) %>
 
@@ -14,4 +12,4 @@
   
 <%= render_field(tp(:product, :scope => [ :marketplace ]),
   offer.products.map(&:full_name),
-  :actions => [ { :if => is_editor_of?(offer), :allow => icon_link_to(:edit, t(:edit), edit_products_offer_path(offer)) } ]) %>
+  :actions => is_editor_of?(offer) ? icon_link_to(:edit, t(:edit), edit_products_offer_path(offer)) : nil) %>

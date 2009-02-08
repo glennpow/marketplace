@@ -75,11 +75,6 @@ module Marketplace
             @is_vendor_representative ||= {}
             @is_vendor_representative[with_company] = self.is_member_of?(Group.find_by_name(Configuration.vendor_representative_group_name), true) && (!with_company || self.membered_vendors.any?)
           end
-          
-          def identities_with_marketer
-            identities_without_marketer + self.membership_suppliers.map { |supplier| supplier.organization.name }
-          end
-          alias_method_chain :identities, :marketer
         end
       end
     end

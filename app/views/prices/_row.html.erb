@@ -7,9 +7,8 @@
     link_to_resource(price.vendor),
     offer_icon(price.vendor, price.product)
   ],
-  :actions => [
-    { :if => is_editor_of?(price), :allow => [
-      icon_link_to(:edit, t(:edit), edit_vendor_price_path(price.vendor, price)),
-      icon_link_to(:delete, t(:remove), price, :confirm => t(:are_you_sure), :method => :delete),
-      icon_link_to(:money, t(:create_object, :object => t(:offer, :scope => [ :marketplace ])), new_vendor_offer_path(price.vendor, :for_product_id => price.product.id))
-    ] } ]) %>
+  :actions => is_editor_of?(price) ? [
+    icon_link_to(:edit, t(:edit), edit_vendor_price_path(price.vendor, price)),
+    icon_link_to(:delete, t(:remove), price, :confirm => t(:are_you_sure), :method => :delete),
+    icon_link_to(:money, t(:create_object, :object => t(:offer, :scope => [ :marketplace ])), new_vendor_offer_path(price.vendor, :for_product_id => price.product.id))
+  ] : nil) %>

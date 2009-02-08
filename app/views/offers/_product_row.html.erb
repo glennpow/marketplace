@@ -9,13 +9,13 @@
     link_to_resource(product.model),
   ],
   :actions => [
-    { :if => is_editor_of?(product), :allow => [
+    is_editor_of?(product) ? [
       icon_link_to(:edit, t(:edit), edit_object_path(product)),
       icon_link_to(:delete, t(:delete), product, :confirm => t(:are_you_sure), :method => :delete)
-    ] },
-    { :if => offer.products.include?(product), :allow => [
-      icon_link_to(:delete, t(:remove), update_products_offer_path(offer, :remove_product_ids => product.id), :method => :put)
-    ] },
-    { :if => !offer.products.include?(product), :allow => [
-      icon_link_to(:add, t(:add), update_products_offer_path(offer, :add_product_ids => product.id), :method => :put)
-    ] } ]) %>
+    ] : nil,
+    offer.products.include?(product) ?
+      icon_link_to(:delete, t(:remove), update_products_offer_path(offer, :remove_product_ids => product.id), :method => :put) : nil
+    ,
+    !offer.products.include?(product) ?
+      icon_link_to(:add, t(:add), update_products_offer_path(offer, :add_product_ids => product.id), :method => :put) : nil
+    ) %>

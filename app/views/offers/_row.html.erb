@@ -8,8 +8,7 @@
     render_list(offer.products.map { |product| link_to_resource(product) }.concat([ icon_link_to(:add, t(:add_object, :object => tp(:product, :scope => [ :marketplace ])), edit_products_offer_path(offer)) ]), :class => 'clean-list'),
     link_to_resource(offer.offer_provider),
   ],
-  :actions => [
-    { :if => is_editor_of?(offer), :allow => [
-      icon_link_to(:edit, t(:edit), edit_object_path(offer)),
-      icon_link_to(:delete, t(:delete), offer, :confirm => t(:are_you_sure), :method => :delete)
-    ] } ]) %>
+  :actions => is_editor_of?(offer) ? [
+    icon_link_to(:edit, t(:edit), edit_object_path(offer)),
+    icon_link_to(:delete, t(:delete), offer, :confirm => t(:are_you_sure), :method => :delete)
+  ] : nil) %>
