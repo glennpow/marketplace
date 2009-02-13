@@ -1,4 +1,4 @@
 <%= render :partial => 'organizations/show', :locals => { :organization => manufacturer.organization } %>
 
 <%= render_field(tp(:make, :scope => [ :marketplace ]), is_editor_of?(manufacturer) ? manufacturer.makes.length : manufacturer.available_makes.length,
-  :actions => link_to(t(:view), manufacturer_make_path(manufacturer))) %>
+  :actions => link_to(t(:view), manufacturer_makes_path(manufacturer))) %>
