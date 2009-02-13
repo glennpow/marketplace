@@ -27,7 +27,7 @@
   make.features.map { |feature| feature_item(feature, :type => true) },
   :actions => is_editor_of?(make) ? icon_link_to(:edit, t(:edit), make_features_path(make)) : nil) %>
 
-<%= render_field(tp(:model, :scope => [ :marketplace ]), make.available_models.length,
+<%= render_field(tp(:model, :scope => [ :marketplace ]), is_editor_of?(make) ? make.models.length : make.available_models.length,
   :actions => link_to(t(:view), make_models_path(make))) %>
 
 <%= render_heading(tp(:article, :scope => [ :content ]), :actions =>
