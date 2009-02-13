@@ -25,7 +25,7 @@ class VendorsController < ApplicationController
     respond_with_indexer do |options|
       options[:default_sort] = :name
       options[:headers] = [
-        { :name => t(:name), :sort => :name },
+        { :name => t(:name), :sort => :name, :include => :organization, :order => "#{Organization.table_name}.name" },
         tp(:moderator, :scope => [ :authentication ]),
       ]
       options[:search] = true
