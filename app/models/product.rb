@@ -7,7 +7,7 @@ class Product < ActiveRecord::Base
   has_one :make, :through => :model
   # FIXME - has_many-through-through associations don't work
   #has_one :manufacturer, :through => :make
-  has_many_features :include => [ :model, :make ]
+  has_many_features :include => [ :model ]
   has_and_belongs_to_many :offers, :order => 'created_at DESC'
   has_many :prices, :dependent => :destroy, :order => 'created_at DESC'
   has_many :vendors, :through => :prices, :order => 'name ASC'

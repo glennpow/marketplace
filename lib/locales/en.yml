@@ -25,6 +25,8 @@ en:
     sku: SKU
     vendor: Vendor
     vendor_representative: Vendor Representative
+    features:
+      included_from_object: Included from {{object}}
     makes:
       makes_for_object:
         one: Make for {{object}}

@@ -26,8 +26,8 @@
       <% @products.each_with_index do |product, index| %>
         <td class="comparer-td<%= index == 0 ? ' first' : '' %>">
           <div class="separator top"></div>
+          <p><%= render_watching(product, :type => :button) %></p>
           <% if logged_in? %>
-            <p><%= render_watching(product, :type => :button) %></p>
             <% unless current_portal(Vendor).nil? %>
               <% if current_user.has_requested_quote?(current_portal(Vendor), product) %>
                 <%= link_to(t(:quote_requested, :scope => [ :marketplace, :quote_requests ]), user_quote_requests_path(current_user)) %>
@@ -36,7 +36,6 @@
               <% end %>
             <% end %>
           <% else %>
-            <p><%= render_watching(product, :type => :button) %></p>
             <% unless current_portal(Vendor).nil? %>
               <p><%= button_link_to(t(:request_quote, :scope => [ :marketplace, :quote_requests ]), new_vendor_quote_request_path(current_portal(Vendor), :product_id => product.id)) %></p>
             <% end %>
@@ -68,8 +67,8 @@
       <% @products.each_with_index do |product, index| %>
         <td class="comparer-td<%= index == 0 ? ' first' : '' %>">
           <div class="separator top"></div>
+          <p><%= render_watching(product, :type => :button) %></p>
           <% if logged_in? %>
-            <p><%= render_watching(product, :type => :button) %></p>
             <% unless current_portal(Vendor).nil? %>
               <% if current_user.has_requested_quote?(current_portal(Vendor), product) %>
                 <%= link_to(t(:quote_requested, :scope => [ :marketplace, :quote_requests ]), user_quote_requests_path(current_user)) %>
@@ -78,7 +77,6 @@
               <% end %>
             <% end %>
           <% else %>
-            <p><%= render_watching(product, :type => :button) %></p>
             <% unless current_portal(Vendor).nil? %>
               <p><%= button_link_to(t(:request_quote, :scope => [ :marketplace, :quote_requests ]), new_vendor_quote_request_path(current_portal(Vendor), :product_id => product.id)) %></p>
             <% end %>

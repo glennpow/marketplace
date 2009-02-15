@@ -13,58 +13,98 @@ module Marketplace
           :order => options[:order_by_type] ? "#{FeatureType.table_name}.name ASC, #{Feature.table_name}.name ASC" : "#{Feature.table_name}.name ASC" }
       
         class_eval do
-          has_many :featurings, :as => :featurable, :dependent => :destroy
-          has_many features_name, { :class_name => 'Feature', :through => :featurings, :source => :feature }.merge(order_options)
+          has_many "#{features_name}_featurings", :class_name => 'Featuring', :as => :featurable, :dependent => :destroy
+          has_many features_name, { :class_name => 'Feature', :through => "#{features_name}_featurings", :source => :feature }.merge(order_options)
+          
+          write_inheritable_attribute(:features_attribute_name, features_name)
         end
         
         if options[:include]
-          define_method "#{features_name}_with_include" do
-            conditions_string = "(#{Featuring.table_name}.featurable_type = ? && #{Featuring.table_name}.featurable_id = ?)"
-            conditions_array = [ self.class.to_s, self.id ]
-            [ options[:include] ].flatten.each do |include_name|
-              conditions_string << " OR (#{Featuring.table_name}.featurable_type = ? && #{Featuring.table_name}.featurable_id = ?)"
+          define_method "#{features_name}_featurings_with_include" do
+            self.send("#{features_name}_featurings_without_include") + [ options[:include] ].flatten.map do |include_name|
               included = self.send(include_name)
-              conditions_array += [ included.class.to_s, included.id ]
-            end
-            Feature.all(:include => [ :featurings ] + order_options[:include], :order => order_options[:order],
-              :conditions => conditions_array.unshift(conditions_string))
+              included.nil? ? nil : included.send("#{included.class.read_inheritable_attribute(:features_attribute_name)}_featurings")
+            end.flatten.compact
           end
-          
-          class_eval do
-            alias_method_chain features_name, :include
+
+          define_method "#{features_name}_with_include" do
+            (self.send("#{features_name}_without_include") + [ options[:include] ].flatten.map do |include_name|
+              included = self.send(include_name)
+              included.nil? ? nil : included.send(included.class.read_inheritable_attribute(:features_attribute_name))
+            end.flatten.compact).uniq
+          end
+        else
+          define_method "#{features_name}_featurings_with_include" do
+            self.send("#{features_name}_featurings_without_include")
+          end
+
+          define_method "#{features_name}_with_include" do
+            self.send("#{features_name}_without_include")
           end
         end
-        
-        define_method "#{feature_name}_ids" do
-          Feature.all(:include => [ :featurings ] + order_options[:include], :order => order_options[:order], :select => 'id',
-            :conditions => [ "(#{Featuring.table_name}.featurable_type = ? && #{Featuring.table_name}.featurable_id = ?)",
-              self.class.to_s, self.id ]).map(&:id)
+          
+        class_eval do
+          alias_method_chain "#{features_name}_featurings", :include
+          alias_method_chain features_name, :include
         end
   
         define_method "#{feature_name}_for_type" do |feature_type|
-          self.features.detect { |feature| feature.feature_type_id == (feature_type.is_a?(Fixnum) ? feature_type : feature_type.id) }
+          self.send(features_name, :conditions => { :feature_type_id => feature_type })
         end
   
         define_method "has_#{feature_name}_type" do |feature_type|
-          !self.feature_for_type(feature_type.is_a?(Fixnum) ? feature_type : feature_type.id).nil?
+          !self.send("#{feature_name}_for_type", feature_type).nil?
         end
         
         define_method :attributes= do |attributes|
-          attributes = attributes.deep_symbolize_keys
-          if feature_ids = attributes.delete(:feature_ids)
+          if features = attributes.delete(features_name)
+            feature_ids = features.values
             destroyed = []
-            self.featurings.each do |featuring|
+            featurings = self.send("#{features_name}_featurings_without_include")
+            featurings.each do |featuring|
               destroyed << featuring if feature_ids.delete(featuring.feature_id).nil?
             end
             destroyed.each do |featuring|
-              self.featurings.delete(featuring)
+              featurings.delete(featuring)
             end
             feature_ids.each do |feature_id|
-              self.featurings << Featuring.new(:feature_id => feature_id)
+              featurings << Featuring.new(:feature_id => feature_id) unless feature_id.to_i.zero?
             end
           end
           super(attributes)
         end
+      end
+    end
+    
+    class FeaturesAttribute
+      def initialize(featurable = nil)
+        @feature_ids = {}
+        @included_feature_ids = {}
+        if featurable
+          features_attribute_name = featurable.class.read_inheritable_attribute(:features_attribute_name)
+          featurings = featurable.send("#{features_attribute_name}_featurings", :include => [ :feature, :featurable ])
+          featurings.each do |featuring|
+            @feature_ids[featuring.feature.feature_type_id.to_s] = featuring.feature_id
+          end
+          included_featurings = featurings - featurable.send("#{features_attribute_name}_featurings_without_include", :include => :feature)
+          included_featurings.each do |featuring|
+            @included_feature_ids[featuring.feature.feature_type_id.to_s] = { :feature_id => featuring.feature_id, :featurable => featuring.featurable }
+          end
+        end
+      end
+      
+      def included_for_type(feature_type)
+        feature_type_id = case feature_type
+        when String, Fixnum
+          feature_type.to_i
+        else
+          feature_type.id
+        end
+        @included_feature_ids[feature_type_id.to_s]
+      end
+    
+      def method_missing(method, *args)
+        @feature_ids[method.to_s] || 0
       end
     end
   end

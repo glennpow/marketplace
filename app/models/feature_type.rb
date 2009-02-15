@@ -8,4 +8,6 @@ class FeatureType < ActiveRecord::Base
   validates_attachment_size :image, Configuration.default_image_size_options
   
   searches_on :name, :description
+
+  named_scope :by_features, :order => "name ASC", :include => :features
 end

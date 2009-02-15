@@ -63,13 +63,21 @@ module MarketplaceHelper
     render :partial => 'products/technology_level', :locals => locals
   end
   
-  def feature_select(form_or_record, name = nil, options = {}, html_options = {})
-    html_options = html_options.merge(:multiple => 'multiple')
-    case form_or_record
-    when ActionView::Helpers::FormBuilder
-      form_or_record.collection_select(name, Feature.by_type, :id, :name_with_type, options, html_options)
-    else
-      collection_select(form_or_record, name, Feature.by_type, :id, :name_with_type, options, html_options)
+  def feature_select(form_builder, name, options = {}, html_options = {})
+    featurable = form_builder.object
+    features_attribute = Marketplace::HasManyFeatures::FeaturesAttribute.new(featurable)
+    capture do
+      form_builder.fields_for(name, features_attribute) do |f|
+        locals = {
+          :feature_types => FeatureType.by_features,
+          :f => f,
+          :featurable => featurable,
+          :features_attribute => features_attribute,
+          :options => options,
+          :html_options => html_options
+        }
+        render :partial => 'features/select', :locals => locals
+      end
     end
   end
 end

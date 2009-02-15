@@ -12,4 +12,6 @@
 
 <%= f.text_area :description, :required => true, :preview => true, :hint => link_to_textile_hint %>
 
-<%= feature_select(f, :feature_ids, :label => { :name => tp(:feature, :scope => [ :marketplace ]) }) %>
+<%= render_heading(tp(:feature, :scope => [ :marketplace ])) %>
+
+<%= feature_select(f, :features, :label => { :name => tp(:feature, :scope => [ :marketplace ]) }) %>
