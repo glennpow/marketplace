@@ -40,7 +40,7 @@ class CreateMarketplace < ActiveRecord::Migration
       t.references :feature, :null => false
     end
     
-    add_index :featurings, [ :featureable_type, :featurable_id ]
+    add_index :featurings, [ :featurable_type, :featurable_id ]
     add_index :featurings, :feature_id
 
     create_table :makes do |t|
