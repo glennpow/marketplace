@@ -21,6 +21,7 @@ class ModelsController < ApplicationController
         tp(:product, :scope => [ :marketplace ])
       ]
       options[:search] = true
+      options[:include] = [ { :manufacturer => :organization }, :make, :products ]
     end
   end
   

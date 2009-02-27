@@ -2,4 +2,4 @@
 
 <%= render_field(t(:product, :scope => [ :marketplace ]), link_to_resource(product, :label_method => :full_name)) %>
 
-<%= f.text_field :amount, :required => true %>
+<%= f.text_field :amount, :label => { :name => t(:price, :scope => [ :marketplace ]) }, :required => true %>

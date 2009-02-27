@@ -42,7 +42,7 @@ class Product < ActiveRecord::Base
     not self.offers.detect { |offer| offer.offer_provider_type == offer_provider.class.to_s && offer.offer_provider_id == offer_provider.id }.nil?
   end
   
-  def price_with_vendor(vendor)
+  def price_for_vendor(vendor)
     self.prices.detect { |price| price.vendor_id == vendor.id }
   end
     

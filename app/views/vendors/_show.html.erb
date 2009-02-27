@@ -1,1 +1,4 @@
 <%= render :partial => 'organizations/show', :locals => { :organization => vendor.organization } %>
+
+<%= render_field(tp(:product, :scope => [ :marketplace ]), vendor.prices.length,
+  :actions => link_to(t(:view), vendor_prices_path(vendor))) %>

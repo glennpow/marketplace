@@ -20,5 +20,5 @@
   ],
   :actions => [
     is_consumer? ? content_tag(:p, render_watching(product)) : nil,
-    (is_vendor?(true) && !current_vendor.products.include?(product)) ? content_tag(:p, icon_link_to(:add, t(:add_to_inventory, :scope => [ :marketplace, :products ]), new_vendor_price_path(current_vendor, :for_product_id => product.id))) : nil
+    (current_vendor && !current_vendor.products.include?(product)) ? content_tag(:p, icon_link_to(:add, t(:add_to_inventory, :scope => [ :marketplace, :products ]), new_vendor_price_path(current_vendor, :for_product_id => product.id))) : nil
   ]) %>

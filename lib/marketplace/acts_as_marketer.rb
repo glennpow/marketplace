@@ -31,49 +31,53 @@ module Marketplace
             self.moderated_manufacturers + self.moderated_vendors
           end
   
-          def is_manufacturer?(with_company = false)
-            return @is_manufacturer if defined?(@is_manufacturer) && defined?(@is_manufacturer[with_company])
-            @is_manufacturer ||= {}
-            @is_manufacturer[with_company] = self.is_member_of?(Group.find_by_name(Configuration.manufacturer_group_name), false) && (!with_company || self.moderated_manufacturer.any?)
+          def is_manufacturer?
+            return true if has_administrator_role?
+            return @is_manufacturer if defined?(@is_manufacturer)
+            @is_manufacturer = self.is_member_of?(Group.find_by_name(Configuration.manufacturer_group_name), false)
           end
   
           def membered_manufacturers
+            return Manufacturer.all if has_administrator_role?
             # FIXME - The following line is the correct implementation, but it fails for :group through models in current Rails
             #@membered_manufacturers ||= self.membered(Manufacturer)
             @membered_manufacturers ||= Manufacturer.all(:include => { :organization => { :group => :memberships } }, :conditions => { "#{Membership.table_name}.user_id" => self })
           end
   
           def moderated_manufacturers
+            return Manufacturer.all if has_administrator_role?
             #@moderated_manufacturers ||= self.moderated(Manufacturer)
             @moderated_manufacturers ||= Manufacturer.all(:include => { :organization => { :group => :memberships } }, :conditions => { "#{Membership.table_name}.user_id" => self, "#{Membership.table_name}.role_id" => Role.administrator.id })
           end
   
-          def is_manufacturer_representative?(with_company = false)
-            return @is_manufacturer_representative[with_company] if defined?(@is_manufacturer_representative) &&  defined?(@is_manufacturer_representative[with_company])
-            @is_manufacturer_representative ||= {}
-            @is_manufacturer_representative[with_company] = self.is_member_of?(Group.find_by_name(Configuration.manufacturer_representative_group_name), true) && (!with_company || self.membered_manufacturers.any?)
+          def is_manufacturer_representative?
+            return true if has_administrator_role?
+            return @is_manufacturer_representative if defined?(@is_manufacturer_representative)
+            @is_manufacturer_representative = self.is_member_of?(Group.find_by_name(Configuration.manufacturer_representative_group_name), true)
           end
   
-          def is_vendor?(with_company = false)
-            return @is_vendor[with_company] if defined?(@is_vendor) && defined?(@is_vendor[with_company])
-            @is_vendor ||= {}
-            @is_vendor[with_company] = self.is_member_of?(Group.find_by_name(Configuration.vendor_group_name), false) && (!with_company || self.moderated_vendors.any?)
+          def is_vendor?
+            return true if has_administrator_role?
+            return @is_vendor if defined?(@is_vendor)
+            @is_vendor = self.is_member_of?(Group.find_by_name(Configuration.vendor_group_name), false)
           end
   
           def membered_vendors
+            return Vendor.all if has_administrator_role?
             #@membered_vendors ||= self.groups_of(Vendor)
             @membered_vendors ||= Vendor.all(:include => { :organization => { :group => :memberships } }, :conditions => { "#{Membership.table_name}.user_id" => self })
           end
   
           def moderated_vendors
+            return Vendor.all if has_administrator_role?
             #@moderated_vendors ||= self.moderated_groups_of(Vendor)
             @moderated_vendors ||= Vendor.all(:include => { :organization => { :group => :memberships } }, :conditions => { "#{Membership.table_name}.user_id" => self, "#{Membership.table_name}.role_id" => Role.administrator.id })
           end
   
-          def is_vendor_representative?(with_company = false)
-            return @is_vendor_representative[with_company] if defined?(@is_vendor_representative) && defined?(@is_vendor_representative[with_company])
-            @is_vendor_representative ||= {}
-            @is_vendor_representative[with_company] = self.is_member_of?(Group.find_by_name(Configuration.vendor_representative_group_name), true) && (!with_company || self.membered_vendors.any?)
+          def is_vendor_representative?
+            return true if has_administrator_role?
+            return @is_vendor_representative if defined?(@is_vendor_representative)
+            @is_vendor_representative = self.is_member_of?(Group.find_by_name(Configuration.vendor_representative_group_name), true)
           end
         end
       end

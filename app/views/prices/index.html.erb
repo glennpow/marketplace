@@ -7,9 +7,9 @@
 <% end %>
 
 <% if @vendor && is_editor_of?(@vendor) %>
-  <%= render_actions([ icon_link_to(:add_large, t(:add_object, :object => tp(:product, :scope => [ :marketplace ])), products_path) ]) %>
+  <%= render_actions([ icon_link_to(:add_large, t(:add_object, :object => tp(:product, :scope => [ :marketplace ])), set_current_organization_path(@vendor.organization_id, :redirect => products_path)) ]) %>
 
-  <% @indexer.footers = link_to(t(:add_object, :object => tp(:product, :scope => [ :marketplace ])), products_path) %>
+  <% @indexer.footers = link_to(t(:add_object, :object => tp(:product, :scope => [ :marketplace ])), set_current_organization_path(@vendor.organization_id, :redirect => products_path)) %>
 <% end %>
 
 <%= render_indexer(@indexer) %>

@@ -8,12 +8,13 @@ module Marketplace
       logged_in? && current_user.is_supplier?
     end
   
-    def is_manufacturer?(with_company = false)
-      logged_in? && current_user.is_manufacturer?(with_company)
+    def is_manufacturer?
+      logged_in? && current_user.is_manufacturer?
     end
 
     def current_manufacturer
-      return current_organization_of(Manufacturer)
+      return @current_manufacturer if defined?(@current_manufacturer)
+      @current_manufacturer = current_organizable(Manufacturer)
     end
   
     def membered_manufacturers
@@ -24,16 +25,17 @@ module Marketplace
       logged_in? ? current_user.moderated_manufacturers : []
     end
   
-    def is_manufacturer_representative?(with_company = false)
-      logged_in? && current_user.is_manufacturer_representative?(with_company)
+    def is_manufacturer_representative?
+      logged_in? && current_user.is_manufacturer_representative?
     end
   
-    def is_vendor?(with_company = false)
-      logged_in? && current_user.is_vendor?(with_company)
+    def is_vendor?
+      logged_in? && current_user.is_vendor?
     end
   
     def current_vendor
-      return current_organization_of(Vendor)
+      return @current_vendor if defined?(@current_vendor)
+      @current_vendor = current_organizable(Vendor)
     end
   
     def membered_vendors
@@ -44,8 +46,8 @@ module Marketplace
       logged_in? ? current_user.moderated_vendors : []
     end
   
-    def is_vendor_representative?(with_company = false)
-      logged_in? && current_user.is_vendor_representative?(with_company)
+    def is_vendor_representative?
+      logged_in? && current_user.is_vendor_representative?
     end
 
     def self.included(base)

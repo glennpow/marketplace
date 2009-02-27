@@ -31,11 +31,12 @@ class ProductsController < ApplicationController
           { :name => t(:model, :scope => [ :marketplace ]), :sort => :model, :include => :model, :order => "#{Model.table_name}.name" }
         ]
         options[:search] = true
+        options[:include] = [ { :make => { :manufacturer => :organization } }, :model, :prices ]
 
         if @model
           options[:conditions] = [ "#{Product.table_name}.model_id = ?", @model.id ]
         elsif @offer
-          options[:include] = :offers
+          options[:include] << :offers
           options[:conditions] = [ "#{Offer.table_name}.id = ?", @offer.id ]
         end
       end

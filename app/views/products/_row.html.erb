@@ -1,3 +1,5 @@
+<% price = current_vendor ? product.price_for_vendor(current_vendor) : nil %>
+
 <%= render_row(
   indexer,
   product,
@@ -13,6 +15,9 @@
       icon_link_to(:edit, t(:edit), edit_object_path(product)),
       icon_link_to(:delete, t(:delete), product, :confirm => t(:are_you_sure), :method => :delete)
     ] : nil,
-    (is_vendor?(true) && !current_vendor.products.include?(product)) ?
-      icon_link_to(:add, t(:add_to_inventory, :scope => [ :marketplace, :products ]), new_vendor_price_path(current_vendor, :for_product_id => product.id)) : nil
+    current_vendor ? (
+      price ?
+        icon_link_to(:delete, t(:remove_from_inventory, :scope => [ :marketplace, :products ]), price, :confirm => t(:are_you_sure), :method => :delete) :
+        icon_link_to(:add, t(:add_to_inventory, :scope => [ :marketplace, :products ]), new_vendor_price_path(current_vendor, :for_product_id => product.id))
+      ) : nil
   ]) %>

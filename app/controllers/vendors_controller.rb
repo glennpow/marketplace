@@ -29,6 +29,7 @@ class VendorsController < ApplicationController
         tp(:moderator, :scope => [ :authentication ]),
       ]
       options[:search] = true
+      options[:include] = [ { :organization => { :group => :moderators } }, :products ]
     end
   end
   
