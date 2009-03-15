@@ -37,12 +37,18 @@
   <%= render_formatted(h(product.description)) %>
 <% end %>
 
-<%= render_field(tp(:feature, :scope => [ :marketplace ]),
-  product.features.map { |feature| feature_item(feature, :type => true) },
-  :actions => is_editor_of?(product) ? icon_link_to(:edit, t(:edit), product_features_path(product)) : nil) %>
+<% if product.valid_feature_types? %>
+  <%= render_field(tp(:feature, :scope => [ :marketplace ]),
+    product.features.map { |feature| feature_item(feature, :type => true) }) %>
+<% end %>
 
 <%= render_heading(tp(:article, :scope => [ :content ]), :actions =>
   is_editor_of?(product) ? link_to(t(:view), product_articles_path(product)) : nil) %>
+
+<% if is_supplier? %>
+  <%= render_heading(tp(:cost, :scope => [ :marketplace ]), :actions =>
+    is_editor_of?(product) ? link_to(t(:view), product_costs_path(product)) : nil) %>
+<% end %>
 
 <% for_all_by_locale(product.articles) do |article| %>
   <%= render_article(article) %>

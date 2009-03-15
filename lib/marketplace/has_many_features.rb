@@ -55,6 +55,14 @@ module Marketplace
         define_method "has_#{feature_name}_type" do |feature_type|
           !self.send("#{feature_name}_for_type", feature_type).nil?
         end
+  
+        define_method "valid_#{feature_name}_types" do
+          FeatureType.find_all_for_featurable(self)
+        end
+  
+        define_method "valid_#{feature_name}_types?" do
+          FeatureType.count_for_featurable(self) > 0
+        end
         
         define_method :attributes= do |attributes|
           if features = attributes.delete(features_name)

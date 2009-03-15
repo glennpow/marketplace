@@ -1,9 +1,11 @@
 en:
   marketplace: 
+    amount: Amount
     brand: Brand
     child_feature_type: Child Feature Type
     consumer: Consumer
     cost: Cost
+    cost_for_object: Cost for {{object}}
     details_on_object: Details on {{object}}
     feature: Feature
     feature_type: Feature Type

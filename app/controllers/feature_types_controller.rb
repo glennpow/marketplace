@@ -7,7 +7,7 @@ class FeatureTypesController < ApplicationController
     end
     
     before :edit do
-      @parent_feature_types = FeatureType.find(:all, :conditions => [ "id != ?", @feature_type.id ]) - @feature_type.child_groups
+      @parent_feature_types = FeatureType.find(:all, :conditions => [ "id != ?", @feature_type.id ]) - @feature_type.child_feature_types
     end
   end
   

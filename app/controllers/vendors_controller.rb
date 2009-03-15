@@ -19,7 +19,7 @@ class VendorsController < ApplicationController
   end
 
   before_filter :check_add_vendor, :only => [ :new, :create ]
-  before_filter :check_moderator_of, :only => [ :edit, :update, :destroy ]
+  before_filter :check_moderator_of_vendor, :only => [ :edit, :update, :destroy ]
   
   def index
     respond_with_indexer do |options|
@@ -41,7 +41,7 @@ class VendorsController < ApplicationController
     check_condition(has_permission?(Action.add_organization, @group))
   end
   
-  def check_moderator_of
-    check_moderator(@vendor)
+  def check_moderator_of_vendor
+    check_moderator_of(@vendor)
   end
 end

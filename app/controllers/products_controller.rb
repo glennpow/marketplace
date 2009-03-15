@@ -3,14 +3,26 @@ class ProductsController < ApplicationController
     belongs_to :model, :offer
     
     member_actions :watch
+    
+    before :new do
+      if params[:duplicate_id]
+        @duplicate = Product.find(params[:duplicate_id])
+        @product.attributes=(@duplicate.attributes.except('id', 'created_at', 'updated_at'))
+        @duplicate.features_featurings_without_include.each do |featuring|
+          @product.features_featurings_without_include << Featuring.new(:feature_id => featuring.feature_id)
+          @product.features_without_include << Feature.find(featuring.feature_id)
+        end
+      end
+    end
   end
   
   def resourceful_name
     t(:product, :scope => [ :marketplace ])
   end
 
-  before_filter :login_required, :only => [ :new, :create, :edit, :update, :destroy, :watch ]
-  before_filter :check_editor_of, :only => [ :new, :create, :edit, :update, :destroy ]
+  before_filter :login_required, :only => [ :watch ]
+  before_filter :check_editor_of_model, :only => [ :new, :create ]
+  before_filter :check_editor_of_product, :only => [ :edit, :update, :destroy ]
   
   def index
     if params[:user_id]
@@ -21,7 +33,7 @@ class ProductsController < ApplicationController
     else
       respond_with_indexer do |options|
         # FIXME - This won't work until product.manufacturer is a proper association, and h_1_t includes work (for product.make)
-        options[:search_include] = [ :model ] # << :make << :manufacturer
+        #options[:search_include] = [ :model ] # << :make << :manufacturer
         options[:default_sort] = :name
         options[:headers] = [
           { :name => t(:name), :sort => :name },
@@ -77,7 +89,11 @@ class ProductsController < ApplicationController
   
   private
 
-  def check_editor_of
-    check_editor(@model || @product)
+  def check_editor_of_model
+    check_editor_of(@model)
+  end
+
+  def check_editor_of_product
+    check_editor_of(@product)
   end
 end

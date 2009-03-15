@@ -13,8 +13,8 @@ class OffersController < ApplicationController
     t(:offer, :scope => [ :marketplace ])
   end
 
-  before_filter :login_required, :except => [ :index, :show ]
-  before_filter :check_editor_of, :except => [ :index, :show ]
+  before_filter :check_editor_of_offer_provider, :except => [ :index ]
+  before_filter :check_editor_of_offer, :except => [ :show ]
   before_filter :check_for_product, :only => [ :new, :create ]
   
   def index
@@ -86,12 +86,16 @@ class OffersController < ApplicationController
  
   
   private
+ 
+  def check_editor_of_offer_provider
+    check_editor_of(@offer_provider)
+  end
+ 
+  def check_editor_of_offer
+    check_editor_of(@offer)
+  end
   
   def check_for_product
     check_condition(@product = Product.find(params[:for_product_id])) if params[:for_product_id]
-  end
- 
-  def check_editor_of
-    check_editor(@offer_provider || @offer)
   end
 end

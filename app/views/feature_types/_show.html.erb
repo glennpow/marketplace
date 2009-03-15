@@ -2,14 +2,18 @@
 
 <%= render_field(image_tag(feature_type.image.url)) %>
 
-<% unless feature_type.description.blank? %>
-  <%= render_formatted(h(feature_type.description)) %>
-<% end %>
-
 <% if feature_type.parent_feature_type %>
   <%= render_field(t(:parent_feature_type, :scope => [ :marketplace ]), link_to_resource(feature_type.parent_feature_type)) %>
 <% end %>
 
+<% unless feature_type.description.blank? %>
+  <%= render_formatted(h(feature_type.description)) %>
+<% end %>
+
 <% if feature_type.child_feature_types.any? %>
   <%= render_field(tp(:child_feature_type, :scope => [ :marketplace ]), feature_type.child_feature_types.map { |child_feature_type| link_to_resource(child_feature_type) }) %>
+<% end %>
+
+<% if feature_type.features.any? %>
+  <%= render_field(tp(:feature, :scope => [ :marketplace ]), feature_type.features.map { |feature| link_to_resource(feature) }) %>
 <% end %>

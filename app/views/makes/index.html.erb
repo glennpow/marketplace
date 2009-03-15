@@ -7,6 +7,10 @@
 <% end %>
 
 <% if is_editor_of?(@manufacturer) %>
+  <%= render_actions([
+    icon_link_to(:add, t(:create_object, :object => t(:make, :scope => [ :marketplace ])), new_manufacturer_make_path(@manufacturer))
+  ]) %>
+
   <% @indexer.footers = link_to(t(:create_object, :object => t(:make, :scope => [ :marketplace ])), new_manufacturer_make_path(@manufacturer)) %>
 <% end %>
 

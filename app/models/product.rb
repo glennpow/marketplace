@@ -9,6 +9,7 @@ class Product < ActiveRecord::Base
   #has_one :manufacturer, :through => :make
   has_many_features :include => [ :model ]
   has_and_belongs_to_many :offers, :order => 'created_at DESC'
+  has_many :costs, :dependent => :destroy
   has_many :prices, :dependent => :destroy, :order => 'created_at DESC'
   has_many :vendors, :through => :prices, :order => 'name ASC'
   has_attached_file :image, Configuration.default_image_options
@@ -16,7 +17,7 @@ class Product < ActiveRecord::Base
   has_many_articles
   
   validates_presence_of :name, :description, :model
-  validates_uniqueness_of :sku
+  validates_uniqueness_of :sku, :allow_blank => true
   validates_attachment_size :image, Configuration.default_image_size_options
   
   searches_on :name, :description, :sku

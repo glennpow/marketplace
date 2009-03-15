@@ -6,6 +6,7 @@ class Manufacturer < ActiveRecord::Base
   has_many :models, :through => :makes, :order => 'name ASC', :uniq => true
   # FIXME - has_many-through-through associations don't work
   #has_many :products, :through => :models, :order => 'name ASC', :uniq => true
+  has_many :costs, :dependent => :destroy
   has_many :offers, :as => :offer_provider, :dependent => :destroy
   
   def name

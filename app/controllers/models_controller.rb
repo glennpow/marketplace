@@ -7,8 +7,8 @@ class ModelsController < ApplicationController
     t(:model, :scope => [ :marketplace ])
   end
 
-  before_filter :login_required, :only => [ :new, :create, :edit, :update, :destroy ]
-  before_filter :check_editor_of, :only => [ :new, :create, :edit, :update, :destroy ]
+  before_filter :check_editor_of_make, :only => [ :new, :create ]
+  before_filter :check_editor_of_model, :only => [ :edit, :update, :destroy ]
   
   def index
     respond_with_indexer do |options|
@@ -28,7 +28,11 @@ class ModelsController < ApplicationController
   
   private
   
-  def check_editor_of
-    check_editor(@make || @model)
+  def check_editor_of_make
+    check_editor_of(@make)
+  end
+  
+  def check_editor_of_model
+    check_editor_of(@model)
   end
 end

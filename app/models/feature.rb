@@ -1,6 +1,5 @@
 class Feature < ActiveRecord::Base
   belongs_to :feature_type
-  has_and_belongs_to_many :products
   has_attached_file :image, Configuration.default_image_options
   has_many :featurings, :dependent => :destroy
   

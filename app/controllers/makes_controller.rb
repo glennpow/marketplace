@@ -7,8 +7,8 @@ class MakesController < ApplicationController
     t(:make, :scope => [ :marketplace ])
   end
 
-  before_filter :login_required, :only => [ :new, :create, :edit, :update, :destroy ]
-  before_filter :check_editor_of, :only => [ :new, :create, :edit, :update, :destroy ]
+  before_filter :check_editor_of_manufacturer, :only => [ :new, :create ]
+  before_filter :check_editor_of_make, :only => [ :edit, :update, :destroy ]
   
   def index
     respond_with_indexer do |options|
@@ -28,7 +28,11 @@ class MakesController < ApplicationController
   
   private
   
-  def check_editor_of
-    check_editor(@manufacturer || @make)
+  def check_editor_of_manufacturer
+    check_editor_of(@make)
+  end
+  
+  def check_editor_of_make
+    check_editor_of(@make)
   end
 end

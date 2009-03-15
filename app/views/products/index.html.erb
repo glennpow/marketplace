@@ -11,7 +11,11 @@
 <%= render_actions([
   icon_link_to(:search, t(:search), search_products_path),
   current_vendor ? icon_link_to(:watched, t(:view_object, :object => t(:inventory_for_object, :scope => [ :marketplace ], :object => h(current_vendor.name))), vendor_prices_path(current_vendor)) : nil,
-  @model && is_editor_of?(@model) ? icon_link_to(:add, t(:create_object, :object => t(:product, :scope => [ :marketplace ])), new_model_product_path(@model)) : nil
+  is_editor_of?(@model) ? icon_link_to(:add, t(:create_object, :object => t(:product, :scope => [ :marketplace ])), new_model_product_path(@model)) : nil
 ]) %>
+
+<% if is_editor_of?(@model) %>
+  <% @indexer.footers = link_to(t(:create_object, :object => t(:product, :scope => [ :marketplace ])), new_model_product_path(@model)) %>
+<% end %>
 
 <%= render_indexer(@indexer) %>

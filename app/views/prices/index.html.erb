@@ -6,7 +6,7 @@
   <%= render_heading(t(:prices_for_object, :scope => [ :marketplace ], :count => @indexer.collection.total_entries, :object => @product.full_name)) %>
 <% end %>
 
-<% if @vendor && is_editor_of?(@vendor) %>
+<% if is_editor_of?(@vendor) %>
   <%= render_actions([ icon_link_to(:add_large, t(:add_object, :object => tp(:product, :scope => [ :marketplace ])), set_current_organization_path(@vendor.organization_id, :redirect => products_path)) ]) %>
 
   <% @indexer.footers = link_to(t(:add_object, :object => tp(:product, :scope => [ :marketplace ])), set_current_organization_path(@vendor.organization_id, :redirect => products_path)) %>

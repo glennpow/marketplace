@@ -1,16 +1,17 @@
 class CreateMarketplace < ActiveRecord::Migration
   def self.up
-    create_table :costs, :id => false do |t|
-      t.references :region, :null => false
+    create_table :costs do |t|
+      t.references :country, :null => false
       t.references :product, :null => false
       t.float :amount
     end
     
-    add_index :costs, [ :region_id, :product_id ]
+    add_index :costs, [ :country_id, :product_id ]
     add_index :costs, :product_id
 
     create_table :feature_types do |t|
       t.references :parent_feature_type
+      t.string :featurable_type
       t.string :name, :null => false
       t.text :description
       t.string :image_file_name

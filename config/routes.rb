@@ -1,4 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :costs
   map.resources :feature_types, :member => { :summary => :get }, :has_many => [ :articles, :features, :feature_types ]
   map.resources :features, :has_many => [ :articles ]
   map.resources :makes, :has_many => [ :articles, :features, :models, :comments, :reviews, :watchings ]

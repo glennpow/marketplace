@@ -27,9 +27,10 @@
   <%= render_formatted(h(model.description)) %>
 <% end %>
 
-<%= render_field(tp(:feature, :scope => [ :marketplace ]),
-  model.features.map { |feature| feature_item(feature, :type => true) },
-  :actions => is_editor_of?(model) ? icon_link_to(:edit, t(:edit), model_features_path(model)) : nil) %>
+<% if model.valid_feature_types? %>
+  <%= render_field(tp(:feature, :scope => [ :marketplace ]),
+    model.features.map { |feature| feature_item(feature, :type => true) }) %>
+<% end %>
 
 <%= render_field(tp(:product, :scope => [ :marketplace ]), model.products.length,
   :actions => link_to(t(:view), model_products_path(model))) %>

@@ -1,0 +1,7 @@
+<%= render_field(t(:manufacturer, :scope => [ :marketplace ]), link_to_resource(product.manufacturer)) %>
+
+<%= render_field(t(:product, :scope => [ :marketplace ]), link_to_resource(product)) %>
+
+<%= f.text_field :amount, :required => true %>
+
+<%= f.collection_select(:country_id, Country.by_name, :id, :name, { :required => true }) %>

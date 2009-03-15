@@ -1,23 +1,9 @@
-<h1>New cost</h1>
+<% title t(:create_object, :object => t(:cost, :scope => [ :marketplace ])) %>
 
-<% form_for(:cost) do |f| %>
-  <%= f.error_messages %>
+<%= render_heading(t(:create_object, :object => t(:cost, :scope => [ :marketplace ]))) %>
 
-  <p>
-    <%= f.label :address_id %><br />
-    <%= f.text_field :address_id %>
-  </p>
-  <p>
-    <%= f.label :product_id %><br />
-    <%= f.text_field :product_id %>
-  </p>
-  <p>
-    <%= f.label :amount %><br />
-    <%= f.text_field :amount %>
-  </p>
-  <p>
-    <%= f.submit "Create" %>
-  </p>
+<% form_for :cost, :url => objects_path do |f| %>
+  <%= render :partial => 'edit', :locals => { :f => f, :cost => @cost, :product => @product } %>
+
+  <%= f.submit t(:create) %>
 <% end %>
-
-<%= link_to 'Back', costs_path %>

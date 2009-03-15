@@ -69,7 +69,7 @@ module MarketplaceHelper
     capture do
       form_builder.fields_for(name, features_attribute) do |f|
         locals = {
-          :feature_types => FeatureType.by_features,
+          :feature_types => FeatureType.find_all_for_featurable(featurable),
           :f => f,
           :featurable => featurable,
           :features_attribute => features_attribute,

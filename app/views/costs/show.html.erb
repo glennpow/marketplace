@@ -1,18 +1,5 @@
-<p>
-  <b>Address:</b>
-  <%=h @cost.address_id %>
-</p>
+<% title t(:cost, :scope => [ :marketplace ]) %>
 
-<p>
-  <b>Product:</b>
-  <%=h @cost.product_id %>
-</p>
+<%= render :partial => 'show', :locals => { :cost => @cost } %>
 
-<p>
-  <b>Amount:</b>
-  <%=h @cost.amount %>
-</p>
-
-
-<%= link_to 'Edit', edit_cost_path(@cost) %> |
-<%= link_to 'Back', costs_path %>
+<% page_actions << icon_link_to(:edit, t(:edit_object, :object => t(:cost, :scope => [ :marketplace ])), edit_object_path) if is_editor_of?(@cost) %>

@@ -10,14 +10,19 @@ class PricesController < ApplicationController
       format.html { redirect_to products_path }
       format.js
     end
+
+    response_for :update do |format|
+      format.html { redirect_to vendor_prices_path(price.vendor_id) }
+      format.js
+    end
   end
   
   def resourceful_name
     t(:price, :scope => [ :marketplace ])
   end
 
-  before_filter :login_required, :only => [ :new, :create, :edit, :update, :destroy ]
-  before_filter :check_editor_of, :only => [ :new, :create, :edit, :update, :destroy ]
+  before_filter :check_editor_of_vendor, :only => [ :new, :create ]
+  before_filter :check_editor_of_price, :only => [ :edit, :update, :destroy ]
   before_filter :check_for_product, :only => [ :new, :create ]
   
   def index
@@ -45,7 +50,11 @@ class PricesController < ApplicationController
     check_condition(params[:for_product_id] && @product = Product.find(params[:for_product_id]))
   end
   
-  def check_editor_of
-    check_editor(@vendor || @price)
+  def check_editor_of_vendor
+    check_editor_of(@vendor)
+  end
+  
+  def check_editor_of_price
+    check_editor_of(@price)
   end
 end

@@ -1,0 +1,9 @@
+<%= render_heading(t(:cost_for_object, :scope => [ :marketplace ], :object => link_to_resource(cost.product))) %>
+
+<%= render_field(t(:manufacturer, :scope => [ :marketplace ]), link_to_resource(cost.product.manufacturer)) %>
+
+<%= render_field(t(:amount, :scope => [ :marketplace ]), render_currency(cost.amount)) %>
+
+<% if is_editor_of?(cost) %>
+  <%= render_field(t(:country, :scope => [ :contacts, :addresses ]), cost.country.name) %>
+<% end %>

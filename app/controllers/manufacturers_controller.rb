@@ -19,7 +19,7 @@ class ManufacturersController < ApplicationController
   end
 
   before_filter :check_add_manufacturer, :only => [ :new, :create ]
-  before_filter :check_editor_of, :only => [ :set_current ]
+  before_filter :check_moderator_of_manufacturer, :only => [ :edit, :update, :destroy ]
   
   def index
     respond_with_indexer do |options|
@@ -44,7 +44,7 @@ class ManufacturersController < ApplicationController
     check_condition(has_permission?(Action.add_organization, @group))
   end
 
-  def check_moderator_of
-    check_moderator(@manufacturer)
+  def check_moderator_of_manufacturer
+    check_moderator_of(@manufacturer)
   end
 end

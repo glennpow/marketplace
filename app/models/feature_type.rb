@@ -8,6 +8,20 @@ class FeatureType < ActiveRecord::Base
   validates_attachment_size :image, Configuration.default_image_size_options
   
   searches_on :name, :description
-
-  named_scope :by_features, :order => "name ASC", :include => :features
+  
+  def self.find_all_for_featurable_type(featurable_type)
+    self.all(:conditions => [ "featurable_type IS NULL OR featurable_type = ?", featurable_type ], :order => "name ASC", :include => :features)
+  end
+  
+  def self.count_for_featurable_type(featurable_type)
+    self.count(:conditions => [ "featurable_type IS NULL OR featurable_type = ?", featurable_type ])
+  end
+  
+  def self.find_all_for_featurable(featurable)
+    self.find_all_for_featurable_type(featurable.class.to_s)
+  end
+  
+  def self.count_for_featurable(featurable)
+    self.count_for_featurable_type(featurable.class.to_s)
+  end
 end

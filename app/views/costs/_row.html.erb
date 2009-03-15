@@ -1,0 +1,12 @@
+<%= render_row(
+  indexer,
+  cost,
+  [
+    link_to_resource(cost.product),
+    h(cost.country.name),
+    render_currency(cost.amount)
+  ],
+  :actions => is_editor_of?(cost) ? [
+    icon_link_to(:edit, t(:edit), edit_cost_path(cost)),
+    icon_link_to(:delete, t(:delete), cost, :confirm => t(:are_you_sure), :method => :delete)
+  ] : nil) %>

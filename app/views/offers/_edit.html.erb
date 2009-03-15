@@ -1,5 +1,5 @@
 <% if defined?(product) && product %>
-  <%= render_field(t(:product, :scope => [ :marketplace ]), h(product.full_name)) %>
+  <%= render_field(t(:product, :scope => [ :marketplace ]), link_to_resource(product)) %>
 <% end %>
 
 <%= f.text_field :name, :required => true %>

@@ -1,0 +1,9 @@
+<% title t(:edit_object, :object => t(:cost, :scope => [ :marketplace ])) %>
+
+<%= render_heading(t(:edit_object, :object => t(:cost, :scope => [ :marketplace ]))) %>
+
+<% form_for :cost, :url => object_path, :html => { :method => :put } do |f| %>
+  <%= render :partial => 'edit', :locals => { :f => f, :cost => @cost, :product => @cost.product } %>
+
+  <%= f.submit t(:save) %>
+<% end %>
