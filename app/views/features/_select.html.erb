@@ -2,7 +2,9 @@
   <% if feature_type.features.any? %>
     <% if (included = features_attribute.included_for_type(feature_type.id)).nil? %>
       <p class="strong"><%= feature_type.name %></p>
-      <p class="form-field"><%= f.radio_button(feature_type.id.to_s, "0", :layout => false, :disabled => !included.nil?) %> <%= t(:none) %></p>
+      <% if feature_type.allow_none? %>
+        <p class="form-field"><%= f.radio_button(feature_type.id.to_s, "0", :layout => false, :disabled => !included.nil?) %> <%= t(:none) %></p>
+      <% end %>
       <% feature_type.features.each do |feature| %>
         <% if included.nil? || included[:feature_id] == feature.id %>
           <p class="form-field"><%= f.radio_button(feature_type.id.to_s, feature.id.to_s, :layout => false, :disabled => !included.nil?) %> <%= h(feature.name) %>

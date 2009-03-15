@@ -14,6 +14,7 @@ class CreateMarketplace < ActiveRecord::Migration
       t.string :featurable_type
       t.string :name, :null => false
       t.text :description
+      t.boolean :allow_none, :default => true
       t.string :image_file_name
       t.string :image_content_type
       t.integer :image_file_size

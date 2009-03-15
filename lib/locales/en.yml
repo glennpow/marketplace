@@ -28,6 +28,8 @@ en:
     vendor: Vendor
     vendor_representative: Vendor Representative
     features:
+      allow_none: Allow None
+      allow_none_hint: Allow a 'None' option to be selected for this Feature Type
       included_from_object: Included from {{object}}
     makes:
       makes_for_object:

@@ -6,6 +6,8 @@
   <%= render_field(t(:parent_feature_type, :scope => [ :marketplace ]), link_to_resource(feature_type.parent_feature_type)) %>
 <% end %>
 
+<%= render_field(t(:allow_none, :scope => [ :marketplace, :features ]), yes_no(feature_type.allow_none?)) %>
+
 <% unless feature_type.description.blank? %>
   <%= render_formatted(h(feature_type.description)) %>
 <% end %>

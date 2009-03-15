@@ -2,6 +2,9 @@
 
 <%= f.collection_select :parent_feature_type_id, parent_feature_types, :id, :name, { :include_blank => true } %>
 
+<%= f.yes_no_select :allow_none, :label => { :name => t(:allow_none, :scope => [ :marketplace, :features ]) },
+   :hint => t(:allow_none_hint, :scope => [ :marketplace, :features ]) %>
+
 <% if feature_type.try(:image?) %>
   <%= image_tag feature_type.image.url %>
 <% end %>
