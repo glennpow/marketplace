@@ -8,9 +8,9 @@ class ProductsController < ApplicationController
       if params[:duplicate_id]
         @duplicate = Product.find(params[:duplicate_id])
         @product.attributes=(@duplicate.attributes.except('id', 'created_at', 'updated_at'))
-        @duplicate.features_featurings_without_include.each do |featuring|
-          @product.features_featurings_without_include << Featuring.new(:feature_id => featuring.feature_id)
-          @product.features_without_include << Feature.find(featuring.feature_id)
+        @duplicate.features_featurings.each do |featuring|
+          @product.features_featurings << Featuring.new(:feature_id => featuring.feature_id)
+          @product.features << Feature.find(featuring.feature_id)
         end
       end
     end
@@ -68,10 +68,10 @@ class ProductsController < ApplicationController
       options[:selectable] = true
       options[:row] = 'products/results_row'
     
-      options[:conditions] = { "#{Product.table_name}.production_status_id" => ProductionStatus[:available].id }
+      options[:conditions] = { "#{Product.table_name}.production_status" => ProductionStatus[:available] }
       options[:conditions]["#{Product.table_name}.model_id"] = params[:models].keys if params[:models]
       if params[:features]
-        options[:include] = :featurings
+        options[:include] = :features_featurings_with_include
         options[:conditions]["#{Featuring.table_name}.feature_id"] = params[:features].keys
       end
     end

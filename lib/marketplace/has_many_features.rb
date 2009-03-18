@@ -7,45 +7,49 @@ module Marketplace
     module MacroMethods
       def has_many_features(*args)
         options = args.extract_options!
-        features_name = args.first || :features
+        features_name = args.first || "features"
         feature_name = features_name.to_s.singularize
         order_options = { :include => options[:order_by_type] ? :feature_type : [],
           :order => options[:order_by_type] ? "#{FeatureType.table_name}.name ASC, #{Feature.table_name}.name ASC" : "#{Feature.table_name}.name ASC" }
       
-        class_eval do
-          has_many "#{features_name}_featurings", :class_name => 'Featuring', :as => :featurable, :dependent => :destroy
-          has_many features_name, { :class_name => 'Feature', :through => "#{features_name}_featurings", :source => :feature }.merge(order_options)
-          
-          write_inheritable_attribute(:features_attribute_name, features_name)
-        end
-        
         if options[:include]
-          define_method "#{features_name}_featurings_with_include" do
-            self.send("#{features_name}_featurings_without_include") + [ options[:include] ].flatten.map do |include_name|
-              included = self.send(include_name)
-              included.nil? ? nil : included.send("#{included.class.read_inheritable_attribute(:features_attribute_name)}_featurings")
-            end.flatten.compact
-          end
+          class_eval do
+            has_many "#{features_name}_featurings".intern, :class_name => 'Featuring', :as => :featurable, :dependent => :destroy
+            has_many features_name.intern, { :class_name => 'Feature', :through => "#{features_name}_featurings".intern, :source => :feature }.merge(order_options)
 
-          define_method "#{features_name}_with_include" do
-            (self.send("#{features_name}_without_include") + [ options[:include] ].flatten.map do |include_name|
-              included = self.send(include_name)
-              included.nil? ? nil : included.send(included.class.read_inheritable_attribute(:features_attribute_name))
-            end.flatten.compact).uniq
+            includes = [ options[:include] ].flatten
+            self_class_name = self.to_s
+            self_attribute_name = self_class_name.underscore
+            self_table_name = self.table_name
+            finder_joins = ""
+            finder_where = "(#{Featuring.table_name}.featurable_type = '#{self_class_name}' AND #{Featuring.table_name}.featurable_id = " + '#{id})'
+            includes.each do |included|
+              included_reflection = self.reflect_on_association(included)
+              included_class_name = included_reflection.class_name
+              included_table_name = included_reflection.klass.table_name
+              if included_reflection.belongs_to?
+                included_foreign_key = included_reflection.options[:foreign_key] || "#{included}_id"
+                finder_joins += " LEFT JOIN #{included_table_name} ON #{included_table_name}.id = " + '#{' + included_foreign_key + '}'
+              else
+                included_foreign_key = included_reflection.options[:foreign_key] || "#{self_attribute_name}_id"
+                finder_joins += " LEFT JOIN #{included_table_name} ON #{included_table_name}.#{included_foreign_key} = " + '#{id}'
+              end
+              finder_where += " OR (#{Featuring.table_name}.featurable_type = '#{included_class_name}' AND #{Featuring.table_name}.featurable_id = #{included_table_name}.id)"
+            end
+            finder_sql = "SELECT #{Featuring.table_name}.*
+              FROM #{Featuring.table_name}
+              #{finder_joins}
+              WHERE #{finder_where}"
+            
+            has_many "#{features_name}_featurings_with_include".intern, :class_name => 'Featuring', :as => :featurable,
+              :include => includes, :finder_sql => finder_sql
+            has_many "#{features_name}_with_include".intern, { :class_name => 'Feature', :through => "#{features_name}_featurings_with_include".intern, :source => :feature }.merge(order_options)
           end
         else
-          define_method "#{features_name}_featurings_with_include" do
-            self.send("#{features_name}_featurings_without_include")
+          class_eval do
+            has_many "#{features_name}_featurings".intern, :class_name => 'Featuring', :as => :featurable, :dependent => :destroy
+            has_many features_name.intern, { :class_name => 'Feature', :through => "#{features_name}_featurings".intern, :source => :feature }.merge(order_options)
           end
-
-          define_method "#{features_name}_with_include" do
-            self.send("#{features_name}_without_include")
-          end
-        end
-          
-        class_eval do
-          alias_method_chain "#{features_name}_featurings", :include
-          alias_method_chain features_name, :include
         end
   
         define_method "#{feature_name}_for_type" do |feature_type|
@@ -68,7 +72,7 @@ module Marketplace
           if features = attributes.delete(features_name)
             feature_ids = features.values
             destroyed = []
-            featurings = self.send("#{features_name}_featurings_without_include")
+            featurings = self.send("#{features_name}_featurings")
             featurings.each do |featuring|
               destroyed << featuring if feature_ids.delete(featuring.feature_id).nil?
             end
@@ -85,16 +89,16 @@ module Marketplace
     end
     
     class FeaturesAttribute
-      def initialize(featurable = nil)
+      def initialize(featurable = nil, features_name = nil)
         @feature_ids = {}
         @included_feature_ids = {}
         if featurable
-          features_attribute_name = featurable.class.read_inheritable_attribute(:features_attribute_name)
-          featurings = featurable.send("#{features_attribute_name}_featurings", :include => [ :feature, :featurable ])
+          features_name ||= "features"
+          featurings = featurable.send("#{features_name}_featurings_with_include", :include => [ :feature, :featurable ])
           featurings.each do |featuring|
             @feature_ids[featuring.feature.feature_type_id.to_s] = featuring.feature_id
           end
-          included_featurings = featurings - featurable.send("#{features_attribute_name}_featurings_without_include", :include => :feature)
+          included_featurings = featurings - featurable.send("#{features_name}_featurings", :include => :feature)
           included_featurings.each do |featuring|
             @included_feature_ids[featuring.feature.feature_type_id.to_s] = { :feature_id => featuring.feature_id, :featurable => featuring.featurable }
           end

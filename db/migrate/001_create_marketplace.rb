@@ -53,7 +53,7 @@ class CreateMarketplace < ActiveRecord::Migration
       t.string :image_content_type
       t.integer :image_file_size
       t.datetime :image_updated_at
-      t.references :production_status
+      t.string :production_status
       t.timestamps
     end
     
@@ -74,7 +74,7 @@ class CreateMarketplace < ActiveRecord::Migration
       t.string :image_content_type
       t.integer :image_file_size
       t.datetime :image_updated_at
-      t.references :production_status
+      t.string :production_status
       t.integer :technology_level
       t.timestamps
     end
@@ -91,7 +91,7 @@ class CreateMarketplace < ActiveRecord::Migration
       t.datetime :image_updated_at
       t.string :code
       t.float :amount
-      t.references :offer_type, :null => false
+      t.string :offer_type, :null => false
       t.date :start_date
       t.date :end_date
       t.timestamps
@@ -126,7 +126,7 @@ class CreateMarketplace < ActiveRecord::Migration
       t.integer :image_file_size
       t.datetime :image_updated_at
       t.string :sku, :null => false
-      t.references :production_status
+      t.string :production_status
       t.timestamps
     end
     

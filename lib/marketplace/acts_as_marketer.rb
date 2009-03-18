@@ -47,7 +47,7 @@ module Marketplace
           def moderated_manufacturers
             return Manufacturer.all if has_administrator_role?
             #@moderated_manufacturers ||= self.moderated(Manufacturer)
-            @moderated_manufacturers ||= Manufacturer.all(:include => { :organization => { :group => :memberships } }, :conditions => { "#{Membership.table_name}.user_id" => self, "#{Membership.table_name}.role_id" => Role.administrator.id })
+            @moderated_manufacturers ||= Manufacturer.all(:include => { :organization => { :group => :memberships } }, :conditions => { "#{Membership.table_name}.user_id" => self, "#{Membership.table_name}.role" => Role[:administrator].key })
           end
   
           def is_manufacturer_representative?
@@ -71,7 +71,7 @@ module Marketplace
           def moderated_vendors
             return Vendor.all if has_administrator_role?
             #@moderated_vendors ||= self.moderated_groups_of(Vendor)
-            @moderated_vendors ||= Vendor.all(:include => { :organization => { :group => :memberships } }, :conditions => { "#{Membership.table_name}.user_id" => self, "#{Membership.table_name}.role_id" => Role.administrator.id })
+            @moderated_vendors ||= Vendor.all(:include => { :organization => { :group => :memberships } }, :conditions => { "#{Membership.table_name}.user_id" => self, "#{Membership.table_name}.role" => Role[:administrator].key })
           end
   
           def is_vendor_representative?

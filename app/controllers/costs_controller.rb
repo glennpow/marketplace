@@ -3,12 +3,12 @@ class CostsController < ApplicationController
     belongs_to :product, :manufacturer
 
     response_for :create do |format|
-      format.html { redirect_to costs_path }
+      format.html { redirect_to objects_path }
       format.js
     end
 
     response_for :update do |format|
-      format.html { redirect_to costs_path }
+      format.html { redirect_to objects_path }
       format.js
     end
   end

@@ -48,6 +48,6 @@ class Product < ActiveRecord::Base
   end
     
   def available?
-    self.production_status_id == ProductionStatus[:available].id
+    self.production_status == ProductionStatus[:available]
   end
 end
