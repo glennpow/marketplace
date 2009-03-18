@@ -12,6 +12,8 @@ class ProductsController < ApplicationController
           @product.features_featurings << Featuring.new(:feature_id => featuring.feature_id)
           @product.features << Feature.find(featuring.feature_id)
         end
+logger.info("features=#{@product.features.inspect}")
+logger.info("featurings=#{@product.features_featurings.inspect}")
       end
     end
   end

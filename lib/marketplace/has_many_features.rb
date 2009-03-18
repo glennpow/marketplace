@@ -53,10 +53,10 @@ module Marketplace
         end
   
         define_method "#{feature_name}_for_type" do |feature_type|
-          self.send(features_name, :conditions => { :feature_type_id => feature_type })
+          self.send(features_name).detect { |feature| feature.feature_type_id == feature_type.id }
         end
   
-        define_method "has_#{feature_name}_type" do |feature_type|
+        define_method "has_#{feature_name}_type?" do |feature_type|
           !self.send("#{feature_name}_for_type", feature_type).nil?
         end
   

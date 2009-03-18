@@ -2,7 +2,7 @@
   indexer,
   make,
   [
-    link_to_resource(make),
+    link_to_resource(make) + (is_editor_of?(make) ? ' (' + e(make.production_status, t(:unknown)) + ')' : ''),
     link_to_resource(make.manufacturer),
     is_editor_of?(make) ? h(make.models.length) : h(make.available_models.length),
     is_editor_of?(make) ? h(make.products.length) : h(make.available_products.length),

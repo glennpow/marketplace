@@ -52,9 +52,9 @@
           <% feature = product.feature_for_type(feature_type) %>
           <% if !feature.nil? %>
             <td class="comparer-td feature<%= index == 0 ? ' first' : '' %>">
-              <p class="feature-type-name"><%= feature_type.name %></p>
-              <p class="feature-name"><%= feature.name %></p>
-              <p class="feature-description"><%= feature.description %></p>
+              <p class="feature-type-name"><%= h(feature_type.name) %></p>
+              <p class="feature-name"><%= h(feature.name) %></p>
+              <p class="feature-description"><%= h(feature.description) %></p>
             </td>
           <% else %>
             <td class="comparer-td no-feature<%= index == 0 ? ' first' : '' %>"></td>

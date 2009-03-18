@@ -11,7 +11,7 @@ class Model < ActiveRecord::Base
   has_enumeration :production_status
   has_many_articles
   
-  validates_presence_of :name, :description, :make
+  validates_presence_of :name, :make
   validates_attachment_size :image, Configuration.default_image_size_options
   
   searches_on :name, :description

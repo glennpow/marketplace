@@ -7,7 +7,7 @@ class Offer < ActiveRecord::Base
   has_enumeration :offer_type
   has_many_articles
 
-  validates_presence_of :name, :description
+  validates_presence_of :name
   validates_uniqueness_of :code, :allow_nil => true
   validates_attachment_size :image, Configuration.default_image_size_options
   

@@ -3,7 +3,7 @@ class Feature < ActiveRecord::Base
   has_attached_file :image, Configuration.default_image_options
   has_many :featurings, :dependent => :destroy
   
-  validates_presence_of :name, :description, :feature_type
+  validates_presence_of :name, :feature_type
   validates_attachment_size :image, Configuration.default_image_size_options
   
   searches_on :name, :description

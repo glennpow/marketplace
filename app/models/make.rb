@@ -11,7 +11,7 @@ class Make < ActiveRecord::Base
   has_enumeration :production_status
   has_many_articles
   
-  validates_presence_of :name, :description, :manufacturer
+  validates_presence_of :name, :manufacturer
   validates_attachment_size :image, Configuration.default_image_size_options
   
   searches_on :name, :description
