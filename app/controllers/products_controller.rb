@@ -7,7 +7,7 @@ class ProductsController < ApplicationController
     before :new do
       if params[:duplicate_id]
         @duplicate = Product.find(params[:duplicate_id])
-        @product.attributes=(@duplicate.attributes.except('id', 'created_at', 'updated_at'))
+        @product.attributes=(@duplicate.attributes.except('id', 'created_at', 'updated_at', 'image_file_name', 'image_content_type', 'image_file_size', 'image_updated_at'))
         @duplicate.features_featurings.each do |featuring|
           @product.features_featurings << Featuring.new(:feature_id => featuring.feature_id)
           @product.features << Feature.find(featuring.feature_id)

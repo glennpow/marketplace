@@ -65,7 +65,11 @@ module MarketplaceHelper
   
   def feature_select(form_builder, name, options = {}, html_options = {})
     featurable = form_builder.object
+logger.info("featurable.ings=#{featurable.features_featurings.inspect}")
     features_attribute = Marketplace::HasManyFeatures::FeaturesAttribute.new(featurable)
+logger.info("featurable.ings2=#{featurable.features_featurings.inspect}")
+logger.info("feature ids=#{features_attribute.feature_ids.inspect}")
+logger.info("included feature ids=#{features_attribute.included_feature_ids.inspect}")
     capture do
       form_builder.fields_for(name, features_attribute) do |f|
         locals = {

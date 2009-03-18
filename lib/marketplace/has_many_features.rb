@@ -86,16 +86,18 @@ module Marketplace
     end
     
     class FeaturesAttribute
+      attr_reader :feature_ids, :included_feature_ids
+      
       def initialize(featurable = nil, features_name = nil)
         @feature_ids = {}
         @included_feature_ids = {}
         if featurable
           features_name ||= "features"
-          featurings = featurable.send("#{features_name}_featurings_with_include", :include => [ :feature, :featurable ])
+          featurings = featurable.send("#{features_name}_featurings")
           featurings.each do |featuring|
             @feature_ids[featuring.feature.feature_type_id.to_s] = featuring.feature_id
           end
-          included_featurings = featurings - featurable.send("#{features_name}_featurings", :include => :feature)
+          included_featurings = featurable.send("#{features_name}_featurings_with_include", :include => [ :feature, :featurable ]) - featurings
           included_featurings.each do |featuring|
             @included_feature_ids[featuring.feature.feature_type_id.to_s] = { :feature_id => featuring.feature_id, :featurable => featuring.featurable }
           end
