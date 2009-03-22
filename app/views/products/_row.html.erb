@@ -4,7 +4,7 @@
   indexer,
   product,
   [
-    link_to_resource(product) + (is_editor_of?(product) ? ' (' + e(product.production_status, t(:unknown)) + ')' : ''),
+    link_to_resource(product) + (is_editor_of?(product) && !product.available? ? ' (' + e(product.production_status, t(:unknown)) + ')' : ''),
     h(product.sku),
     link_to_resource(product.manufacturer),
     link_to_resource(product.make),

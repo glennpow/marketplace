@@ -8,7 +8,7 @@
 
 <%= enumeration_select(f, :production_status) %>
 
-<%= f.text_area :description, :required => true, :preview => true, :hint => link_to_textile_hint %>
+<%= f.text_area :description, :preview => true, :hint => link_to_textile_hint %>
 
 <% if make.valid_feature_types? %>
   <%= render_heading(tp(:feature, :scope => [ :marketplace ])) %>

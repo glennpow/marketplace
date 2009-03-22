@@ -45,11 +45,16 @@ class ProductsController < ApplicationController
         options[:search] = true
         options[:include] = [ { :make => { :manufacturer => :organization } }, :model, :prices ]
 
+        options[:conditions] = {}
         if @model
-          options[:conditions] = [ "#{Product.table_name}.model_id = ?", @model.id ]
+          options[:conditions]["#{Product.table_name}.model_id"] = @model
         elsif @offer
           options[:include] << :offers
-          options[:conditions] = [ "#{Offer.table_name}.id = ?", @offer.id ]
+          options[:conditions]["#{Offer.table_name}.id"] = @offer
+        end
+        
+        unless has_administrator_role? || is_editor_of?(@model)
+          options[:conditions]["#{Product.table_name}.production_status"] = ProductionStatus[:available]
         end
       end
     end

@@ -12,7 +12,6 @@ class ModelsController < ApplicationController
   
   def index
     respond_with_indexer do |options|
-      options[:conditions] = [ "make_id = ?", @make.id ] unless @make.nil?
       options[:default_sort] = :name
       options[:headers] = [
         { :name => t(:name), :sort => :name },
@@ -22,6 +21,11 @@ class ModelsController < ApplicationController
       ]
       options[:search] = true
       options[:include] = [ { :manufacturer => :organization }, :make, :products ]
+
+      options[:conditions] = @make.nil? ? {} : { "#{Model.table_name}.make_id" => @make }
+      unless has_administrator_role? || is_editor_of?(@make)
+        options[:conditions]["#{Model.table_name}.production_status"] = ProductionStatus[:available]
+      end
     end
   end
   
