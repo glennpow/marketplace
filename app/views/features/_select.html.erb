@@ -7,8 +7,9 @@
       <% end %>
       <% feature_type.features.each do |feature| %>
         <% if included.nil? || included[:feature_id] == feature.id %>
-          <p class="form-field"><%= f.radio_button(feature_type.id.to_s, feature.id.to_s, :layout => false, :disabled => !included.nil?) %> <%= h(feature.name) %>
-            <%= link_to_function("", "hint_window('feature_type', '#{summary_feature_type_path(feature.feature_type, :feature_id => feature.id, :anchor => feature.name.underscore)}', 400, 500);", :title => t(:more_info, :scope => [ :site_content ]), :class => 'hint-mark') %>
+          <p class="form-field">
+            <%= f.radio_button(feature_type.id.to_s, feature.id.to_s, :layout => false, :disabled => !included.nil?) %>
+            <%= link_to_function(h(feature.name), "hint_window('feature_type', '#{summary_feature_type_path(feature.feature_type, :feature_id => feature.id, :anchor => feature.name.underscore)}', 400, 500);", :title => t(:more_info, :scope => [ :marketplace ])) %>
             <% if included && included[:feature_id] == feature.id %>
               <span class="hint"><%= t(:included_from_object, :scope => [ :marketplace, :features ], :object => "#{included[:featurable].name} (#{included[:featurable].class.to_s})") %></span>
             <% end %>

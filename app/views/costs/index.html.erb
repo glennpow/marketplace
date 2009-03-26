@@ -1,9 +1,7 @@
 <% title tp(:cost, :scope => [ :marketplace ]) %>
 
-<%= render_heading(tp(:cost, :scope => [ :marketplace ])) %>
+<%= render_indexer(@indexer) %>
 
 <% if is_editor_of?(@product) %>
-  <% @indexer.footers = link_to(t(:create_object, :object => t(:cost_for_object, :scope => [ :marketplace ], :object => h(@product.name))), new_product_cost_path(@product)) %>
+  <% page_actions << icon_link_to(:add_large, t(:create_object, :object => t(:cost_for_object, :scope => [ :marketplace ], :object => h(@product.name))), new_product_cost_path(@product)) %>
 <% end %>
-
-<%= render_indexer(@indexer) %>

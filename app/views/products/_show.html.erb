@@ -1,12 +1,11 @@
-<table class="show-table" align="center">
+<table class="show-table">
   <tr>
     <td>
       <%= render_field(image_tag(product.image.url)) %>
-
-      <%= render_heading(h(product.full_name),
-        :actions => is_editor_of?(product) ? icon_link_to(:edit, t(:edit), edit_model_product_path(product.model, product)) : nil) %>
     </td>
     <td>
+      <%= render_field(t(:name), h(product.name)) %>
+
       <%= render_field(t(:sku, :scope => [ :marketplace ]), h(product.sku)) %>
 
       <%= render_field(t(:manufacturer, :scope => [ :marketplace ]), link_to_resource(product.manufacturer)) %>
@@ -22,7 +21,7 @@
       <%= render_field(t(:rating, :scope => [ :content ]), render_rating(product)) %>
 
       <%= render_field(tp(:review, :scope => [ :content ]), product.reviews.length,
-        :actions => product.reviews.any? ? link_to(t(:view), product_reviews_path(product)) : nil) %>
+        :actions => product.reviews.any? ? link_to(t(:view), url_for(:anchor => 'reviews')) : nil) %>
 
       <%= render_field(t(:price, :scope => [ :marketplace ]), render_price(product, current_portal(Vendor))) %>
       
@@ -34,7 +33,7 @@
 </table>
 
 <% unless product.description.blank? %>
-  <%= render_formatted(h(product.description)) %>
+  <%= render_text_area(h(product.description)) %>
 <% end %>
 
 <% if product.valid_feature_types? %>
@@ -43,13 +42,13 @@
 <% end %>
 
 <%= render_heading(tp(:article, :scope => [ :content ]), :actions =>
-  is_editor_of?(product) ? link_to(t(:view), product_articles_path(product)) : nil) %>
+  is_editor_of?(product) ? link_to(t(:view_all), product_articles_path(product)) : nil) %>
+
+<% for_each_by_locale(product.articles) do |article| %>
+  <%= render_article(article) %>
+<% end %>
 
 <% if is_supplier? %>
   <%= render_heading(tp(:cost, :scope => [ :marketplace ]), :actions =>
-    is_editor_of?(product) ? link_to(t(:view), product_costs_path(product)) : nil) %>
-<% end %>
-
-<% for_all_by_locale(product.articles) do |article| %>
-  <%= render_article(article) %>
+    is_editor_of?(product) ? link_to(t(:view_all), product_costs_path(product)) : nil) %>
 <% end %>

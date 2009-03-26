@@ -6,12 +6,14 @@ module MarketplaceHelper
   def feature_item(feature, options = {})
     returning('') do |content|
       if options[:type]
-        content << content_tag(:span, feature.feature_type.name, :class => 'label')
+        content << content_tag(:span, h(feature.feature_type.name), :class => 'label')
         content << " : "
       end
-      content << content_tag(:span, feature.name, :class => 'value')
-      content << " "
-      content << link_to_function("", "hint_window('feature_type', '#{summary_feature_type_path(feature.feature_type, :feature_id => feature.id, :anchor => feature.name.underscore)}', 400, 500);", :title => t(:more_info, :scope => [ :site_content ]), :class => 'hint-mark')
+      content << content_tag(:span,
+        link_to_function(h(feature.name),
+          "hint_window('feature_type', '#{summary_feature_type_path(feature.feature_type, :feature_id => feature.id, :anchor => feature.name.underscore)}', 400, 500);",
+          :title => t(:more_info, :scope => [ :marketplace ])),
+        :class => 'value')
     end
   end
   

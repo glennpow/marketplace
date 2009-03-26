@@ -1,12 +1,12 @@
 <% title tp(:product, :scope => [ :marketplace ]) %>
 
-<%= render_heading(tp(:product, :scope => [ :marketplace ])) %>
-
-<%= render_actions([
-  icon_link_to(:search, defined?(@user) ? t(:search) : t(:revise_search, :scope => [ :site_content ]), search_products_path(params.except(:action, :commit))),
-  link_to_function(icon_label(:compare, t(:compare_selected, :scope => [ :marketplace, :products ])), indexer_submit(@indexer, { :action => 'compare' }, { :allow_none => false }), :class => 'image-label-link'),
-  defined?(@user) ? link_to_function(icon_label(:clear, t(:remove_selected, :scope => [ :marketplace, :products ])), indexer_submit(@indexer, { :action => 'unwatch' }, { :allow_none => false, :method => :post, :confirm => t(:are_you_sure) }), :class => 'image-label-link') : nil,
-  current_vendor ? icon_link_to(:watched, t(:view_object, :object => t(:inventory_for_object, :scope => [ :marketplace ], :object => h(current_vendor.name))), vendor_prices_path(current_vendor)) : nil
-]) %>
-
 <%= render_indexer(@indexer) %>
+
+<% page_actions << icon_link_to(:search, defined?(@user) ? t(:search) : t(:revise_search, :scope => [ :site_content ]), search_products_path(params.except(:action, :commit))) %>
+<% page_actions << link_to_function(icon_label(:compare, t(:compare_selected, :scope => [ :marketplace, :products ])), indexer_submit(@indexer, { :action => 'compare' }, { :allow_none => false }), :class => 'image-label-link') %>
+<% if defined?(@user) %>
+  <% page_actions << link_to_function(icon_label(:clear, t(:remove_selected, :scope => [ :marketplace, :products ])), indexer_submit(@indexer, { :action => 'unwatch' }, { :allow_none => false, :method => :post, :confirm => t(:are_you_sure) }), :class => 'image-label-link') %>
+<% end %>
+<% if current_vendor %>
+  <% page_actions << icon_link_to(:watched, t(:view_object, :object => t(:inventory_for_object, :scope => [ :marketplace ], :object => h(current_vendor.name))), vendor_prices_path(current_vendor)) %>
+<% end %>

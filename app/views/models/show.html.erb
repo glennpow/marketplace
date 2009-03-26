@@ -1,7 +1,11 @@
-<% title t(:model, :scope => [ :marketplace ]) %>
+<% title h(@model.full_name) %>
 
 <%= render :partial => 'show', :locals => { :model => @model } %>
 
 <%= render_comments(@model) %>
 
 <%= render_reviews(@model) %>
+
+<% if is_editor_of?(@model) %>
+  <% page_actions << icon_link_to(:edit, t(:edit_object, :object => t(:model, :scope => [ :marketplace ])), edit_model_path(@model)) %>
+<% end %>

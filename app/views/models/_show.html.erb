@@ -1,12 +1,11 @@
-<table class="show-table" align="center">
+<table class="show-table">
   <tr>
     <td>
       <%= image_tag model.image.url %>
-
-      <%= render_heading(h(model.name),
-        :actions => is_editor_of?(model) ? icon_link_to(:edit, t(:edit), edit_make_model_path(model.make, model)) : nil) %>
     </td>
     <td>
+      <%= render_field(t(:name), h(model.name)) %>
+
       <%= render_field(t(:manufacturer, :scope => [ :marketplace ]), link_to_resource(model.manufacturer)) %>
 
       <%= render_field(t(:make, :scope => [ :marketplace ]), link_to_resource(model.make)) %>
@@ -18,13 +17,13 @@
       <%= render_field(t(:rating, :scope => [ :content ]), render_rating(model)) %>
 
       <%= render_field(tp(:review, :scope => [ :content ]), model.reviews.length,
-        :actions => model.reviews.any? ? link_to(t(:view), model_reviews_path(model)) : nil) %>
+        :actions => model.reviews.any? ? link_to(t(:view), url_for(:anchor => 'reviews')) : nil) %>
     </td>
   </tr>
 </table>
 
 <% unless model.description.blank? %>
-  <%= render_formatted(h(model.description)) %>
+  <%= render_text_area(h(model.description)) %>
 <% end %>
 
 <% if model.valid_feature_types? %>
@@ -32,12 +31,13 @@
     model.features.map { |feature| feature_item(feature, :type => true) }) %>
 <% end %>
 
-<%= render_field(tp(:product, :scope => [ :marketplace ]), model.products.length,
-  :actions => link_to(t(:view), model_products_path(model))) %>
+<%= render_heading(tp(:product, :scope => [ :marketplace ]), :actions => link_to(t(:view_all), model_products_path(model))) %>
+
+<%= render_field((is_editor_of?(model) ? model.products(:limit => 10) : model.available_products(:limit => 10)).map { |product| link_to_resource(product) }) %>
 
 <%= render_heading(tp(:article, :scope => [ :content ]), :actions =>
-  is_editor_of?(model) ? link_to(t(:view), model_articles_path(model)) : nil) %>
+  is_editor_of?(model) ? link_to(t(:view_all), model_articles_path(model)) : nil) %>
 
-<% for_all_by_locale(model.articles) do |article| %>
+<% for_each_by_locale(model.articles) do |article| %>
   <%= render_article(article) %>
 <% end %>

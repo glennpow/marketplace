@@ -23,7 +23,7 @@
         <table class="searcher-table full-width">
           <tr>
             <td class="searcher-td searcher-left-td">
-              <%= icon_label(:search, t(:make, :scope => [ :marketplace ])) %>
+              <%= t(:make, :scope => [ :marketplace ]) %>
             </td>
             <td class="searcher-td">
               <div class="search-box-list">
@@ -42,7 +42,7 @@
           
           <tr>
             <td class="searcher-td searcher-left-td">
-              <%= icon_label(:search, t(:model, :scope => [ :marketplace ])) %>
+              <%= t(:model, :scope => [ :marketplace ]) %>
             </td>
             <td class="searcher-td">
               <% Make.not_empty.sort { |x, y| x.name <=> y.name }.each do |make| %>
@@ -77,8 +77,7 @@
             <% if feature_type.features.any? %>
               <tr>
                 <td class="searcher-td searcher-left-td">
-                  <%= icon_label(:search, feature_type.name) %>
-                  <a class='hint-mark' href="#" title="<%= t(:more_info, :scope => [ :site_content ]) %>" onclick="hint_window('feature_type', '<%= summary_feature_type_path(feature_type) %>', 400, 500);"></a>
+                  <%= link_to_function(h(feature_type.name), "hint_window('feature_type', '#{summary_feature_type_path(feature_type)}', 400, 500);", :title => t(:more_info, :scope => [ :marketplace ])) %>
                 </td>
                 <td class="searcher-td">
                   <div class="search-box-list">
@@ -98,8 +97,7 @@
             <% feature_type.child_feature_types.each do |child_feature_type| %>
               <tr>
                 <td class="searcher-td searcher-left-td">
-                  <%= icon_label(:search, child_feature_type.name) %>
-                  <a class='hint-mark' href="#" title="<%= t(:more_info, :scope => [ :site_content ]) %>" onclick="hint_window('feature_type', '<%= summary_feature_type_path(child_feature_type) %>', 400, 500);"></a>
+                  <%= link_to_function(h(child_feature_type.name), "hint_window('feature_type', '#{summary_feature_type_path(child_feature_type)}', 400, 500);", :title => t(:more_info, :scope => [ :marketplace ])) %>
                 </td>
                 <td class="searcher-td">
                   <div class="search-box-list">

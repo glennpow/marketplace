@@ -9,7 +9,7 @@
 <%= render_field(t(:allow_none, :scope => [ :marketplace, :features ]), yes_no(feature_type.allow_none?)) %>
 
 <% unless feature_type.description.blank? %>
-  <%= render_formatted(h(feature_type.description)) %>
+  <%= render_text_area(h(feature_type.description)) %>
 <% end %>
 
 <% if feature_type.child_feature_types.any? %>

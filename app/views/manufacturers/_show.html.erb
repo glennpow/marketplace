@@ -1,4 +1,5 @@
 <%= render :partial => 'organizations/show', :locals => { :organization => manufacturer.organization } %>
 
-<%= render_field(tp(:make, :scope => [ :marketplace ]), is_editor_of?(manufacturer) ? manufacturer.makes.length : manufacturer.available_makes.length,
-  :actions => link_to(t(:view), manufacturer_makes_path(manufacturer))) %>
+<%= render_heading(tp(:make, :scope => [ :marketplace ]), :actions => link_to(t(:view_all), manufacturer_makes_path(manufacturer))) %>
+
+<%= render_field((is_editor_of?(manufacturer) ? manufacturer.makes(:limit => 10) : manufacturer.available_makes(:limit => 10)).map { |make| link_to_resource(make) }) %>

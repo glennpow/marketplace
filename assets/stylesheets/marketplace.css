@@ -4,7 +4,7 @@
 }
 
 .search-box-list ul {
-  width: 45em;
+  width: 30em;
 }
 
 .search-box-list li {
@@ -23,10 +23,11 @@
 
 td.results-row-td {
   text-align: left;
+  vertical-align: top;
 }
 
 .results-row-line {
-  height: 30px;
+  height: 20px;
 }
 
 .comparer {

@@ -6,7 +6,6 @@ en:
     consumer: Consumer
     cost: Cost
     cost_for_object: Cost for {{object}}
-    details_on_object: Details on {{object}}
     feature: Feature
     feature_type: Feature Type
     inventory_for_object: "{{object}} Inventory"
@@ -14,6 +13,7 @@ en:
     manufacturer: Manufacturer
     manufacturer_representative: Manufacturer Representative
     model: Model
+    more_info: More Info
     offer: Special Offer
     parent_feature_type: Parent Feature Type
     price: Price
@@ -21,6 +21,7 @@ en:
       one: Price for {{object}}
       other: Prices for {{object}}
     product: Product
+    product_details: Product Details
     production_status: Production Status
     offer_provider: Provider
     quote_request: Quote Request

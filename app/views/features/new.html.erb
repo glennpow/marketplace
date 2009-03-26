@@ -1,9 +1,7 @@
 <% title t(:create_object, :object => t(:feature, :scope => [ :marketplace ])) %>
 
-<%= render_heading(t(:create_object, :object => t(:feature, :scope => [ :marketplace ]))) %>
-
 <% form_for :feature, :url => objects_path do |f| %>
   <%= render :partial => 'edit', :locals => { :f => f, :feature => @feature, :feature_types => @feature_types } %>
 
-  <%= f.submit t(:create) %>
+  <%= f.submit_with_cancel(:submit => t(:create)) %>
 <% end %>

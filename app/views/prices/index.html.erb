@@ -1,15 +1,11 @@
-<% title tp(:price, :scope => [ :marketplace ]) %>
-
 <% if @vendor %>
-  <%= render_heading(t(:inventory_for_object, :scope => [ :marketplace ], :object => @vendor.name)) %>
+  <% title t(:inventory_for_object, :scope => [ :marketplace ], :object => @vendor.name) %>
 <% elsif @product %>
-  <%= render_heading(t(:prices_for_object, :scope => [ :marketplace ], :count => @indexer.collection.total_entries, :object => @product.full_name)) %>
-<% end %>
-
-<% if is_editor_of?(@vendor) %>
-  <%= render_actions([ icon_link_to(:add_large, t(:add_object, :object => tp(:product, :scope => [ :marketplace ])), set_current_organization_path(@vendor.organization_id, :redirect => products_path)) ]) %>
-
-  <% @indexer.footers = link_to(t(:add_object, :object => tp(:product, :scope => [ :marketplace ])), set_current_organization_path(@vendor.organization_id, :redirect => products_path)) %>
+  <% title t(:prices_for_object, :scope => [ :marketplace ], :count => @indexer.collection.total_entries, :object => @product.full_name) %>
 <% end %>
 
 <%= render_indexer(@indexer) %>
+
+<% if is_editor_of?(@vendor) %>
+  <% page_actions << icon_link_to(:add_large, t(:add_object, :object => tp(:product, :scope => [ :marketplace ])), set_current_organization_path(@vendor.organization_id, :redirect => products_path)) %>
+<% end %>

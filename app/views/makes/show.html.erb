@@ -1,7 +1,11 @@
-<% title t(:make, :scope => [ :marketplace ]) %>
+<% title h(@make.full_name) %>
 
 <%= render :partial => 'show', :locals => { :make => @make } %>
 
 <%= render_comments(@make) %>
 
 <%= render_reviews(@make) %>
+
+<% if is_editor_of?(@make) %>
+  <% page_actions << icon_link_to(:edit, t(:edit_object, :object => t(:make, :scope => [ :marketplace ])), edit_make_path(@make)) %>
+<% end %>

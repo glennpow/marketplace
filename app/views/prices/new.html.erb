@@ -1,12 +1,10 @@
-<% title t(:add_object, :object => t(:price, :scope => [ :marketplace ])) %>
-
-<%= render_heading(t(:add_to_inventory, :scope => [ :marketplace, :products ])) %>
+<% title t(:add_to_inventory, :scope => [ :marketplace, :products ]) %>
   
 <% form_for :price, :url => vendor_prices_path(@vendor) do |f| %>
   <%= render :partial => 'edit', :locals => { :f => f, :price => @price, :product => @product, :vendor => @vendor } %>
   
   <%= hidden_field_tag :for_product_id, @product.id %>
   
-  <%= f.submit t(:add) %>
+  <%= f.submit_with_cancel(:submit => t(:add)) %>
 <% end %>
 

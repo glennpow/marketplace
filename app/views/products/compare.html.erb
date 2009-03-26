@@ -23,9 +23,17 @@
     </tr>
     
     <tr class="comparer-tr">
+      <% @products.each do |product| %>
+        <td class="comparer-td">
+          <div class="separator"></div>
+        </td>
+      <% end %>
+    </tr>
+    <tr class="comparer-tr">
+      
       <% @products.each_with_index do |product, index| %>
         <td class="comparer-td<%= index == 0 ? ' first' : '' %>">
-          <div class="separator top"></div>
+          <p><%= icon_link_to(:details, t(:product_details, :scope => [ :marketplace ]), product_path(product), :class => 'product-details') %></p>
           <p><%= render_watching(product, :type => :button) %></p>
           <% if logged_in? %>
             <% unless current_portal(Vendor).nil? %>
@@ -40,8 +48,14 @@
               <p><%= button_link_to(t(:request_quote, :scope => [ :marketplace, :quote_requests ]), new_vendor_quote_request_path(current_portal(Vendor), :product_id => product.id)) %></p>
             <% end %>
           <% end %>
-          <p><%= icon_link_to(:details, t(:details_on_object, :scope => [ :marketplace ], :object => product.full_name), product_path(product)) %></p>
-          <div class="separator bottom"></div>
+        </td>
+      <% end %>
+    </tr>
+    
+    <tr class="comparer-tr">
+      <% @products.each do |product| %>
+        <td class="comparer-td">
+          <div class="separator"></div>
         </td>
       <% end %>
     </tr>
@@ -64,9 +78,17 @@
     <% end %>
 
     <tr class="comparer-tr">
+      <% @products.each do |product| %>
+        <td class="comparer-td">
+          <div class="separator"></div>
+        </td>
+      <% end %>
+    </tr>
+
+    <tr class="comparer-tr">
       <% @products.each_with_index do |product, index| %>
         <td class="comparer-td<%= index == 0 ? ' first' : '' %>">
-          <div class="separator top"></div>
+          <p><%= icon_link_to(:details, t(:product_details, :scope => [ :marketplace ]), product_path(product), :class => 'product-details') %></p>
           <p><%= render_watching(product, :type => :button) %></p>
           <% if logged_in? %>
             <% unless current_portal(Vendor).nil? %>
@@ -81,8 +103,6 @@
               <p><%= button_link_to(t(:request_quote, :scope => [ :marketplace, :quote_requests ]), new_vendor_quote_request_path(current_portal(Vendor), :product_id => product.id)) %></p>
             <% end %>
           <% end %>
-          <p><%= icon_link_to(:details, t(:details_on_object, :scope => [ :marketplace ], :object => product.full_name), product_path(product)) %></p>
-          <div class="separator bottom"></div>
         </td>
       <% end %>
     </tr>

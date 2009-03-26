@@ -1,17 +1,11 @@
-<% title tp(:make, :scope => [ :marketplace ]) %>
-
 <% if @manufacturer %>
-  <%= render_heading(t(:makes_for_object, :scope => [ :marketplace, :makes ], :count => @indexer.collection.total_entries, :object => h(@manufacturer.name))) %>
+  <% title t(:makes_for_object, :scope => [ :marketplace, :makes ], :count => @indexer.collection.total_entries, :object => h(@manufacturer.name)) %>
 <% else %>
-  <%= render_heading(tp(:make, :scope => [ :marketplace ])) %>
-<% end %>
-
-<% if is_editor_of?(@manufacturer) %>
-  <%= render_actions([
-    icon_link_to(:add, t(:create_object, :object => t(:make, :scope => [ :marketplace ])), new_manufacturer_make_path(@manufacturer))
-  ]) %>
-
-  <% @indexer.footers = link_to(t(:create_object, :object => t(:make, :scope => [ :marketplace ])), new_manufacturer_make_path(@manufacturer)) %>
+  <% title tp(:make, :scope => [ :marketplace ]) %>
 <% end %>
 
 <%= render_indexer(@indexer) %>
+
+<% if is_editor_of?(@manufacturer) %>
+  <% page_actions << icon_link_to(:add, t(:create_object, :object => t(:make, :scope => [ :marketplace ])), new_manufacturer_make_path(@manufacturer)) %>
+<% end %>

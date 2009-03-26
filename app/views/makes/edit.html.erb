@@ -1,9 +1,7 @@
 <% title t(:edit_object, :object => t(:make, :scope => [ :marketplace ])) %>
 
-<%= render_heading(t(:edit_object, :object => t(:make, :scope => [ :marketplace ]))) %>
-
 <% form_for :make, :url => object_path, :html => { :method => :put, :multipart => true } do |f| %>
   <%= render :partial => 'edit', :locals => { :f => f, :make => @make } %>
   
-  <%= f.submit t(:save) %>
+  <%= f.submit_with_cancel(:submit => t(:save)) %>
 <% end %>
