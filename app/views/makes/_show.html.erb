@@ -29,7 +29,7 @@
 
 <%= render_heading(tp(:model, :scope => [ :marketplace ]), :actions => link_to(t(:view_all), make_models_path(make))) %>
 
-<%= render_field((is_editor_of?(make) ? make.models(:limit => 10) : make.available_models(:limit => 10)).map { |model| link_to_resource(model) }) %>
+<%= render_field((is_editor_of?(make) ? make.models(:limit => 10) : make.available_models.first(10)).map { |model| link_to_resource(model) }) %>
 
 <%= render_heading(tp(:article, :scope => [ :content ]), :actions =>
   is_editor_of?(make) ? link_to(t(:view_all), make_articles_path(make)) : nil) %>

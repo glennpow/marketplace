@@ -2,4 +2,4 @@
 
 <%= render_heading(tp(:make, :scope => [ :marketplace ]), :actions => link_to(t(:view_all), manufacturer_makes_path(manufacturer))) %>
 
-<%= render_field((is_editor_of?(manufacturer) ? manufacturer.makes(:limit => 10) : manufacturer.available_makes(:limit => 10)).map { |make| link_to_resource(make) }) %>
+<%= render_field((is_editor_of?(manufacturer) ? manufacturer.makes(:limit => 10) : manufacturer.available_makes.first(10)).map { |make| link_to_resource(make) }) %>

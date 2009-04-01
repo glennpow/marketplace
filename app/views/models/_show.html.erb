@@ -33,7 +33,7 @@
 
 <%= render_heading(tp(:product, :scope => [ :marketplace ]), :actions => link_to(t(:view_all), model_products_path(model))) %>
 
-<%= render_field((is_editor_of?(model) ? model.products(:limit => 10) : model.available_products(:limit => 10)).map { |product| link_to_resource(product) }) %>
+<%= render_field((is_editor_of?(model) ? model.products(:limit => 10) : model.available_products.first(10)).map { |product| link_to_resource(product) }) %>
 
 <%= render_heading(tp(:article, :scope => [ :content ]), :actions =>
   is_editor_of?(model) ? link_to(t(:view_all), model_articles_path(model)) : nil) %>
