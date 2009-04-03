@@ -7,6 +7,6 @@
 <%= render_reviews(@product) %>
 
 <% if is_editor_of?(@product) %>
-  <% page_actions << icon_link_to(:edit, t(:edit_object, :object => t(:product, :scope => [ :marketplace ])), edit_product_path(@product)) %>
-  <% page_actions << icon_link_to(:duplicate, t(:duplicate_object, :object => t(:product, :scope => [ :marketplace ])), new_model_product_path(@product.model, :duplicate_id => @product)) %>
+  <% page_action icon_link_to(:edit, t(:edit_object, :object => t(:product, :scope => [ :marketplace ])), edit_product_path(@product)) %>
+  <% page_action icon_link_to(:duplicate, t(:duplicate_object, :object => t(:product, :scope => [ :marketplace ])), new_model_product_path(@product.model, :duplicate_id => @product)) %>
 <% end %>

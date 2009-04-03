@@ -7,5 +7,5 @@
 <%= render_indexer(@indexer) %>
 
 <% if is_editor_of?(@make) %>
-  <% page_actions << icon_link_to(:add, t(:create_object, :object => t(:make, :scope => [ :marketplace ])), new_manufacturer_make_path(@manufacturer)) %>
+  <% page_action icon_link_to(:add, t(:create_object, :object => t(:make, :scope => [ :marketplace ])), new_manufacturer_make_path(@manufacturer)) %>
 <% end %>

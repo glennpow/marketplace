@@ -7,5 +7,5 @@
 <%= render_reviews(@make) %>
 
 <% if is_editor_of?(@make) %>
-  <% page_actions << icon_link_to(:edit, t(:edit_object, :object => t(:make, :scope => [ :marketplace ])), edit_make_path(@make)) %>
+  <% page_action icon_link_to(:edit, t(:edit_object, :object => t(:make, :scope => [ :marketplace ])), edit_make_path(@make)) %>
 <% end %>

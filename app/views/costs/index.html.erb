@@ -3,5 +3,5 @@
 <%= render_indexer(@indexer) %>
 
 <% if is_editor_of?(@product) %>
-  <% page_actions << icon_link_to(:add_large, t(:create_object, :object => t(:cost_for_object, :scope => [ :marketplace ], :object => h(@product.name))), new_product_cost_path(@product)) %>
+  <% page_action icon_link_to(:add_large, t(:create_object, :object => t(:cost_for_object, :scope => [ :marketplace ], :object => h(@product.name))), new_product_cost_path(@product)) %>
 <% end %>

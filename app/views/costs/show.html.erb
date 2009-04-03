@@ -2,4 +2,4 @@
 
 <%= render :partial => 'show', :locals => { :cost => @cost } %>
 
-<% page_actions << icon_link_to(:edit, t(:edit_object, :object => t(:cost, :scope => [ :marketplace ])), edit_object_path) if is_editor_of?(@cost) %>
+<% page_action icon_link_to(:edit, t(:edit_object, :object => t(:cost, :scope => [ :marketplace ])), edit_object_path) if is_editor_of?(@cost) %>

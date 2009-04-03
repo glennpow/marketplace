@@ -3,5 +3,5 @@
 <%= render_indexer(@indexer) %>
 
 <% if has_administrator_role? %>
-  <% page_actions << icon_link_to(:add_large, t(:create_object, :object => t(:manufacturer, :scope => [ :marketplace ])), new_manufacturer_path) %>
+  <% page_action icon_link_to(:add_large, t(:create_object, :object => t(:manufacturer, :scope => [ :marketplace ])), new_manufacturer_path) %>
 <% end %>

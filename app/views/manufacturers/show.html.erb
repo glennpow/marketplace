@@ -3,5 +3,5 @@
 <%= render :partial => 'show', :locals => { :manufacturer => @manufacturer } %>
 
 <% if is_moderator_of?(@manufacturer) %>
-  <% page_actions << icon_link_to(:edit, t(:edit_object, :object => t(:manufacturer, :scope => [ :marketplace ])), edit_manufacturer_path(@manufacturer)) %>
+  <% page_action icon_link_to(:edit, t(:edit_object, :object => t(:manufacturer, :scope => [ :marketplace ])), edit_manufacturer_path(@manufacturer)) %>
 <% end %>
