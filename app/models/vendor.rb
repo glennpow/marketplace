@@ -1,6 +1,6 @@
 class Vendor < ActiveRecord::Base
   acts_as_resource :group => { :through => :organization }
-  acts_as_organizable
+  acts_as_organizable :dependent => :destroy
   
   has_many :prices, :dependent => :destroy
   has_many :products, :through => :prices

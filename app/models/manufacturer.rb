@@ -1,6 +1,6 @@
 class Manufacturer < ActiveRecord::Base
   acts_as_resource :group => { :through => :organization }
-  acts_as_organizable
+  acts_as_organizable :dependent => :destroy
   
   has_many :makes, :order => 'name ASC', :dependent => :destroy
   has_many :models, :through => :makes, :order => 'name ASC', :uniq => true

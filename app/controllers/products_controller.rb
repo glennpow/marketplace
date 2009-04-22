@@ -32,8 +32,8 @@ class ProductsController < ApplicationController
       end
     else
       respond_with_indexer do |options|
-        # FIXME - This won't work until product.manufacturer is a proper association, and h_1_t includes work (for product.make)
-        #options[:search_include] = [ :model ] # << :make << :manufacturer
+        # FIXME - This won't work until eager loading of has_one_through associations work
+        # options[:search_include] = [ :model ] # << :make << :manufacturer
         options[:default_sort] = :name
         options[:headers] = [
           { :name => t(:name), :sort => :name },
@@ -43,7 +43,7 @@ class ProductsController < ApplicationController
           { :name => t(:model, :scope => [ :marketplace ]), :sort => :model, :include => :model, :order => "#{Model.table_name}.name" }
         ]
         options[:search] = true
-        options[:include] = [ { :make => { :manufacturer => :organization } }, :model, :prices ]
+        options[:include] = [ :model, { :make => { :manufacturer => :organization } }, :prices ]
 
         options[:conditions] = {}
         if @model
