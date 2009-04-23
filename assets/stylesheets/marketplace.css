@@ -42,6 +42,7 @@ td.comparer-td {
   min-width: 200px;
   max-width: 200px;
   overflow: hidden;
+  vertical-align: top;
 }
 
 .comparer-img {
