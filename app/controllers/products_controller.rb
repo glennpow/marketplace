@@ -4,6 +4,11 @@ class ProductsController < ApplicationController
     
     member_actions :watch
     
+    before :show do
+      load_comments(@product)
+      load_reviews(@product)
+    end
+    
     before :new do
       if params[:duplicate_id]
         @duplicate = Product.find(params[:duplicate_id])

@@ -1,5 +1,10 @@
 class VendorsController < ApplicationController
   make_resource_controller do
+    before :show do
+      load_comments(@vendor)
+      load_reviews(@vendor)
+    end
+
     before :create do
       @vendor.organization.moderator = current_user
       @vendor.organization.parent_group = @group

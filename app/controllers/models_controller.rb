@@ -1,6 +1,11 @@
 class ModelsController < ApplicationController
   make_resource_controller do
     belongs_to :make
+    
+    before :show do
+      load_comments(@model)
+      load_reviews(@model)
+    end
   end
   
   def resourceful_name

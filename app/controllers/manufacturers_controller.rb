@@ -1,5 +1,10 @@
 class ManufacturersController < ApplicationController
   make_resource_controller do
+    before :show do
+      load_comments(@manufacturer)
+      load_reviews(@manufacturer)
+    end
+
     before :create do
       @manufacturer.organization.moderator = current_user
       @manufacturer.organization.parent_group = @group

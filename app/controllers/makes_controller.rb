@@ -1,6 +1,11 @@
 class MakesController < ApplicationController
   make_resource_controller do
     belongs_to :manufacturer
+    
+    before :show do
+      load_comments(@make)
+      load_reviews(@make)
+    end
   end
   
   def resourceful_name
