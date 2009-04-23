@@ -43,7 +43,7 @@ class CostsController < ApplicationController
   private
 
   def check_editor_of_indexed
-    check_administrator_role || check_editor_of(@manufacturer || @product)
+    check_editor_of(@manufacturer || @product, true)
   end
 
   def check_editor_of_product

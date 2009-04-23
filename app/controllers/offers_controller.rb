@@ -13,8 +13,8 @@ class OffersController < ApplicationController
     t(:offer, :scope => [ :marketplace ])
   end
 
-  before_filter :check_editor_of_offer_provider, :except => [ :index ]
-  before_filter :check_editor_of_offer, :except => [ :show ]
+  before_filter :check_editor_of_offer_provider, :only => [ :index ]
+  before_filter :check_editor_of_offer, :only => [ :show ]
   before_filter :check_for_product, :only => [ :new, :create ]
   
   def index
