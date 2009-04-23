@@ -14,8 +14,6 @@
       icon_link_to(:delete, t(:delete), product, :confirm => t(:are_you_sure), :method => :delete)
     ] : nil,
     offer.products.include?(product) ?
-      icon_link_to(:delete, t(:remove), update_products_offer_path(offer, :remove_product_ids => product.id), :method => :put) : nil
-    ,
-    !offer.products.include?(product) ?
-      icon_link_to(:add, t(:add), update_products_offer_path(offer, :add_product_ids => product.id), :method => :put) : nil
-    ) %>
+      icon_link_to(:delete, t(:remove), update_products_offer_path(offer, :remove_product_ids => product.id), :method => :put) :
+      icon_link_to(:add, t(:add), update_products_offer_path(offer, :add_product_ids => product.id), :method => :put)
+  ] ) %>

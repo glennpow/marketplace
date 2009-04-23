@@ -39,29 +39,28 @@ class OffersController < ApplicationController
   end
   
   def edit_products
-    options = Indexer.parse_options(params)
-    options[:row] = 'offers/product_row'
-    options[:locals] = { :offer => @offer }
-    options[:default_sort] = :name
-    options[:headers] = [
-      { :name => t(:name), :sort => :name, :order => 'products.name' },
-      t(:sku, :scope => [ :marketplace ]),
-      { :name => t(:manufacturer, :scope => [ :marketplace ]), :sort => :manufacturer, :include => { :model => { :make => :manufacturer } }, :order => 'manufacturers.name' },
-      { :name => t(:make, :scope => [ :marketplace ]), :sort => :make, :include => { :model => :make }, :order => 'makes.name' },
-      { :name => t(:model, :scope => [ :marketplace ]), :sort => :model, :include => :model, :order => 'models.name' },
-      tp(:model, :scope => [ :marketplace ])
-    ]
+    respond_with_indexer(Product) do |options|
+      options[:row] = 'offers/product_row'
+      options[:locals] = { :offer => @offer }
+      options[:default_sort] = :name
+      options[:headers] = [
+        { :name => t(:name), :sort => :name, :order => 'products.name' },
+        t(:sku, :scope => [ :marketplace ]),
+        { :name => t(:manufacturer, :scope => [ :marketplace ]), :sort => :manufacturer, :include => { :model => { :make => :manufacturer } }, :order => 'manufacturers.name' },
+        { :name => t(:make, :scope => [ :marketplace ]), :sort => :make, :include => { :model => :make }, :order => 'makes.name' },
+        { :name => t(:model, :scope => [ :marketplace ]), :sort => :model, :include => :model, :order => 'models.name' },
+        tp(:model, :scope => [ :marketplace ])
+      ]
 
-    case @offer.offer_provider
-    when Manufacturer
-      options[:include] = { :model => :make }
-      options[:conditions] = [ "makes.manufacturers_id = ?", @offer.offer_provider.id ]
-    when Vendor
-      options[:include] = :prices
-      options[:conditions] = ["prices.vendor_id = ?", @offer.offer_provider.id]
+      case @offer.offer_provider
+      when Manufacturer
+        options[:include] = { :model => :make }
+        options[:conditions] = [ "makes.manufacturers_id = ?", @offer.offer_provider.id ]
+      when Vendor
+        options[:include] = :prices
+        options[:conditions] = ["prices.vendor_id = ?", @offer.offer_provider.id]
+      end
     end
-    
-    @indexer = Indexer.new(Product, options)
   end
   
   def update_products
