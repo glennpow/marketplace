@@ -5,11 +5,20 @@ class ProductsController < ApplicationController
     member_actions :watch
     
     before :show do
+      add_breadcrumb h(@product.manufacturer.name), @product.manufacturer
+      add_breadcrumb h(@product.make.name), @product.make
+      add_breadcrumb h(@product.model.name), @product.model
+      add_breadcrumb h(@product.name)
+
       load_comments(@product)
       load_reviews(@product)
     end
     
     before :new do
+      add_breadcrumb h(@model.manufacturer.name), @model.manufacturer
+      add_breadcrumb h(@model.make.name), @model.make
+      add_breadcrumb h(@model.name), @model
+
       if params[:duplicate_id]
         @duplicate = Product.find(params[:duplicate_id])
         @product.attributes=(@duplicate.attributes.except('id', 'created_at', 'updated_at', 'image_file_name', 'image_content_type', 'image_file_size', 'image_updated_at'))
@@ -18,6 +27,13 @@ class ProductsController < ApplicationController
           @product.features << Feature.find(featuring.feature_id)
         end
       end
+    end
+    
+    before :edit do
+      add_breadcrumb h(@product.manufacturer.name), @product.manufacturer
+      add_breadcrumb h(@product.make.name), @product.make
+      add_breadcrumb h(@product.model.name), @product.model
+      add_breadcrumb h(@product.name), @product
     end
   end
   
@@ -31,6 +47,9 @@ class ProductsController < ApplicationController
   
   def index
     if params[:user_id]
+      @user = User.find(params[:user_id])
+      add_breadcrumb h(@user.name), @user
+
       respond_to do |format|
         format.html { redirect_to :action => :results, :user_id => params[:user_id] }
         format.xml  { redirect_to :format => :xml, :action => :results, :user_id => params[:user_id] }
@@ -52,8 +71,14 @@ class ProductsController < ApplicationController
 
         options[:conditions] = {}
         if @model
+          add_breadcrumb h(@model.manufacturer.name), @model.manufacturer
+          add_breadcrumb h(@model.make.name), @model.make
+          add_breadcrumb h(@model.name), @model
+
           options[:conditions]["#{Product.table_name}.model_id"] = @model
         elsif @offer
+          add_breadcrumb h(@offer.name), @offer
+
           options[:include] << :offers
           options[:conditions]["#{Offer.table_name}.id"] = @offer
         end

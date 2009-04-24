@@ -31,8 +31,12 @@ class CostsController < ApplicationController
       ]
 
       if @product
+        add_breadcrumb h(@product.name), @product
+
         options[:conditions] = [ "product_id = ?", @product.id ]
       elsif @manufacturer
+        add_breadcrumb h(@manufacturer.name), @manufacturer
+
         options[:include] = { :product => { :model => { :make => :manufacturer } } }
         options[:conditions] = [ "#{Manufacturer.table_name}.id = ?", @manufacturer.id ]
       end

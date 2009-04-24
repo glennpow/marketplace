@@ -2,6 +2,11 @@ class FeaturesController < ApplicationController
   make_resource_controller do
     belongs_to :feature_type, :featurable
     
+    before :show do
+      add_breadcrumb h(@feature.feature_type.name), @feature.feature_type
+      add_breadcrumb h(@feature.name)
+    end
+
     before :new do
       @feature_types = FeatureType.find(:all)
     end
@@ -27,8 +32,12 @@ class FeaturesController < ApplicationController
       options[:search] = true
 
       if @feature_type
+        add_breadcrumb h(@feature_type.name), @feature_type
+
         options[:conditions] = [ "feature_type_id = ?", @feature_type.id ]
       elsif @featurable
+        add_breadcrumb h(@featurable.name), @featurable
+
         options[:include] = :featurings
         options[:conditions] = [ "#{Featuring.table_name}.featurable_type = ? && #{Featuring.table_name}.featurable_id = ?", @featurable.class.to_s, @featurable.id ]
       end

@@ -1,6 +1,8 @@
 class VendorsController < ApplicationController
   make_resource_controller do
     before :show do
+      add_breadcrumb h(@vendor.name)
+      
       load_comments(@vendor)
       load_reviews(@vendor)
     end
@@ -25,6 +27,8 @@ class VendorsController < ApplicationController
 
   before_filter :check_add_vendor, :only => [ :new, :create ]
   before_filter :check_moderator_of_vendor, :only => [ :edit, :update, :destroy ]
+
+  add_breadcrumb I18n.t(:vendor, :scope => [ :marketplace ]).pluralize, :vendors_path
   
   def index
     respond_with_indexer do |options|

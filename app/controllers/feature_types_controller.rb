@@ -2,6 +2,11 @@ class FeatureTypesController < ApplicationController
   make_resource_controller do
     belongs_to :feature_type
     
+    before :show do
+      add_breadcrumb h(@feature_type.parent_feature_type.name), @feature_type.parent_feature_type unless @feature_type.parent_feature_type.nil?
+      add_breadcrumb h(@feature_type.name)
+    end
+    
     before :new do
       @parent_feature_types = FeatureType.find(:all)
     end
@@ -16,6 +21,8 @@ class FeatureTypesController < ApplicationController
   end
 
   before_filter :check_administrator_role, :only => [ :new, :create, :edit, :update, :destroy ]
+
+  add_breadcrumb I18n.t(:feature_type, :scope => [ :marketplace ]).pluralize, :feature_types_path
   
   def index
     respond_with_indexer do |options|
@@ -27,6 +34,8 @@ class FeatureTypesController < ApplicationController
       options[:search] = true
 
       if @feature_type
+        add_breadcrumb h(@feature_type.name), @feature_type
+
         options[:conditions] = [ "parent_feature_type_id = ?", @feature_type.id ]
       end
     end

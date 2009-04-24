@@ -3,8 +3,23 @@ class ModelsController < ApplicationController
     belongs_to :make
     
     before :show do
+      add_breadcrumb h(@model.manufacturer.name), @model.manufacturer
+      add_breadcrumb h(@model.make.name), @model.make
+      add_breadcrumb h(@model.name)
+
       load_comments(@model)
       load_reviews(@model)
+    end
+    
+    before :new do
+      add_breadcrumb h(@make.manufacturer.name), @make.manufacturer
+      add_breadcrumb h(@make.name), @make
+    end
+    
+    before :edit do
+      add_breadcrumb h(@model.manufacturer.name), @model.manufacturer
+      add_breadcrumb h(@model.make.name), @model.make
+      add_breadcrumb h(@model.name), @model
     end
   end
   
@@ -27,7 +42,14 @@ class ModelsController < ApplicationController
       options[:search] = true
       options[:include] = [ { :manufacturer => :organization }, :make, :products ]
 
-      options[:conditions] = @make.nil? ? {} : { "#{Model.table_name}.make_id" => @make }
+      if @make
+        add_breadcrumb h(@make.manufacturer.name), @make.manufacturer
+        add_breadcrumb h(@make.name), @make
+
+        options[:conditions] = { "#{Model.table_name}.make_id" => @make }
+      else
+        options[:conditions] = {}
+      end
       unless has_administrator_role? || is_editor_of?(@make)
         options[:conditions]["#{Model.table_name}.production_status"] = ProductionStatus[:available]
       end

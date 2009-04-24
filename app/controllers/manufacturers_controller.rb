@@ -1,6 +1,8 @@
 class ManufacturersController < ApplicationController
   make_resource_controller do
     before :show do
+      add_breadcrumb h(@manufacturer.name)
+      
       load_comments(@manufacturer)
       load_reviews(@manufacturer)
     end
@@ -26,6 +28,8 @@ class ManufacturersController < ApplicationController
   before_filter :check_add_manufacturer, :only => [ :new, :create ]
   before_filter :check_moderator_of_manufacturer, :only => [ :edit, :update, :destroy ]
   
+  add_breadcrumb I18n.t(:manufacturer, :scope => [ :marketplace ]).pluralize, :manufacturers_path
+
   def index
     respond_with_indexer do |options|
       options[:default_sort] = :name

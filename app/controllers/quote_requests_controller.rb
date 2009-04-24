@@ -31,8 +31,12 @@ class QuoteRequestsController < ApplicationController
       ]
     
       if @user
+        add_breadcrumb h(@user.name), @user
+
         options[:conditions] = ['user_id = ?', @user.id]
       elsif @vendor
+        add_breadcrumb h(@vendor.name), @vendor
+
         options[:conditions] = ['vendor_id = ?', @vendor.id]
       end
     end
