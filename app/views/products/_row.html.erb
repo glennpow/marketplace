@@ -12,7 +12,7 @@
   ],
   :actions => [
     is_editor_of?(product) ? [
-      icon_link_to(:edit, t(:edit), edit_object_path(product)),
+      icon_link_to(:edit, t(:edit), edit_product_path(product)),
       icon_link_to(:duplicate, t(:duplicate_object, :object => t(:product, :scope => [ :marketplace ])), new_model_product_path(product.model, :duplicate_id => product)),
       icon_link_to(:delete, t(:delete), product, :confirm => t(:are_you_sure), :method => :delete)
     ] : nil,

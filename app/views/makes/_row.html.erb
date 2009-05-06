@@ -8,6 +8,6 @@
     is_editor_of?(make) ? h(make.products.length) : h(make.available_products.length),
   ],
   :actions => is_editor_of?(make) ? [
-    icon_link_to(:edit, t(:edit), edit_object_path(make)),
+    icon_link_to(:edit, t(:edit), edit_make_path(make)),
     icon_link_to(:delete, t(:delete), make, :confirm => t(:are_you_sure), :method => :delete)
   ] : nil) %>

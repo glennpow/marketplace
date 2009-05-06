@@ -8,6 +8,6 @@
     model.products.any? ? model.products.length : '',
   ],
   :actions => is_editor_of?(model) ? [
-    icon_link_to(:edit, t(:edit), edit_object_path(model)),
+    icon_link_to(:edit, t(:edit), edit_model_path(model)),
     icon_link_to(:delete, t(:delete), model, :confirm => t(:are_you_sure), :method => :delete)
   ] : nil) %>

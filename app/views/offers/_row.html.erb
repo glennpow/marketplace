@@ -9,6 +9,6 @@
     link_to_resource(offer.offer_provider),
   ],
   :actions => is_editor_of?(offer) ? [
-    icon_link_to(:edit, t(:edit), edit_object_path(offer)),
+    icon_link_to(:edit, t(:edit), edit_offer_path(offer)),
     icon_link_to(:delete, t(:delete), offer, :confirm => t(:are_you_sure), :method => :delete)
   ] : nil) %>
