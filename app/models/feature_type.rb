@@ -3,6 +3,7 @@ class FeatureType < ActiveRecord::Base
   has_many :child_feature_types, :class_name => 'FeatureType', :foreign_key => :parent_feature_type_id, :order => 'name ASC', :dependent => :destroy
   has_many :features, :order => 'name ASC', :dependent => :destroy
   has_attached_file :image, Configuration.default_image_options
+  has_localized :name, :description
   
   validates_presence_of :name
   validates_attachment_size :image, Configuration.default_image_size_options

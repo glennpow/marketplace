@@ -6,6 +6,7 @@ class Offer < ActiveRecord::Base
   has_attached_file :image, Configuration.default_image_options
   has_enumeration :offer_type
   has_many_articles
+  has_localized :name, :description
 
   validates_presence_of :name
   validates_uniqueness_of :code, :allow_nil => true

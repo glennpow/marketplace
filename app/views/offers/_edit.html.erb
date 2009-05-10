@@ -2,9 +2,11 @@
   <%= render_field(t(:product, :scope => [ :marketplace ]), link_to_resource(product)) %>
 <% end %>
 
-<%= f.text_field :name, :required => true %>
+<%= f.localization_select %>
 
-<%= f.text_area :description, :preview => true, :hint => link_to_textile_hint %>
+<%= f.localized_text_field :name, :required => true %>
+
+<%= f.localized_text_area :description, :preview => true, :hint => link_to_textile_hint %>
 
 <%= f.text_field :amount, :required => true %>
 

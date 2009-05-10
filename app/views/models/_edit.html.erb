@@ -1,4 +1,6 @@
-<%= f.text_field :name, :required => true %>
+<%= f.localization_select %>
+
+<%= f.localized_text_field :name, :required => true %>
 
 <% if model.try(:image?) %>
   <%= image_tag model.image.url %>
@@ -8,7 +10,7 @@
 
 <%= enumeration_select(f, :production_status) %>
 
-<%= f.text_area :description, :preview => true, :hint => link_to_textile_hint %>
+<%= f.localized_text_area :description, :preview => true, :hint => link_to_textile_hint %>
 
 <% if model.valid_feature_types? %>
   <%= render_heading(tp(:feature, :scope => [ :marketplace ])) %>

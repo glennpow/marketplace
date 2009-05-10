@@ -15,7 +15,7 @@ class Product < ActiveRecord::Base
   has_attached_file :image, Configuration.default_image_options
   has_enumeration :production_status
   has_many_articles
-  has_localized :name
+  has_localized :name, :description
   
   validates_presence_of :name, :model
   validates_uniqueness_of :sku, :allow_blank => true
