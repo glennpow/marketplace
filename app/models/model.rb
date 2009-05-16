@@ -5,7 +5,7 @@ class Model < ActiveRecord::Base
 
   belongs_to :make
   has_one :manufacturer, :through => :make
-  has_many :products, :order => 'name ASC', :dependent => :destroy
+  has_many :products, :order => "#{Product.table_name}.name ASC", :dependent => :destroy
   has_many_features :include => :make
   has_attached_file :image, Configuration.default_image_options
   has_enumeration :production_status
@@ -26,8 +26,10 @@ class Model < ActiveRecord::Base
   end
   alias_method_chain :production_status, :make
   
-  def available_products
-    self.products.select { |product| product.available? }
+  def available_products(vendor = nil)
+    conditions = { "#{Product.table_name}.production_status" => ProductionStatus[:available] }
+    conditions["#{Price.table_name}.vendor_id"] = vendor if vendor
+    self.products.all(:include => { :products => :prices }, :conditions => conditions)
   end
   
   def available?

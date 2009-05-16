@@ -42,6 +42,7 @@ class ProductsController < ApplicationController
   end
 
   before_filter :login_required, :only => [ :watch ]
+  before_filter :load_vendor, :only => [ :index, :search, :results ]
   before_filter :check_editor_of_model, :only => [ :new, :create ]
   before_filter :check_editor_of_product, :only => [ :edit, :update, :destroy ]
   
@@ -76,6 +77,11 @@ class ProductsController < ApplicationController
           add_breadcrumb h(@model.name), @model
 
           options[:conditions]["#{Product.table_name}.model_id"] = @model
+        elsif @vendor
+          add_breadcrumb h(@vendor.name), @vendor
+          
+          options[:include] << :prices
+          options[:conditions]["#{Price.table_name}.vendor_id"] = @vendor
         elsif @offer
           add_breadcrumb h(@offer.name), @offer
 
@@ -103,11 +109,18 @@ class ProductsController < ApplicationController
       options[:selectable] = true
       options[:row] = 'products/results_row'
     
+      options[:include] = []
       options[:conditions] = { "#{Product.table_name}.production_status" => ProductionStatus[:available] }
       options[:conditions]["#{Product.table_name}.model_id"] = params[:models].keys if params[:models]
       if params[:features]
-        options[:include] = :features_featurings_with_include
+        options[:include] << :features_featurings_with_include
         options[:conditions]["#{Featuring.table_name}.feature_id"] = params[:features].keys
+      end
+      if @vendor
+        add_breadcrumb h(@vendor.name), @vendor
+        
+        options[:include] << :prices
+        options[:conditions]["#{Price.table_name}.vendor_id"] = @vendor
       end
     end
   end
@@ -123,6 +136,10 @@ class ProductsController < ApplicationController
   
   
   private
+  
+  def load_vendor
+    @vendor = params[:vendor_id] ? Vendor.find(params[:vendor_id]) : current_portal(Vendor)
+  end
 
   def check_editor_of_model
     check_editor_of(@model)

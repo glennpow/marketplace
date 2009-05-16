@@ -28,9 +28,9 @@
             <td class="searcher-td">
               <div class="search-box-list">
                 <ul>
-                  <% Make.not_empty.sort { |x, y| x.name <=> y.name }.each do |make| %>
+                  <% Make.available_for_vendor(@vendor).sort { |x, y| x.name <=> y.name }.each do |make| %>
                     <li>
-                      <%= check_box_tag("makes[#{make.id}]", "1", check_param([ :makes, "#{make.id}" ], false), { :onclick => "toggle_make_models(this, #{make.id}, [#{make.available_models.collect { |model| model.id }.join(',')}], 'check_all_#{make.name.underscore.gsub(/[^\w]/, '_')}')" }) %>
+                      <%= check_box_tag("makes[#{make.id}]", "1", check_param([ :makes, "#{make.id}" ], false), { :onclick => "toggle_make_models(this, #{make.id}, [#{make.available_models(@vendor).collect { |model| model.id }.join(',')}], 'check_all_#{make.name.underscore.gsub(/[^\w]/, '_')}')" }) %>
                       <%= link_to_resource(make) %>
                     </li>
                   <% end %>
@@ -45,17 +45,17 @@
               <%= t(:model, :scope => [ :marketplace ]) %>
             </td>
             <td class="searcher-td">
-              <% Make.not_empty.sort { |x, y| x.name <=> y.name }.each do |make| %>
+              <% Make.available_for_vendor(@vendor).sort { |x, y| x.name <=> y.name }.each do |make| %>
                 <div id="<%= "make_models_#{make.id}" %>" class="searcher-make-models" style="display: <%= check_param([ :makes, "#{make.id}" ], false) ? 'block' : 'none' %>">
                   <p>
                     <%= link_to_resource(make) %>
-                    <%= check_box_tag("check_all_#{make.name.underscore.gsub(/[^\w]/, '_')}", "1", check_param([ "check_all_#{make.name.underscore.gsub(/[^\w]/, '_')}" ], false), { :onclick => "[#{make.available_models.collect { |model| model.id }.join(',')}].each(function(model_id) { $('models_' + model_id + '').checked = $(check_all_#{make.name.underscore.gsub(/[^\w]/, '_')}).checked })" }) %>
+                    <%= check_box_tag("check_all_#{make.name.underscore.gsub(/[^\w]/, '_')}", "1", check_param([ "check_all_#{make.name.underscore.gsub(/[^\w]/, '_')}" ], false), { :onclick => "[#{make.available_models(@vendor).collect { |model| model.id }.join(',')}].each(function(model_id) { $('models_' + model_id + '').checked = $(check_all_#{make.name.underscore.gsub(/[^\w]/, '_')}).checked })" }) %>
                     (<%=t :all %>)
                   </p>
                   <%= render_separator %>
                   <div class="search-box-list">
                     <ul>
-                      <% make.available_models.each do |model| %>
+                      <% make.available_models(@vendor).each do |model| %>
                         <li>
                           <%= check_box_tag("models[#{model.id}]", 1, check_param([ :models, "#{model.id}" ], false)) %>
                           <%= link_to_resource(model) %>

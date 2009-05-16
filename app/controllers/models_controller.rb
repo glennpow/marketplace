@@ -27,6 +27,7 @@ class ModelsController < ApplicationController
     t(:model, :scope => [ :marketplace ])
   end
 
+  before_filter :load_vendor, :only => [ :index ]
   before_filter :check_editor_of_make, :only => [ :new, :create ]
   before_filter :check_editor_of_model, :only => [ :edit, :update, :destroy ]
   
@@ -42,13 +43,19 @@ class ModelsController < ApplicationController
       options[:search] = true
       options[:include] = [ { :manufacturer => :organization }, :make, :products ]
 
+      options[:conditions] = {}
+      options[:include] = []
+      if @vendor
+        add_breadcrumb h(@vendor.name), @vendor
+        
+        options[:include] << { :products => :prices }
+        options[:conditions]["#{Price.table_name}.vendor_id"] = @vendor
+      end
       if @make
         add_breadcrumb h(@make.manufacturer.name), @make.manufacturer
         add_breadcrumb h(@make.name), @make
 
-        options[:conditions] = { "#{Model.table_name}.make_id" => @make }
-      else
-        options[:conditions] = {}
+        options[:conditions]["#{Model.table_name}.make_id"] = @make
       end
       unless has_administrator_role? || is_editor_of?(@make)
         options[:conditions]["#{Model.table_name}.production_status"] = ProductionStatus[:available]
@@ -58,7 +65,11 @@ class ModelsController < ApplicationController
   
   
   private
-  
+    
+  def load_vendor
+    @vendor = params[:vendor_id] ? Vendor.find(params[:vendor_id]) : current_portal(Vendor)
+  end
+
   def check_editor_of_make
     check_editor_of(@make)
   end
