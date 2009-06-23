@@ -90,7 +90,7 @@ module Marketplace
               when FeatureType[:single_select]
                 featurings << Featuring.new(:feature_id => value)
               when FeatureType[:option]
-                featurings << Featuring.new(:feature_id => feature_id) unless value.zero?
+                featurings << Featuring.new(:feature_id => feature_id) unless value.to_i.zero?
               when FeatureType[:comparable]
                 featurings << Featuring.new(:feature_id => feature_id, :value => value)
               when FeatureType[:boolean]

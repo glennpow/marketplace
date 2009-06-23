@@ -9,7 +9,7 @@ class Featuring < ActiveRecord::Base
     when FeatureType[:comparable]
       "#{value} #{feature.units}"
     when FeatureType[:boolean]
-      value.zero? ? I18n.t(:no) : I18n.t(:yes)
+      value.to_i.zero? ? I18n.t(:no) : I18n.t(:yes)
     end
   end
 end
