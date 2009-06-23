@@ -2,8 +2,26 @@
 
 <%= render_field(image_tag(feature.image.url)) %>
 
-<%= render_field(t(:feature_type, :scope => [ :marketplace ]), link_to_resource(feature.feature_type)) %>
+<% unless feature.parent.nil? %>
+  <%= render_field(t(:category), link_to_resource(feature.parent)) %>
+<% end %>
+
+<%= render_field(t(:type), e(feature.feature_type)) %>
+
+<% if feature.featurable_type %>
+  <%= render_field(t(:applies_to, :scope => [ :marketplace, :features ]), h(feature.featurable_type)) %>
+<% end %>
+
+<%= render_field(t(:supplier_only, :scope => [ :marketplace ]), yes_no(feature.supplier_only)) %>
+
+<% if feature.feature_type == FeatureType[:comparable] %>
+  <%= render_field(t(:units, :scope => [ :marketplace, :features ]), h(feature.units)) %>
+<% end %>
 
 <% unless feature.description.blank? %>
   <%= render_text_area(h(feature.description)) %>
+<% end %>
+
+<% if feature.children.any? %>
+  <%= render_field(tp(:child_feature, :scope => [ :marketplace ]), feature.children.map { |child| link_to_resource(child) }) %>
 <% end %>

@@ -1,7 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :costs
-  map.resources :feature_types, :member => { :summary => :get }, :has_many => [ :articles, :features, :feature_types ]
-  map.resources :features, :has_many => [ :articles ]
+  map.resources :features, :member => { :summary => :get }, :has_many => [ :articles, :features ]
   map.resources :makes, :has_many => [ :articles, :features, :models, :comments, :reviews, :watchings ]
   map.resources :manufacturers, :has_many => [ :articles, :costs, :makes, :offers, :comments, :reviews, :themes, :watchings ]
   map.resources :models, :has_many => [ :articles, :features, :products, :comments, :reviews, :watchings ]

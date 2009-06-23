@@ -2,7 +2,7 @@ en:
   marketplace: 
     amount: Amount
     brand: Brand
-    child_feature_type: Child Feature Type
+    child_feature: Child Feature
     consumer: Consumer
     cost: Cost
     cost_for_object: Cost for {{object}}
@@ -26,12 +26,19 @@ en:
     offer_provider: Provider
     quote_request: Quote Request
     sku: SKU
+    supplier_only: Supplier only
     vendor: Vendor
     vendor_representative: Vendor Representative
     features:
-      allow_none: Allow None
-      allow_none_hint: Allow a 'None' option to be selected for this Feature Type
-      included_from_object: Included from {{object}}
+      applies_to: Applies to
+      units: Units
+    feature_types:
+      group: Category
+      single_select: Single Selection List
+      multiple_select: Multiple Selection List
+      option: List Option
+      comparable: Comparable Number
+      boolean: Yes / No
     makes:
       makes_for_object:
         one: Make for {{object}}

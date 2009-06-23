@@ -1,0 +1,17 @@
+<div class="feature-summary">
+  <p class="feature-group-name"><%= h(@feature.name) %></p>
+
+  <% unless @feature.description.blank? %>
+    <p class="feature-group-description"><%= @feature.description %></p>
+  <% end %>
+  
+  <%= render_separator %>
+  
+  <% @feature.children.each do |child| %>
+    <p id="<%= child.name.underscore %>" class="feature-name"><%= h(child.name) %></p>
+
+    <% unless child.description.blank? %>
+      <p class="feature-description"><%= child.description %></p>
+    <% end %>
+  <% end %>
+</div>

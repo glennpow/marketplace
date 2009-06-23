@@ -9,37 +9,28 @@ class CreateMarketplace < ActiveRecord::Migration
     add_index :costs, [ :country_id, :product_id ]
     add_index :costs, :product_id
 
-    create_table :feature_types do |t|
-      t.references :parent_feature_type
+    create_table :features do |t|
+      t.references :parent
+      t.string :feature_type, :null => false
+      t.boolean :supplier_only
+      t.string :units
       t.string :featurable_type
       t.string :name, :null => false
       t.text :description
-      t.boolean :allow_none, :default => true
       t.string :image_file_name
       t.string :image_content_type
       t.integer :image_file_size
       t.datetime :image_updated_at
+      t.integer :position
       t.timestamps
     end
     
-    add_index :feature_types, :parent_feature_type_id
-
-    create_table :features do |t|
-      t.references :feature_type, :null => false
-      t.string :name, :null => false
-      t.text :description
-      t.string :image_file_name
-      t.string :image_content_type
-      t.integer :image_file_size
-      t.datetime :image_updated_at
-      t.timestamps
-    end
-    
-    add_index :features, :feature_type_id
+    add_index :features, :parent_id
     
     create_table :featurings do |t|
       t.references :featurable, :polymorphic => true, :null => false
       t.references :feature, :null => false
+      t.string :value
     end
     
     add_index :featurings, [ :featurable_type, :featurable_id ]

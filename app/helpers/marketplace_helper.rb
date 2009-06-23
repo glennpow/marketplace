@@ -1,20 +1,6 @@
 module MarketplaceHelper
   def marketplace_header(options = {})
-    stylesheet_link_tag('marketplace', :plugin => 'marketplace')
-  end
-
-  def feature_item(feature, options = {})
-    returning('') do |content|
-      if options[:type]
-        content << content_tag(:span, h(feature.feature_type.name), :class => 'label')
-        content << " : "
-      end
-      content << content_tag(:span,
-        link_to_function(h(feature.name),
-          "hint_window('feature_type', '#{summary_feature_type_path(feature.feature_type, :feature_id => feature.id, :anchor => feature.name.underscore)}', 400, 500);",
-          :title => t(:more_info, :scope => [ :marketplace ])),
-        :class => 'value')
-    end
+    stylesheet_link_tag_theme('layout/marketplace')
   end
   
   def offer_amount(offer)
@@ -65,13 +51,22 @@ module MarketplaceHelper
     render :partial => 'products/technology_level', :locals => locals
   end
   
+  def render_features(featurable, options = {})
+    locals = {
+      :feature_tree => featurable.feature_tree,
+      :featurable => featurable,
+      :options => options
+    }
+    render :partial => 'features/list', :locals => locals
+  end
+
   def feature_select(form_builder, name, options = {}, html_options = {})
     featurable = form_builder.object
     features_attribute = Marketplace::HasManyFeatures::FeaturesAttribute.new(featurable)
     capture do
       form_builder.fields_for(name, features_attribute) do |f|
         locals = {
-          :feature_types => FeatureType.find_all_for_featurable(featurable),
+          :features => Feature.find_all_for_featurable(featurable),
           :f => f,
           :featurable => featurable,
           :features_attribute => features_attribute,

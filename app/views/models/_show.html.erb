@@ -26,9 +26,11 @@
   <%= render_text_area(h(model.description)) %>
 <% end %>
 
-<% if model.valid_feature_types? %>
-  <%= render_field(tp(:feature, :scope => [ :marketplace ]),
-    model.features.map { |feature| feature_item(feature, :type => true) }) %>
+<% if model.features_featurings.any? %>
+  <%= render_heading(tp(:feature, :scope => [ :marketplace ])) %>
+  <div class="features">
+    <%= render_features(model) %>
+  </div>
 <% end %>
 
 <%= render_heading(tp(:product, :scope => [ :marketplace ]), :actions => link_to(t(:view_all), model_products_path(model))) %>

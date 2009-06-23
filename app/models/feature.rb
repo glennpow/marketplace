@@ -1,17 +1,29 @@
 class Feature < ActiveRecord::Base
-  belongs_to :feature_type
+  acts_as_list :scope => :parent
+  acts_as_tree :order => 'position ASC, name ASC'
+  has_enumeration :feature_type
   has_attached_file :image, Configuration.default_image_options
   has_many :featurings, :dependent => :destroy
   has_localized :name, :description
   
-  validates_presence_of :name, :feature_type
+  validates_presence_of :name
   validates_attachment_size :image, Configuration.default_image_size_options
   
-  searches_on :name, :description
-    
-  named_scope :by_type, :include => :feature_type, :order => "#{FeatureType.table_name}.name ASC, #{Feature.table_name}.name ASC"
-
-  def name_with_type
-    "#{self.feature_type.name} - #{self.name}"
+  searches_on :name, :description, :feature_type
+  
+  def self.find_all_for_featurable_type(featurable_type, parent = nil)
+    features = self.all(:conditions => [ "(featurable_type IS NULL OR featurable_type = ?) AND parent_id #{parent.nil? ? 'IS' : '='} ?", featurable_type.to_s.underscore, parent ], :order => "position ASC, name ASC")
+  end
+  
+  def self.count_for_featurable_type(featurable_type, parent = nil)
+    self.count(:conditions => [ "(featurable_type IS NULL OR featurable_type = ?) AND parent_id #{parent.nil? ? 'IS' : '='} ?", featurable_type.to_s.underscore, parent ])
+  end
+  
+  def self.find_all_for_featurable(featurable, parent = nil)
+    self.find_all_for_featurable_type(featurable.class.to_s, parent)
+  end
+  
+  def self.count_for_featurable(featurable, parent = nil)
+    self.count_for_featurable_type(featurable.class.to_s, parent)
   end
 end

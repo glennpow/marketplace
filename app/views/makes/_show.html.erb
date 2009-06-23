@@ -22,9 +22,11 @@
   <%= render_text_area(h(make.description)) %>
 <% end %>
 
-<% if make.valid_feature_types? %>
-  <%= render_field(tp(:feature, :scope => [ :marketplace ]),
-    make.features.map { |feature| feature_item(feature, :type => true) }) %>
+<% if make.features_featurings.any? %>
+  <%= render_heading(tp(:feature, :scope => [ :marketplace ])) %>
+  <div class="features">
+    <%= render_features(make) %>
+  </div>
 <% end %>
 
 <%= render_heading(tp(:model, :scope => [ :marketplace ]), :actions => link_to(t(:view_all), make_models_path(make))) %>

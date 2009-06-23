@@ -3,7 +3,7 @@
   feature,
   [
     link_to_resource(feature),
-    link_to_resource(feature.feature_type),
+    link_to_resource(feature.parent),
   ],
   :actions => has_administrator_role? ? [
     icon_link_to(:edit, t(:edit), edit_feature_path(feature)),

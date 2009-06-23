@@ -1,8 +1,18 @@
+<% unless feature.parent.nil? %>
+  <%= render_field(t(:category), link_to_resource(feature.parent)) %>
+<% end %>
+
 <%= f.localization_select %>
 
 <%= f.localized_text_field :name, :required => true %>
 
-<%= f.collection_select :feature_type_id, feature_types, :id, :name %>
+<%= enumeration_select(f, :feature_type, { :label => t(:type) }, :onchange => "if (this.options[this.selectedIndex].value == '#{FeatureType[:comparable]}') $('feature_units').enable(); else $('feature_units').disable();") %>
+
+<%= enumeration_select(f, :featurable_type, :label => t(:applies_to, :scope => [ :marketplace, :features ]), :include_blank => true) %>
+
+<%= f.yes_no_select :supplier_only %>
+
+<%= f.text_field :units, :disabled => feature.feature_type != FeatureType[:comparable] %>
 
 <% if feature.try(:image?) %>
   <%= image_tag feature.image.url %>

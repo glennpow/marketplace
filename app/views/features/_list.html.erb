@@ -1,0 +1,23 @@
+<% feature_tree.each do |feature| %>
+  <% label_with_hint = link_to_function(content_tag(:span, h(feature[:name]), :class => 'feature-name'), "hint_window('feature', '#{summary_feature_path(feature[:id], :anchor => feature[:name].underscore)}', 400, 500);", :title => t(:more_info, :scope => [ :marketplace ])) %>
+  <% case feature[:feature_type] -%>
+  <%- when FeatureType[:group], FeatureType[:single_select], FeatureType[:multiple_select] -%>
+    <% children = feature[:children] -%>
+    <% if children.any? %>
+      <p class="feature-group-name"><%= label_with_hint %></p>
+      <div class="feature-group">
+        <%= render :partial => 'features/list', :locals => {
+          :feature_tree => children,
+          :featurable => featurable,
+          :options => options
+        } %>
+      </div>
+    <% end %>
+  <%- when FeatureType[:option] -%>
+    <p class="form-field"><%= icon_label(:check, label_with_hint) %></p>
+  <%- when FeatureType[:comparable] -%>
+    <p class="form-field"><%= label_with_hint %>: <%= h(feature[:value]) %></p>
+  <%- when FeatureType[:boolean] -%>
+    <p class="form-field"><%= label_with_hint %>: <%= yes_no(featuring[:value]) %></p>
+  <% end -%>
+<% end %>
