@@ -146,6 +146,10 @@ module Marketplace
       def method_missing(method, *args)
         @feature_ids[method.to_s] || 0
       end
+
+      def errors
+        ActiveRecord::Errors.new(self) # TODO?
+      end
     end
   end
 end
