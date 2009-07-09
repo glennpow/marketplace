@@ -1,0 +1,20 @@
+<% if has_administrator_role? %>
+  <%= render_row(
+    indexer,
+    order,
+    [
+      link_to_resource(order.user),
+      order.purchased_at.nil? ? '-' : order.purchased_at.to_s(:long),
+      render_currency(order.total_price),
+      e(order.order_status)
+    ]) %>
+<% else %>
+  <%= render_row(
+    indexer,
+    order,
+    [
+      order.purchased_at.nil? ? '-' : order.purchased_at.to_s(:long),
+      render_currency(order.total_price),
+      e(order.order_status)
+    ]) %>
+<% end %>

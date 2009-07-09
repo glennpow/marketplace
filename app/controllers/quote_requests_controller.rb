@@ -18,7 +18,7 @@ class QuoteRequestsController < ApplicationController
     t(:quote_request, :scope => [ :marketplace ])
   end
 
-  before_filter :login_required, :only => [ :show, :new, :create, :destroy ]
+  before_filter :check_logged_in, :only => [ :show, :new, :create, :destroy ]
   before_filter :check_owner_of, :only => [ :show, :destroy ]
   
   def index

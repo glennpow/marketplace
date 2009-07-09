@@ -1,0 +1,12 @@
+<%= render_row(
+  indexer,
+  order_line_item,
+  [
+    link_to_resource(order_line_item.product, :label_method => :full_name),
+    order_line_item.quantity,
+    render_currency(order_line_item.unit_price),
+    render_currency(order_line_item.total_price)
+  ],
+  :actions => is_editor_of?(order_line_item.order) && !order_line_item.order.purchased? ? [
+    icon_link_to(:delete, t(:remove), order_line_item, :confirm => t(:are_you_sure), :method => :delete)
+  ] : nil) %>

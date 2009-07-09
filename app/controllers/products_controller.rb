@@ -41,7 +41,7 @@ class ProductsController < ApplicationController
     t(:product, :scope => [ :marketplace ])
   end
 
-  before_filter :login_required, :only => [ :watch ]
+  before_filter :check_logged_in, :only => [ :watch ]
   before_filter :load_vendor, :only => [ :index, :search, :results ]
   before_filter :check_editor_of_model, :only => [ :new, :create ]
   before_filter :check_editor_of_product, :only => [ :edit, :update, :destroy ]
@@ -68,7 +68,8 @@ class ProductsController < ApplicationController
           { :name => t(:model, :scope => [ :marketplace ]), :sort => :model, :include => :model, :order => "#{Model.table_name}.name" }
         ]
         options[:search] = true
-        options[:include] = [ :model, { :make => { :manufacturer => :organization } }, :prices ]
+        options[:include] = [ :model, :prices ]
+        # options[:include] = [ :model, { :make => { :manufacturer => :organization } }, :prices ]
 
         options[:conditions] = {}
         if @model

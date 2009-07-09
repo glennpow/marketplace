@@ -2,7 +2,7 @@
   indexer,
   price,
   [
-    link_to(h(price.product.full_name), product_path(price.product)),
+    link_to_resource(price.product, :label_method => full_name),
     is_vendor? ? render_currency(price.amount) : render_price(price.product, price.vendor),
     link_to_resource(price.vendor),
     offer_icon(price.vendor, price.product)

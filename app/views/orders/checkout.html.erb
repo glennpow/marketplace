@@ -1,0 +1,34 @@
+<% title t(:order, :scope => [ :marketplace ]) %>
+  
+<% form_for :order, :url => purchase_path, :method => :put do |f| %>
+  <%= render_heading t(:billing_information, :scope => [ :marketplace ]) %>
+
+  <%= f.text_field :card_first_name, :label => { :name => t(:first_name, :scope => [ :contacts ]) }, :required => true %>
+
+  <%= f.text_field :card_last_name, :label => { :name => t(:last_name, :scope => [ :contacts ]) }, :required => true %>
+
+  <%= card_type_select f, :card_type, :required => true %>
+
+  <%= f.text_field :card_number, :required => true %>
+
+  <%= f.text_field :card_verification, :label => { :name => t(:verification, :scope => [ :marketplace, :cards ]) }, :required => true %>
+
+  <%= f.date_select :card_expires_on, :label => { :name => t(:expiration_date, :scope => [ :marketplace, :cards ]) }, :required => true,
+    :discard_day => true, :start_year => Date.today.year, :end_year => (Date.today.year + 10), :add_month_numbers => true %>
+  
+  <% if logged_in? && current_user.address %>
+    <%= check_box_tag 'user_address', '1', true, :onchange => "alert('changed')" %>
+  <% end %>
+
+  <% f.contact_form :address => { :name => :billing_address, :heading => t(:billing_address, :scope => [ :marketplace ]) }, :emails => false, :phones => false, :urls => false %>
+  
+  <%= render_heading t(:shipping_information, :scope => [ :marketplace ]) %>
+  
+  <%= check_box_tag 'copy_billing_address', '1', true, :onchange => "alert('changed')" %>
+  
+  <%= f.text_field :shipping_name, :label => t(:ship_to, :scope => [ :marketplace ]) %>
+
+  <% f.contact_form :address => { :name => :shipping_address, :heading => t(:shipping_address, :scope => [ :marketplace ]) }, :emails => false, :phones => :shipping_phones, :urls => false %>
+  
+  <%= f.submit_with_cancel(:submit => t(:place_order, :scope => [ :marketplace ])) %>
+<% end %>

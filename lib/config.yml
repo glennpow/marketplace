@@ -1,4 +1,5 @@
 common: &common
+  user_acts_as_marketer: true
   consumer_group_name: Consumer
   supplier_group_name: Supplier
   manufacturer_group_name: Manufacturer

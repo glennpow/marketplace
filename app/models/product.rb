@@ -45,7 +45,7 @@ class Product < ActiveRecord::Base
   end
   
   def price_for_vendor(vendor)
-    self.prices.detect { |price| price.vendor_id == vendor.id }
+    self.prices.detect { |price| price.vendor_id == vendor.try(:id) }
   end
     
   def available?

@@ -1,0 +1,16 @@
+<% title t(:order, :scope => [ :marketplace ]) %>
+
+<%= render :partial => 'show', :locals => { :order => @order } %>
+
+<%= render_heading(tp(:product, :scope => [ :marketplace ])) %>
+
+<%= render_indexer(@order_line_items_indexer) %>
+
+<% unless @order.purchased? %>
+  <% page_action icon_link_to(:show, t(:continue_shopping, :scope => [ :marketplace ]), search_products_path) %>
+  <% unless @order.empty_products? %>
+    <% page_action icon_link_to(:money, t(:checkout, :scope => [ :marketplace ]), checkout_path) %>
+  <% end %>
+<% else %>
+  <% page_action icon_link_to(:show, t(:start_new_order, :scope => [ :marketplace ]), search_products_path) %>
+<% end %>

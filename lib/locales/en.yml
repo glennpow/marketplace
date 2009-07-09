@@ -1,11 +1,20 @@
 en:
   marketplace: 
+    add_to_cart: Add to Cart
     amount: Amount
+    billing_address: Billing Address
+    billing_information: Billing Information
+    billing_gateway: Billing Gateway
     brand: Brand
+    cart: Cart
+    checkout: Checkout
     child_feature: Child Feature
+    common: Common
     consumer: Consumer
+    continue_shopping: Continue Shopping
     cost: Cost
     cost_for_object: Cost for {{object}}
+    credit_card: Credit Card
     feature: Feature
     feature_type: Feature Type
     inventory_for_object: "{{object}} Inventory"
@@ -15,7 +24,11 @@ en:
     model: Model
     more_info: More Info
     offer: Special Offer
+    order: Order
+    order_line_item: Order Line Item
+    order_status: Order Status
     parent_feature_type: Parent Feature Type
+    place_order: Place Order
     price: Price
     prices_for_object:
       one: Price for {{object}}
@@ -23,12 +36,26 @@ en:
     product: Product
     product_details: Product Details
     production_status: Production Status
+    quantity: Quantity
     offer_provider: Provider
     quote_request: Quote Request
+    ship_to: Ship To
+    shipping_address: Shipping Address
+    shipping_information: Shipping Information
+    shipping_method: Shipping Method
     sku: SKU
+    start_new_order: Start New Order
     supplier_only: Supplier only
+    total_items: Items in cart
+    total_price: Total price
+    total_weight: Total weight
+    transaction: Transaction
+    unit_price: Unit price
     vendor: Vendor
     vendor_representative: Vendor Representative
+    cards:
+      expiration_date: Expiration Date
+      verification: Card Verification Value (CVV)
     features:
       applies_to: Applies to
       units: Units
@@ -59,6 +86,27 @@ en:
       offers_from_object:
         one: Offer from {{object}}
         other: Offers from {{object}}
+    order_actions:
+      purchase: Authorize and Process Payment
+      authorize: Authorize Payment
+      capture: Process Payment
+      void: Cancel Payment
+      credit: Refund
+    order_statuses:
+      pending: Pending
+      purchased: Purchased
+      shipped: Shipped
+      delivered: Delivered
+      failed: Failed
+    orders:
+      added_to_cart: Your cart has been updated!
+      purchased: Your order has been placed!  Check for updates via email.
+      empty_order: There are no items in this order yet.
+      failed_processing: There were problems processing your order.
+      invalid_billing_address: Please enter a valid billing address.
+      invalid_credit_card: Please enter correct credit card information.
+      order_already_purchased: This order has already been purchased!  Please start another order.
+      error_processing: We're sorry.  We encountered an error while processing your order.  Please try again later.
     prices:
       prices:
         one: 1 Price

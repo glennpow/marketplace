@@ -12,6 +12,6 @@
 
 <%= enumeration_select(f, :offer_type, :required => true) %>
 
-<%= f.date_select :start_date, :order => [ :day, :month, :year ], :default => 0.days.from_now, :required => true %>
+<%= f.date_select :starts_on, :order => [ :day, :month, :year ], :default => 0.days.from_now, :required => true %>
 
-<%= f.date_select :end_date, :order => [ :day, :month, :year ], :default => 1.month.from_now, :required => true %>
+<%= f.date_select :ends_on, :order => [ :day, :month, :year ], :default => 1.month.from_now, :required => true %>

@@ -11,6 +11,18 @@ class Feature < ActiveRecord::Base
   
   searches_on :name, :description, :feature_type
   
+  def searchable_children
+    children.find(:all, :conditions => { :compare_only => false }, :order => 'position ASC, name ASC')
+  end
+  
+  def self.searchable_roots
+    find(:all, :conditions => { :parent_id => nil, :compare_only => false }, :order => 'position ASC, name ASC')
+  end
+  
+  def self.highlighted
+    find(:all, :conditions => { :highlight => true }, :order => 'highlight_position ASC, name ASC')
+  end
+  
   def self.find_all_for_featurable_type(featurable_type, parent = nil)
     features = self.all(:conditions => [ "(featurable_type IS NULL OR featurable_type = ?) AND parent_id #{parent.nil? ? 'IS' : '='} ?", featurable_type.to_s.underscore, parent ], :order => "position ASC, name ASC")
   end

@@ -19,10 +19,10 @@ class OffersController < ApplicationController
   
   def index
     respond_with_indexer do |options|
-      options[:default_sort] = :start_date
+      options[:default_sort] = :starts_on
       options[:headers] = [
         { :name => tp(:name), :sort => :name },
-        { :name => tp(:date, :scope => [ :datetimes ]), :sort => :start_date },
+        { :name => tp(:date, :scope => [ :datetimes ]), :sort => :starts_on },
         t(:offer, :scope => [ :marketplace ]),
         tp(:product, :scope => [ :marketplace ]),
         t(:offer_provider, :scope => [ :marketplace ])
@@ -31,7 +31,7 @@ class OffersController < ApplicationController
     
       if @product
         options[:include] = :products
-        options[:conditions] = [ "products.id = ?", @product.id ]
+        options[:conditions] = [ "#{Product.table_name}.id = ?", @product.id ]
       elsif @offer_provider
         options[:conditions] = [ "offer_provider_type = ? AND offer_provider_id = ?", @offer_provider.class.to_s, @offer_provider.id ]
       end
@@ -44,21 +44,21 @@ class OffersController < ApplicationController
       options[:locals] = { :offer => @offer }
       options[:default_sort] = :name
       options[:headers] = [
-        { :name => t(:name), :sort => :name, :order => 'products.name' },
+        { :name => t(:name), :sort => :name, :order => "#{Product.table_name}.name" },
         t(:sku, :scope => [ :marketplace ]),
-        { :name => t(:manufacturer, :scope => [ :marketplace ]), :sort => :manufacturer, :include => { :model => { :make => :manufacturer } }, :order => 'manufacturers.name' },
-        { :name => t(:make, :scope => [ :marketplace ]), :sort => :make, :include => { :model => :make }, :order => 'makes.name' },
-        { :name => t(:model, :scope => [ :marketplace ]), :sort => :model, :include => :model, :order => 'models.name' },
+        { :name => t(:manufacturer, :scope => [ :marketplace ]), :sort => :manufacturer, :include => { :model => { :make => :manufacturer } }, :order => "#{Manufacturer.table_name}.name" },
+        { :name => t(:make, :scope => [ :marketplace ]), :sort => :make, :include => { :model => :make }, :order => "#{Make.table_name}.name" },
+        { :name => t(:model, :scope => [ :marketplace ]), :sort => :model, :include => :model, :order => "#{Model.table_name}.name" },
         tp(:model, :scope => [ :marketplace ])
       ]
 
       case @offer.offer_provider
       when Manufacturer
         options[:include] = { :model => :make }
-        options[:conditions] = [ "makes.manufacturers_id = ?", @offer.offer_provider.id ]
+        options[:conditions] = [ "#{Make.table_name}.manufacturers_id = ?", @offer.offer_provider.id ]
       when Vendor
         options[:include] = :prices
-        options[:conditions] = ["prices.vendor_id = ?", @offer.offer_provider.id]
+        options[:conditions] = ["#{Price.table_name}.vendor_id = ?", @offer.offer_provider.id]
       end
     end
   end

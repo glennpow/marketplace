@@ -70,53 +70,12 @@
           </tr>
         </table>
       <% end %>
-  
-      <% FeatureType.all(:conditions => { :parent_feature_type_id => nil }).sort { |x, y| x.name <=> y.name }.each do |feature_type| %>
-        <% tabber_tab_tag(:title => feature_type.name) do %>
-          <table class="searcher-table full-width">
-            <% if feature_type.features.any? %>
-              <tr>
-                <td class="searcher-td searcher-left-td">
-                  <%= link_to_function(h(feature_type.name), "hint_window('feature_type', '#{summary_feature_type_path(feature_type)}', 400, 500);", :title => t(:more_info, :scope => [ :marketplace ])) %>
-                </td>
-                <td class="searcher-td">
-                  <div class="search-box-list">
-                    <ul>
-                      <% feature_type.features.each do |feature| %>
-                        <li>
-                          <%= check_box_tag("features[#{feature.id}]", 1, check_param([ :features, "#{feature.id}" ], false)) %>
-                          <%= feature_item(feature) %>
-                        </li>
-                      <% end %>
-                    </ul>
-                    <br />
-                  </div>
-                </td>
-              </tr>
-            <% end %>
-            <% feature_type.child_feature_types.each do |child_feature_type| %>
-              <tr>
-                <td class="searcher-td searcher-left-td">
-                  <%= link_to_function(h(child_feature_type.name), "hint_window('feature_type', '#{summary_feature_type_path(child_feature_type)}', 400, 500);", :title => t(:more_info, :scope => [ :marketplace ])) %>
-                </td>
-                <td class="searcher-td">
-                  <div class="search-box-list">
-                    <ul>
-                      <% child_feature_type.features.each do |feature| %>
-                        <li>
-                          <%= check_box_tag("features[#{feature.id}]", 1, check_param([ :features, "#{feature.id}" ], false)) %>
-                          <%= feature_item(feature) %>
-                        </li>
-                      <% end %>
-                    </ul>
-                    <br />
-                  </div>
-                </td>
-              </tr>
-            <% end %>
-          </table>
-        <% end %>
+
+      <% tabber_tab_tag(:title => t(:common, :scope => [ :marketplace ])) do %>
+        <%= feature_search_select(:features, :features => Feature.highlighted) %>
       <% end %>
+  
+      <%= feature_search_select(:features) %>
     <% end %>
     
     <%= render_submit t(:search) %>

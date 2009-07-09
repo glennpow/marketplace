@@ -1,0 +1,32 @@
+<% features.each do |feature| %>
+  <% label_with_hint = link_to_function(content_tag(:span, h(feature.name), :class => 'feature-name'), "hint_window('feature', '#{summary_feature_path(feature, :anchor => feature.name.underscore)}', 400, 500);", :title => t(:more_info, :scope => [ :marketplace ])) %>
+  <% case feature.feature_type -%>
+  <%- when FeatureType[:group], FeatureType[:single_select], FeatureType[:multiple_select] -%>
+    <% sub_features = feature.searchable_children -%>
+    <% if sub_features.any? %>
+      <% tabber_tab_tag(:title => feature.name) do %>
+        <p class="feature-group-name"><%= label_with_hint %></p>
+        <div class="feature-group">
+          <%= render :partial => 'features/search_select', :locals => {
+            :features => sub_features,
+            :f => f,
+            :options => options,
+            :html_options => html_options
+          } %>
+        </div>
+      <% end %>
+    <% end %>
+  <%- when FeatureType[:option] -%>
+    <p class="form-field">
+      <%= f.check_box(feature.id.to_s, :layout => false) %>
+      <%= label_with_hint %>
+    </p>
+  <%- when FeatureType[:comparable] -%>
+    <p class="form-field">
+      <%= label_with_hint %>:
+      <%= f.text_field(feature.id.to_s, :layout => false) %>
+    </p>
+  <%- when FeatureType[:boolean] -%>
+    <%= f.yes_no_select(feature.id.to_s, :label => label_with_hint, :selected => false) %>
+  <% end -%>
+<% end %>

@@ -29,7 +29,7 @@ class PricesController < ApplicationController
     respond_with_indexer do |options|
       options[:default_sort] = @product ? :amount : :product
       options[:headers] = [
-        { :name => t(:product, :scope => [ :marketplace ]), :sort => :product, :include => :product, :order => 'products.name' },
+        { :name => t(:product, :scope => [ :marketplace ]), :sort => :product, :include => :product, :order => "#{Product.table_name}.name" },
         { :name => t(:price, :scope => [ :marketplace ]), :sort => :amount },
         t(:vendor, :scope => [ :marketplace ]),
         tp(:offer, :scope => [ :marketplace ])

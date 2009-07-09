@@ -38,6 +38,11 @@ module MarketplaceHelper
     render :partial => 'prices/show', :locals => locals
   end
   
+  def render_weight(weight)
+    # TODO
+    "#{weight} lbs"
+  end
+  
   def render_technology_level(product_or_model, options = {})
     model = case product_or_model
     when Model
@@ -76,5 +81,23 @@ module MarketplaceHelper
         render :partial => 'features/select', :locals => locals
       end
     end
+  end
+
+  def feature_search_select(name, options = {}, html_options = {})
+    capture do
+      fields_for(name) do |f|
+        locals = {
+          :features => options.delete(:features) || Feature.searchable_roots,
+          :f => f,
+          :options => options,
+          :html_options => html_options
+        }
+        render :partial => 'features/search_select', :locals => locals
+      end
+    end
+  end
+  
+  def card_type_select(form_builder, name, options = {}, html_options = {})
+    form_builder.select(name, [ [ 'Visa', 'visa' ], [ 'MasterCard', 'master' ], [ 'Discover', 'discover' ], [ 'American Express', 'american_express' ] ], options, html_options)
   end
 end

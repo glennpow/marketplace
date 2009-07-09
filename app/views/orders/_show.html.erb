@@ -1,0 +1,7 @@
+<%= render_field(t(:status), e(order.order_status)) %>
+
+<%= render_field(t(:total_items, :scope => [ :marketplace ]), order.products.count) %>
+
+<%= render_field(t(:total_price, :scope => [ :marketplace ]), render_currency(order.total_price)) %>
+
+<%= render_field(t(:total_weight, :scope => [ :marketplace ]), render_weight(order.total_weight)) %>

@@ -2,7 +2,7 @@
   
 <%= render_field(t(:offer_provider, :scope => [ :marketplace ]), link_to_resource(offer.offer_provider)) %>
 
-<%= render_field(tp(:date, :scope => [ :datetimes ]), "#{h(offer.start_date.to_s(:long))} - #{h(offer.end_date.to_s(:long))}") %>
+<%= render_field(tp(:date, :scope => [ :datetimes ]), "#{h(offer.starts_on.to_s(:long))} - #{h(offer.ends_on.to_s(:long))}") %>
 
 <%= render_field(t(:offer, :scope => [ :marketplace ]), offer_amount(offer)) %>
 

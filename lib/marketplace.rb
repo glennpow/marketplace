@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/marketplace/marketplace_system'
+require File.dirname(__FILE__) + '/marketplace/marketplace_control'
 require File.dirname(__FILE__) + '/marketplace/acts_as_marketer'
 require File.dirname(__FILE__) + '/marketplace/has_many_features'
 

@@ -3,7 +3,7 @@
   offer,
   [
     link_to_resource(offer),
-    "#{h(offer.start_date.to_s(:short))} - #{h(offer.end_date.to_s(:short))}",
+    "#{h(offer.starts_on.to_s(:short))} - #{h(offer.ends_on.to_s(:short))}",
     "#{h(offer_amount(offer))} (#{e(offer.offer_type, t(:unknown))})",
     render_list(offer.products.map { |product| link_to_resource(product) }.concat([ icon_link_to(:add, t(:add_object, :object => tp(:product, :scope => [ :marketplace ])), edit_products_offer_path(offer)) ]), :class => 'clean-list'),
     link_to_resource(offer.offer_provider),
