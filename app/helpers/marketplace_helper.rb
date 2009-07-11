@@ -90,7 +90,8 @@ module MarketplaceHelper
           :features => options.delete(:features) || Feature.searchable_roots,
           :f => f,
           :options => options,
-          :html_options => html_options
+          :html_options => html_options,
+          :root_tabs => true
         }
         render :partial => 'features/search_select', :locals => locals
       end

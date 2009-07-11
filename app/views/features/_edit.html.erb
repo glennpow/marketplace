@@ -8,11 +8,19 @@
 
 <%= enumeration_select(f, :feature_type, { :label => t(:type) }, :onchange => "if (this.options[this.selectedIndex].value == '#{FeatureType[:comparable]}') $('feature_units').enable(); else $('feature_units').disable();") %>
 
-<%= enumeration_select(f, :featurable_type, :label => t(:applies_to, :scope => [ :marketplace, :features ]), :include_blank => true) %>
+<%= enumeration_select(f, :featurable_type, :label => t(:applies_to, :scope => [ :marketplace, :features ]), :include_blank => true, :hint => t(:featurable_type, :scope => [ :marketplace, :features, :hints ])) %>
 
-<%= f.yes_no_select :supplier_only %>
+<%= f.text_field :position, :hint => t(:position, :scope => [ :marketplace, :features, :hints ]) %>
 
-<%= f.text_field :units, :disabled => feature.feature_type != FeatureType[:comparable] %>
+<%= f.yes_no_select :supplier_only, :hint => t(:supplier_only, :scope => [ :marketplace, :features, :hints ]) %>
+
+<%= f.yes_no_select :compare_only, :hint => t(:compare_only, :scope => [ :marketplace, :features, :hints ]) %>
+
+<%= f.yes_no_select :highlight, { :hint => t(:highlight, :scope => [ :marketplace, :features, :hints ]) }, :onchange => "if (this.options[this.selectedIndex].value == 'true') $('feature_highlight_position').enable(); else $('feature_highlight_position').disable();" %>
+
+<%= f.text_field :highlight_position, :hint => t(:highlight_position, :scope => [ :marketplace, :features, :hints ]), :disabled => !feature.highlight %>
+
+<%= f.text_field :units, :hint => t(:units, :scope => [ :marketplace, :features, :hints ]), :disabled => feature.feature_type != FeatureType[:comparable] %>
 
 <% if feature.try(:image?) %>
   <%= image_tag feature.image.url %>

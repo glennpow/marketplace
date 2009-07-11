@@ -9,7 +9,6 @@ en:
     cart: Cart
     checkout: Checkout
     child_feature: Child Feature
-    common: Common
     consumer: Consumer
     continue_shopping: Continue Shopping
     cost: Cost
@@ -29,6 +28,7 @@ en:
     order_status: Order Status
     parent_feature_type: Parent Feature Type
     place_order: Place Order
+    popular: Popular
     price: Price
     prices_for_object:
       one: Price for {{object}}
@@ -59,6 +59,14 @@ en:
     features:
       applies_to: Applies to
       units: Units
+      hints:
+        featurable_type: Set this field if this feature pertains to only Products or Models.
+        position: This number is the position in which this feature will be ordered within the search page (or within a parent list).
+        supplier_only: Set this to Yes if this feature will only be visible to Manufacturers and Vendors.
+        compare_only: Set this to Yes if this feature will be listed in comparisons, but not as an option on the search page.
+        highlight: Set this to Yes if this feature should also be listed in the Popular tab of the search page.
+        highlight_position: This is the order number in the Popular tab of the search page.
+        units: This is the units which will be displayed when entering values for features of type Comparable Number.
     feature_types:
       group: Category
       single_select: Single Selection List

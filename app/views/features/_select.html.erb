@@ -34,6 +34,6 @@
       <%= f.text_field(feature.id.to_s, :layout => false) %>
     </p>
   <%- when FeatureType[:boolean] -%>
-    <%= f.yes_no_select(feature.id.to_s, :label => label_with_hint) %>
+    <%= f.yes_no_select(feature.id.to_s, :label => label_with_hint, :selected => false) %>
   <% end -%>
 <% end %>
