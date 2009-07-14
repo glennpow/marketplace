@@ -11,12 +11,14 @@ class Feature < ActiveRecord::Base
   
   searches_on :name, :description, :feature_type
   
-  def searchable_children
-    children.find(:all, :conditions => { :compare_only => false }, :order => 'position ASC, name ASC')
+  def searchable_children(is_supplier = false)
+    conditions = is_supplier ? { :compare_only => false } : { :compare_only => false, :supplier_only => false }
+    children.find(:all, :conditions => conditions, :order => 'position ASC, name ASC')
   end
   
-  def self.searchable_roots
-    find(:all, :conditions => { :parent_id => nil, :compare_only => false }, :order => 'position ASC, name ASC')
+  def self.searchable_roots(is_supplier = false)
+    conditions = is_supplier ? { :parent_id => nil, :compare_only => false } : { :parent_id => nil, :compare_only => false, :supplier_only => false }
+    find(:all, :conditions => conditions, :order => 'position ASC, name ASC')
   end
   
   def self.highlighted

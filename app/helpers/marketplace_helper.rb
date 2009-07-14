@@ -87,7 +87,7 @@ module MarketplaceHelper
     capture do
       fields_for(name) do |f|
         locals = {
-          :features => options.delete(:features) || Feature.searchable_roots,
+          :features => options.delete(:features) || Feature.searchable_roots(is_supplier?),
           :f => f,
           :options => options,
           :html_options => html_options,

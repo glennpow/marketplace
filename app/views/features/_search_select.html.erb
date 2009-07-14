@@ -2,7 +2,7 @@
   <% label_with_hint = link_to_function(content_tag(:span, h(feature.name), :class => 'feature-name'), "hint_window('feature', '#{summary_feature_path(feature, :anchor => feature.name.underscore)}', 400, 500);", :title => t(:more_info, :scope => [ :marketplace ])) %>
   <% case feature.feature_type -%>
   <%- when FeatureType[:group], FeatureType[:single_select], FeatureType[:multiple_select] -%>
-    <% sub_features = feature.searchable_children -%>
+    <% sub_features = feature.searchable_children(is_supplier?) -%>
     <% if sub_features.any? %>
       <% tabber_tab_tag(:title => feature.name) do %>
         <% unless defined?(root_tabs) && root_tabs %>
