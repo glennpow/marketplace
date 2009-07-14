@@ -5,7 +5,7 @@
     <% sub_features = feature.searchable_children -%>
     <% if sub_features.any? %>
       <% tabber_tab_tag(:title => feature.name) do %>
-        <% unless defined?(root_tabs) %>
+        <% unless defined?(root_tabs) && root_tabs %>
           <p class="feature-group-name"><%= label_with_hint %></p>
         <% end %>
         <div class="feature-group">
@@ -27,6 +27,9 @@
     <p class="form-field">
       <%= label_with_hint %>:
       <%= f.text_field(feature.id.to_s, :layout => false) %>
+      <% unless feature.units.blank? %>
+        <span class="units"><%= feature.units %></span>
+      <% end %>
     </p>
   <%- when FeatureType[:boolean] -%>
     <%= f.yes_no_select(feature.id.to_s, :label => label_with_hint, :include_blank => true) %>

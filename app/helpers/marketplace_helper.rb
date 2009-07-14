@@ -91,7 +91,7 @@ module MarketplaceHelper
           :f => f,
           :options => options,
           :html_options => html_options,
-          :root_tabs => true
+          :root_tabs => defined?(options[:root_tabs]) ? options[:root_tabs] : true
         }
         render :partial => 'features/search_select', :locals => locals
       end

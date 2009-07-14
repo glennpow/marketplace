@@ -72,7 +72,7 @@
       <% end %>
 
       <% tabber_tab_tag(:title => t(:popular, :scope => [ :marketplace ])) do %>
-        <%= feature_search_select(:features, :features => Feature.highlighted) %>
+        <%= feature_search_select(:features, :features => Feature.highlighted, :root_tabs => false) %>
       <% end %>
   
       <%= feature_search_select(:features) %>
