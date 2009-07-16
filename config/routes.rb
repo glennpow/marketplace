@@ -7,7 +7,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :offers, :member => { :edit_products => :get, :update_products => :put }, :has_many => [ :articles, :products ]
   map.resources :pages, :has_many => [ :articles ]
   map.resources :prices
-  map.resources :products, :collection => { :search => :get, :results => :get, :compare => :get },
+  map.resources :products, :collection => { :search => :get, :results => :post, :compare => :get },
                        :has_many => [ :articles, :costs, :features, :offers, :prices, :comments, :reviews, :watchings ]
   map.resources :orders, :has_many => [ :order_line_items ]
   map.cart "/cart", :controller => 'orders', :action => 'current'

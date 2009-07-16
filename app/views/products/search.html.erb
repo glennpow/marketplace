@@ -17,7 +17,7 @@
 </script>
 
 <div class="searcher">
-  <% form_tag results_products_path, :method => :get do %>
+  <% form_tag results_products_path, :method => :post do %>
     <% tabber_tag do %>
       <% tabber_tab_tag(:title => t(:brand, :scope => [ :marketplace ])) do %>
         <table class="searcher-table full-width">
