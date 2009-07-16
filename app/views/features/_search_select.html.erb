@@ -50,7 +50,7 @@
     <% end %>
   <%- when FeatureType[:option] -%>
     <p class="form-field">
-      <%= f.check_box(feature.id.to_s, :layout => false) %>
+      <%= f.check_box(feature.id.to_s, { :layout => false }, 1, nil) %>
       <%= label_with_hint %>
     </p>
   <%- when FeatureType[:comparable] -%>
