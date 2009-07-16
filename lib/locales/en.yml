@@ -59,9 +59,9 @@ en:
       verification: Card Verification Value (CVV)
     comparisons:
       between: Between
-      equals: =
-      greater_than: >=
-      less_than: <=
+      equals: "="
+      greater_than: ">="
+      less_than: "<="
     features:
       applies_to: Applies to
       units: Units
