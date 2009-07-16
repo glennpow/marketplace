@@ -42,14 +42,6 @@ module Marketplace
             has_many "#{features_name}_with_include".intern, :class_name => 'Feature', :through => "#{features_name}_featurings_with_include".intern, :source => :feature, :order => "#{Feature.table_name}.position ASC, #{Feature.table_name}.name ASC"
           end
         end
-
-        # define_method "#{feature_name}_in" do |feature|
-        #   self.send(features_name).detect { |feature| feature.parent_id == feature.id }
-        # end
-        #   
-        # define_method "has_#{feature_name}_in?" do |feature|
-        #   !self.send("#{feature_name}_for", feature).nil?
-        # end
         
         define_method "#{feature_name}_tree" do
           self.send("#{features_name}_featurings").inject([]) do |feature_tree, featuring|
@@ -108,7 +100,6 @@ module Marketplace
       
       def initialize(featurable = nil, features_name = nil)
         @feature_ids = {}
-        # @included_feature_ids = {}
         if featurable
           features_name ||= "features"
           featurings = featurable.send("#{features_name}_featurings")
@@ -126,22 +117,8 @@ module Marketplace
               @feature_ids[featuring.feature.id.to_s] = featuring.value
             end
           end
-          # included_featurings = featurable.send("#{features_name}_featurings_with_include", :include => [ :feature, :featurable ]) - featurings
-          # included_featurings.each do |featuring|
-          #   @included_feature_ids[featuring.feature.feature_type_id.to_s] = { :feature_id => featuring.feature_id, :featurable => featuring.featurable }
-          # end
         end
       end
-      # 
-      # def included_for_type(feature_type)
-      #   feature_type_id = case feature_type
-      #   when String, Fixnum
-      #     feature_type.to_i
-      #   else
-      #     feature_type.id
-      #   end
-      #   @included_feature_ids[feature_type_id.to_s]
-      # end
     
       def method_missing(method, *args)
         @feature_ids[method.to_s] || 0

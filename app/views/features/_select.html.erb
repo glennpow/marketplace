@@ -1,7 +1,7 @@
 <% features.each do |feature| %>
   <% label_with_hint = link_to_function(content_tag(:span, h(feature.name), :class => 'feature-name'), "hint_window('feature', '#{summary_feature_path(feature, :anchor => feature.name.underscore)}', 400, 500);", :title => t(:more_info, :scope => [ :marketplace ])) %>
   <% case feature.feature_type -%>
-  <%- when FeatureType[:group], FeatureType[:single_select], FeatureType[:multiple_select] -%>
+  <%- when FeatureType[:group], FeatureType[:single_select], FeatureType[:multiple_select], FeatureType[:option_group] -%>
     <% sub_features = Feature.find_all_for_featurable(featurable, feature) -%>
     <% if sub_features.any? %>
       <p class="feature-group-name"><%= label_with_hint %></p>
@@ -17,9 +17,9 @@
       </div>
     <% end %>
   <%- when FeatureType[:option] -%>
-    <% if feature.parent.feature_type == FeatureType[:single_select] %>
+    <% if feature.select_type == FeatureType[:single_select] %>
       <p class="form-field">
-        <%= f.radio_button(feature.parent_id.to_s, feature.id.to_s, :layout => false) %>
+        <%= f.radio_button(feature.select_id.to_s, feature.id.to_s, :layout => false) %>
         <%= label_with_hint %>
       </p>
     <% else %>
@@ -31,7 +31,7 @@
   <%- when FeatureType[:comparable] -%>
     <p class="form-field">
       <%= label_with_hint %>:
-      <%= f.text_field(feature.id.to_s, :layout => false) %>
+      <%= f.text_field(feature.id.to_s, :layout => false, :size => 10) %>
     </p>
   <%- when FeatureType[:boolean] -%>
     <%= f.yes_no_select(feature.id.to_s, :label => label_with_hint, :selected => false) %>

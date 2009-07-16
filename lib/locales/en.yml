@@ -14,6 +14,7 @@ en:
     cost: Cost
     cost_for_object: Cost for {{object}}
     credit_card: Credit Card
+    dont_care: Don't Care
     feature: Feature
     feature_type: Feature Type
     inventory_for_object: "{{object}} Inventory"
@@ -56,6 +57,11 @@ en:
     cards:
       expiration_date: Expiration Date
       verification: Card Verification Value (CVV)
+    comparisons:
+      between: Between
+      equals: =
+      greater_than: >=
+      less_than: <=
     features:
       applies_to: Applies to
       units: Units
@@ -72,6 +78,7 @@ en:
       single_select: Single Selection List
       multiple_select: Multiple Selection List
       option: List Option
+      option_group: List Option-Group
       comparable: Comparable Number
       boolean: Yes / No
     makes:

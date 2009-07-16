@@ -11,6 +11,24 @@ class Feature < ActiveRecord::Base
   
   searches_on :name, :description, :feature_type
   
+  def select_type
+    case feature_type
+    when FeatureType[:option], FeatureType[:option_group]
+      parent.select_type
+    when FeatureType[:single_select], FeatureType[:multiple_select]
+      feature_type
+    end
+  end
+  
+  def select_id
+    case feature_type
+    when FeatureType[:option], FeatureType[:option_group]
+      parent.select_id
+    when FeatureType[:single_select], FeatureType[:multiple_select]
+      id
+    end
+  end
+  
   def searchable_children(is_supplier = false)
     conditions = is_supplier ? { :compare_only => false } : { :compare_only => false, :supplier_only => false }
     children.find(:all, :conditions => conditions, :order => 'position ASC, name ASC')

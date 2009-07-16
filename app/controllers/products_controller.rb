@@ -111,18 +111,79 @@ class ProductsController < ApplicationController
       options[:row] = 'products/results_row'
     
       options[:include] = []
-      options[:conditions] = { "#{Product.table_name}.production_status" => ProductionStatus[:available] }
-      options[:conditions]["#{Product.table_name}.model_id"] = params[:models].keys if params[:models]
+      options[:conditions] = []
+      
+      conditions_array = [ "#{Product.table_name}.production_status = ?" ]
+      options[:conditions] << ProductionStatus[:available]
+      
+      if params[:models]
+        conditions_array << "#{Product.table_name}.model_id = ?"
+        options[:conditions] << params[:models].keys
+      end
+      
       if params[:features]
         options[:include] << :features_featurings_with_include
-        options[:conditions]["#{Featuring.table_name}.feature_id"] = params[:features].keys
+        params[:features].each do |feature_id, value|
+          feature = Feature.find(feature_id)
+          case feature.feature_type
+          when FeatureType[:single_select], FeatureType[:multiple_select]
+            option_conditions = []
+            value.each do |option_feature_id, option_value|
+              if option_value.true?
+                option_conditions << "#{Featuring.table_name}.feature_id = ?"
+                options[:conditions] << option_feature_id
+              end
+            end
+            conditions_array << "(#{option_conditions.join(' OR ')})" if option_conditions.any?
+          when FeatureType[:comparable]
+            low = value['low']
+            high = value['high']
+            case value['compare']
+            when 'equals'
+              unless low.blank?
+                conditions_array << "(#{Featuring.table_name}.feature_id = ? AND #{Featuring.table_name}.value = ?)"
+                options[:conditions] << feature_id
+                options[:conditions] << low
+              end
+            when 'less_than'
+              unless high.blank?
+                conditions_array << "(#{Featuring.table_name}.feature_id = ? AND #{Featuring.table_name}.value <= ?)"
+                options[:conditions] << feature_id
+                options[:conditions] << high
+              end
+            when 'greater_than'
+              unless low.blank?
+                conditions_array << "(#{Featuring.table_name}.feature_id = ? AND #{Featuring.table_name}.value >= ?)"
+                options[:conditions] << feature_id
+                options[:conditions] << low
+              end
+            when 'between'
+              unless low.blank? || high.blank?
+                conditions_array << "(#{Featuring.table_name}.feature_id = ? AND #{Featuring.table_name}.value >= ? AND #{Featuring.table_name}.value <= ?)"
+                options[:conditions] << feature_id
+                options[:conditions] << low
+                options[:conditions] << high
+              end
+            end
+          when FeatureType[:boolean]
+            unless value.blank?
+              conditions_array << "(#{Featuring.table_name}.feature_id = ? AND #{Featuring.table_name}.value = ?)"
+              options[:conditions] << feature_id
+              options[:conditions] << value
+            end
+          end
+        end
       end
+      
       if @vendor
         add_breadcrumb h(@vendor.name), @vendor
         
         options[:include] << :prices
-        options[:conditions]["#{Price.table_name}.vendor_id"] = @vendor
+        conditions_array << "#{Price.table_name}.vendor_id = ?"
+        options[:conditions] << @vendor
       end
+
+      options[:conditions].unshift(conditions_array.join(" AND "))
     end
   end
   
