@@ -29,7 +29,7 @@ class Model < ActiveRecord::Base
   def available_products(vendor = nil)
     conditions = { "#{Product.table_name}.production_status" => ProductionStatus[:available] }
     conditions["#{Price.table_name}.vendor_id"] = vendor if vendor
-    self.products.all(:include => { :products => :prices }, :conditions => conditions)
+    self.products.all(:include =>:prices, :conditions => conditions)
   end
   
   def available?
