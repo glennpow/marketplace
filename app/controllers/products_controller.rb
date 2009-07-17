@@ -117,7 +117,7 @@ class ProductsController < ApplicationController
       options[:conditions] << ProductionStatus[:available]
       
       if params[:models]
-        conditions_array << "#{Product.table_name}.model_id = ?"
+        conditions_array << "#{Product.table_name}.model_id IN (?)"
         options[:conditions] << params[:models].keys
       end
       
