@@ -35,10 +35,9 @@ module Marketplace
               end
               finder_where += " OR (#{Featuring.table_name}.featurable_type = '#{included_class_name}' AND #{Featuring.table_name}.featurable_id = #{included_table_name}.id)"
             end
-            includes << :feature unless includes.include?(:feature)
             finder_sql = "SELECT #{Featuring.table_name}.* FROM #{Featuring.table_name} #{finder_joins} WHERE #{finder_where}"
             
-            has_many "#{features_name}_featurings_with_include".intern, :class_name => 'Featuring', :as => :featurable, :include => includes, :finder_sql => finder_sql, :order => "#{Feature.table_name}.position ASC, #{Feature.table_name}.name ASC"
+            has_many "#{features_name}_featurings_with_include".intern, :class_name => 'Featuring', :as => :featurable, :include => :feature, :finder_sql => finder_sql, :order => "#{Feature.table_name}.position ASC, #{Feature.table_name}.name ASC"
             has_many "#{features_name}_with_include".intern, :class_name => 'Feature', :through => "#{features_name}_featurings_with_include".intern, :source => :feature, :order => "#{Feature.table_name}.position ASC, #{Feature.table_name}.name ASC"
           end
         end
